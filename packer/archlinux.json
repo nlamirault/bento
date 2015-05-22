@@ -1,0 +1,78 @@
+{
+    "variables": {
+        "iso_url": "https://mirrors.kernel.org/archlinux/iso/2015.05.01/archlinux-2015.05.01-dual.iso",
+        "iso_checksum": "84387d095141ac2a4fd8c83ca0908ffa543a1d3b",
+        "iso_checksum_type": "sha1",
+        "version": "0.1.0",
+        "vagrant_cloud_token": "{{env `ATLAS_TOKEN`}}"
+    },
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "iso_url": "{{user `iso_url`}}",
+            "iso_checksum": "{{user `iso_checksum`}}",
+            "iso_checksum_type": "{{user `iso_checksum_type`}}",
+            "guest_os_type": "ArchLinux_64",
+            "guest_additions_mode": "disable",
+            "http_directory": "packer/http/archlinux",
+            "shutdown_command": "systemctl start poweroff.timer",
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "ssh_port": 22,
+            "ssh_wait_timeout": "10000s",
+            "disk_size": 20000,
+            "boot_wait": "5s",
+            "boot_command": [
+                "<enter><wait10><wait10>",
+                "curl -o /etc/pacman.conf http://{{.HTTPIP}}:{{.HTTPPort}}/pacman.conf<enter><wait>",
+                "curl -O http://{{.HTTPIP}}:{{.HTTPPort}}/prepare-machine.sh<enter><wait>",
+                "curl -O http://{{.HTTPIP}}:{{.HTTPPort}}/install-stage-1.sh<enter><wait>",
+                "DISK=/dev/sda bash ./prepare-machine.sh<enter>"
+            ]
+        },
+        {
+            "type": "qemu",
+            "iso_url": "{{user `iso_url`}}",
+            "iso_checksum": "{{user `iso_checksum`}}",
+            "iso_checksum_type": "{{user `iso_checksum_type`}}",
+            "http_directory": "packer/http/archlinux",
+            "shutdown_command": "systemctl start poweroff.timer",
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "ssh_port": 22,
+            "ssh_wait_timeout": "10000s",
+            "disk_size": 20000,
+            "boot_wait": "5s",
+            "boot_command": [
+                "<enter><wait10><wait10>",
+                "curl -o /etc/pacman.conf http://{{.HTTPIP}}:{{.HTTPPort}}/pacman.conf<enter><wait>",
+                "curl -O http://{{.HTTPIP}}:{{.HTTPPort}}/prepare-machine.sh<enter><wait>",
+                "curl -O http://{{.HTTPIP}}:{{.HTTPPort}}/install-stage-1.sh<enter><wait>",
+                "curl -O http://{{.HTTPIP}}:{{.HTTPPort}}/poweroff.timer<enter><wait>",
+                "DISK=/dev/vda bash ./prepare-machine.sh<enter>"
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "execute_command": "echo 'vagrant'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "packer/scripts/archlinux/configure.sh",
+            "only": ["virtualbox-iso"]
+        }
+    ],
+    "post-processors": [
+        [
+            {
+                "type": "vagrant",
+                "output": "runeos_{{.Provider}}.box"
+            },
+            {
+                "type": "vagrant-cloud",
+                "access_token": "user `vagrant_cloud_token`",
+                "box_tag": "nlamirault/archlinux",
+                "version": "{{user `version`}}"
+            }
+        ]
+    ]
+}
