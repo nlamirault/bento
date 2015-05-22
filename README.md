@@ -1,5 +1,8 @@
 # Bento
 
+Some boxes. See: https://atlas.hashicorp.com/nlamirault
+
+
 ## License
 
 See [LICENSE][] for the complete license.
