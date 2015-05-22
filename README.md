@@ -1,13 +1,4 @@
-# RuneOS box
-
-Contains [Packer][] builds for an Arch linux base install.
-
-
-
-## Contributing
-
-See [CONTRIBUTING][].
-
+# Bento
 
 ## License
 
@@ -24,8 +15,6 @@ A changelog is available [here](ChangeLog.md).
 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 
-[LICENSE]: https://github.com/nlamirault/RuneOS-box/blob/master/LICENSE
-
-[RuneAudio]: https://www.runeaudio.com
+[LICENSE]: https://github.com/nlamirault/bento/blob/master/LICENSE
 
 [Packer]: https://www.packer.io/
