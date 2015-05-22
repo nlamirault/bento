@@ -14,7 +14,7 @@
             "iso_checksum_type": "{{user `iso_checksum_type`}}",
             "guest_os_type": "ArchLinux_64",
             "guest_additions_mode": "disable",
-            "http_directory": "packer/http/archlinux",
+            "http_directory": "http/archlinux",
             "shutdown_command": "systemctl start poweroff.timer",
             "ssh_username": "vagrant",
             "ssh_password": "vagrant",
@@ -57,7 +57,7 @@
         {
             "type": "shell",
             "execute_command": "echo 'vagrant'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
-            "script": "packer/scripts/archlinux/configure.sh",
+            "script": "scripts/archlinux/configure.sh",
             "only": ["virtualbox-iso"]
         }
     ],
@@ -65,7 +65,7 @@
         [
             {
                 "type": "vagrant",
-                "output": "runeos_{{.Provider}}.box"
+                "output": "vagrant/nixos/ArchLinux-{{.Provider}}.box"
             },
             {
                 "type": "vagrant-cloud",
