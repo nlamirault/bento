@@ -1,4 +1,5 @@
 
+
 {
     "variables": {
         "vm_name": "Debian-8.0.0-amd64",
@@ -64,6 +65,7 @@
             "scripts": [
                 "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/update.sh",
                 "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/sudoers.sh",
+                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/vagrant.sh",
                 "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/vbguest.sh",
                 "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/desktop.sh",
                 "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/cleanup.sh"
