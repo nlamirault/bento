@@ -1,5 +1,9 @@
 {
     "variables": {
+        "vm_name": "ArchLinux-2015.05.01",
+        "disk_size": "2000",
+        "memory_size": "1024",
+        "cpus": "1",
         "iso_url": "https://mirrors.kernel.org/archlinux/iso/2015.05.01/archlinux-2015.05.01-dual.iso",
         "iso_checksum": "84387d095141ac2a4fd8c83ca0908ffa543a1d3b",
         "iso_checksum_type": "sha1",
@@ -9,47 +13,32 @@
     "builders": [
         {
             "type": "virtualbox-iso",
-            "iso_url": "{{user `iso_url`}}",
-            "iso_checksum": "{{user `iso_checksum`}}",
-            "iso_checksum_type": "{{user `iso_checksum_type`}}",
-            "guest_os_type": "ArchLinux_64",
-            "guest_additions_mode": "disable",
-            "http_directory": "http/archlinux",
-            "shutdown_command": "systemctl start poweroff.timer",
-            "ssh_username": "vagrant",
-            "ssh_password": "vagrant",
-            "ssh_port": 22,
-            "ssh_wait_timeout": "10000s",
-            "disk_size": 20000,
-            "boot_wait": "5s",
             "boot_command": [
                 "<enter><wait10><wait10>",
                 "curl -o /etc/pacman.conf http://{{.HTTPIP}}:{{.HTTPPort}}/pacman.conf<enter><wait>",
                 "curl -O http://{{.HTTPIP}}:{{.HTTPPort}}/prepare-machine.sh<enter><wait>",
                 "curl -O http://{{.HTTPIP}}:{{.HTTPPort}}/install-stage-1.sh<enter><wait>",
                 "DISK=/dev/sda bash ./prepare-machine.sh<enter>"
-            ]
-        },
-        {
-            "type": "qemu",
+            ],
+            "boot_wait": "5s",
             "iso_url": "{{user `iso_url`}}",
             "iso_checksum": "{{user `iso_checksum`}}",
             "iso_checksum_type": "{{user `iso_checksum_type`}}",
-            "http_directory": "packer/http/archlinux",
-            "shutdown_command": "systemctl start poweroff.timer",
+            "guest_os_type": "ArchLinux_64",
+            "guest_additions_mode": "disable",
+            "http_directory": "http/archlinux",
+            "shutdown_command": "sudo -S /sbin/shutdown -hP now",
             "ssh_username": "vagrant",
             "ssh_password": "vagrant",
             "ssh_port": 22,
             "ssh_wait_timeout": "10000s",
-            "disk_size": 20000,
-            "boot_wait": "5s",
-            "boot_command": [
-                "<enter><wait10><wait10>",
-                "curl -o /etc/pacman.conf http://{{.HTTPIP}}:{{.HTTPPort}}/pacman.conf<enter><wait>",
-                "curl -O http://{{.HTTPIP}}:{{.HTTPPort}}/prepare-machine.sh<enter><wait>",
-                "curl -O http://{{.HTTPIP}}:{{.HTTPPort}}/install-stage-1.sh<enter><wait>",
-                "curl -O http://{{.HTTPIP}}:{{.HTTPPort}}/poweroff.timer<enter><wait>",
-                "DISK=/dev/vda bash ./prepare-machine.sh<enter>"
+            "ssh_key_path": "vagrant/keys/vagrant.key",
+            "disk_size": "{{ user `disk_size` }}",
+            "virtualbox_version_file": ".vbox_version",
+            "vm_name": "{{ user `vm_name` }}",
+            "vboxmanage": [
+                ["modifyvm", "{{.Name}}", "--memory", "{{ user `memory_size` }}"],
+                ["modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"]
             ]
         }
     ],
@@ -65,13 +54,7 @@
         [
             {
                 "type": "vagrant",
-                "output": "vagrant/nixos/ArchLinux-{{.Provider}}.box"
-            },
-            {
-                "type": "vagrant-cloud",
-                "access_token": "user `vagrant_cloud_token`",
-                "box_tag": "nlamirault/archlinux",
-                "version": "{{user `version`}}"
+                "output": "vagrant/archlinux/ArchLinux-{{.Provider}}-{{ user `version`}}.box"
             }
         ]
     ]

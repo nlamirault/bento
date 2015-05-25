@@ -1,10 +1,10 @@
 #!/bin/sh
 
 FQDN='vbox-arch'
-KEYMAP='us'
+KEYMAP='fr-pc'
 LANGUAGE='en_US.UTF-8'
 PASSWORD=$(/usr/bin/openssl passwd -crypt 'vagrant')
-TIMEZONE='UTC'
+TIMEZONE='Europe/Paris'
 
 # configure hostname
 echo "===> configuring hostname"
@@ -35,7 +35,7 @@ systemctl enable sshd.service
 echo "===> creating vagrant user"
 usermod -p ${PASSWORD} vagrant
 # create vagrant user
-useradd -m -U -s /bin/zsh -c 'Vagrant User' -G wheel -p ${PASSWORD} vagrant
+useradd -m -U -s /bin/bash -c 'Vagrant User' -G wheel -p ${PASSWORD} vagrant
 
 echo 'vagrant ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/10_vagrant
 chmod 0440 /etc/sudoers.d/10_vagrant

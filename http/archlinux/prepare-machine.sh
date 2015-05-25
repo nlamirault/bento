@@ -68,8 +68,8 @@ install --mode=0755 install-stage-1.sh /mnt
 arch-chroot /mnt /bin/bash /install-stage-1.sh
 
 # http://comments.gmane.org/gmane.linux.arch.general/48739
-echo '==> adding workaround for shutdown race condition'
-install --mode=0644 poweroff.timer "/mnt/etc/systemd/system/poweroff.timer"
+# echo '==> adding workaround for shutdown race condition'
+# install --mode=0644 poweroff.timer "/mnt/etc/systemd/system/poweroff.timer"
 echo '==> configuring resolved'
 mv /mnt/etc/resolv.conf /mnt/etc/resolv.conf.old
 chroot /mnt ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
