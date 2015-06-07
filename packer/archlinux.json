@@ -7,7 +7,7 @@
         "iso_url": "https://mirrors.kernel.org/archlinux/iso/2015.05.01/archlinux-2015.05.01-dual.iso",
         "iso_checksum": "84387d095141ac2a4fd8c83ca0908ffa543a1d3b",
         "iso_checksum_type": "sha1",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "vagrant_cloud_token": "{{env `ATLAS_TOKEN`}}"
     },
     "builders": [
