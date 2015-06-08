@@ -1,0 +1,74 @@
+{
+    "variables": {
+        "vm_name": "Kali-1.0.9-amd64",
+        "disk_size": "2000",
+        "memory_size": "1024",
+        "cpus": "1",
+        "iso_url": "",
+        "iso_checksum": "",
+        "iso_checksum_type": "",
+        "kali_version": "kali-linux-1.0.9a",
+        "kali_arch": "amd64",
+        "vagrant_cloud_token": "{{env `ATLAS_TOKEN`}}",
+        "atlas_username": "{{env `ATLAS_USERNAME`}}",
+        "atlas_name": "kali_linux",
+        "version": "0.1.0"
+    },
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "boot_command": [
+                "<esc><wait>",
+                "install ",
+	        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+	        "debian-installer=en_US auto locale=en_US kbd-chooser/method=us <wait>",
+                "netcfg/get_hostname={{ .Name }} ",
+	        "netcfg/get_domain=vagrantup.com ",
+	        "fb=false debconf/frontend=noninteractive ",
+	        "console-setup/ask_detect=false <wait>",
+  	        "console-keymaps-at/keymap=us ",
+	        "keyboard-configuration/xkb-keymap=us <wait>",
+                "<enter><wait10><wait10><wait10>",
+                "<enter><wait>"
+            ],
+            "boot_wait": "10s",
+            "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+            "guest_os_type": "Debian_64",
+            "http_directory": "http",
+            "iso_checksum": "2744d50f56c3d6332bc75e676f36aad3058d0aad",
+            "iso_checksum_type": "sha1",
+            "iso_url": "http://cdimage.kali.org/kali-images/{{ user ``kali_version`` }}//{{ user ``kali_version`` }}-/{{ user ``kali_arch`` }}.iso",
+            "shutdown_command": "echo 'vagrant' | sudo -S /sbin/shutdown -h 0",
+            "ssh_password": "vagrant",
+            "ssh_port": 22,
+            "ssh_username": "vagrant",
+            "ssh_wait_timeout": "10000s",
+            "vboxmanage": [
+	        ["modifyvm", "{{.Name}}", "--nic2", "intnet"],
+	        ["modifyvm", "{{.Name}}", "--macaddress2", "080027f34a5d"]
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "pause_before": "10s",
+            "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'",
+            "scripts": [
+                "scripts/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}/update.sh",
+                "scripts/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}/sudoers.sh",
+                "scripts/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}/vagrant.sh",
+                "scripts/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}/vbguest.sh",
+                "scripts/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}/cleanup.sh"
+            ]
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "vagrant",
+	    "output" : "Kali_{{.Provider}}_{{isotime}}.box",
+	    "keep_input_artifact": true,
+            "output":"vagrant/kali/kali-{{ user `kali_version` }}-{{.Provider}}.box"
+        }
+    ]
+}
