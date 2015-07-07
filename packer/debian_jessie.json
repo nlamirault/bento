@@ -67,6 +67,7 @@
                 "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/sudoers.sh",
                 "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/vagrant.sh",
                 "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/vbguest.sh",
+                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/locale.sh",
                 "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/desktop.sh",
                 "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/cleanup.sh"
             ]
