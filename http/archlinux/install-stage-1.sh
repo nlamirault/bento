@@ -67,5 +67,15 @@ if [ -d /sys/firmware/efi ]; then
   grub-mkconfig -o $esp/grub/grub.cfg
 fi
 
+echo "===> Configure Desktop"
+pacman -Sy xorg-server xorg-server-utils xorg-apps
+pacman -Sy slim slim-themes archlinux-themes-slim
+pacman -Sy xfce4-goodies
+echo '
+#!/bin/sh
+exec startxfce4
+' > /home/vagrant/.xinitrc
+chown vagrant.users /home/vagrant/.xinitrc
+
 echo "===> cleaning up"
 pacman -Scc --noconfirm
