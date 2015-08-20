@@ -1,6 +1,10 @@
 Bento ChangeLog
 ================
 
+# Version 0.2.0 (IN PROGRESS)
+
+- Add ArchLinux
+
 # Version 0.1.0 (06/08/2015)
 
 - Init [Debian Jessie][] (8.0.0) box
