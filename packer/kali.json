@@ -1,17 +1,17 @@
 {
     "variables": {
-        "vm_name": "Debian-8.0.0-amd64",
+        "vm_name": "Kali-light-2.0-amd64",
         "disk_size": "2000",
         "memory_size": "1024",
         "cpus": "1",
-        "iso_url": "http://cdimage.debian.org/cdimage/release/8.0.0/amd64/iso-cd/debian-8.0.0-amd64-netinst.iso",
-        "iso_checksum": "95b46c1c8cb3a02f7b65b5de5dd57d335424684e4b605c2786b168b4851bc17b0b6bf4a53ba22a701532d01883ff4de393ad896ed5595e6c8fd1652d0e3e5690",
-        "iso_checksum_type": "sha512",
-        "debian_version": "8.0.0",
-        "debian_arch": "amd64",
+        "iso_url": "http://cdimage.kali.org/kali-2.0/kali-linux-light-2.0-amd64.iso",
+        "iso_checksum": "fc54f0b4b48ded247e5549d9dd9ee5f1465f24ab",
+        "iso_checksum_type": "sha1",
+        "kali_version": "2.0",
+        "kali_arch": "amd64",
         "vagrant_cloud_token": "{{env `ATLAS_TOKEN`}}",
         "atlas_username": "{{env `ATLAS_USERNAME`}}",
-        "atlas_name": "debian_jessie",
+        "atlas_name": "kali_linux",
         "version": "0.1.0"
     },
     "builders": [
@@ -37,10 +37,10 @@
             "boot_wait": "10s",
             "disk_size": "{{ user `disk_size` }}",
             "guest_os_type": "Debian_64",
-            "http_directory": "http/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}",
+            "http_directory": "http/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}",
             "iso_checksum": "{{ user `iso_checksum` }}",
             "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-            "iso_url": "http://cdimage.debian.org/cdimage/release/{{ user `debian_version` }}/{{ user `debian_arch` }}/iso-cd/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}-netinst.iso",
+            "iso_url": "http://cdimage.kali.org/kali-{{ user `kali_version` }}/kali-linux-{{ user `kali_version` }}-{{ user `kali_arch` }}.iso",
             "ssh_username": "vagrant",
             "ssh_password": "vagrant",
             "ssh_port": 22,
@@ -59,25 +59,23 @@
     "provisioners": [
         {
             "type": "shell",
-            "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+            "pause_before": "10s",
+            "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'",
             "scripts": [
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/update.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/sudoers.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/vagrant.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/vbguest.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/locale.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/desktop.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/cleanup.sh"
+                "scripts/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}/update.sh",
+                "scripts/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}/sudoers.sh",
+                "scripts/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}/vagrant.sh",
+                "scripts/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}/vbguest.sh",
+                "scripts/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}/cleanup.sh"
             ]
         }
     ],
     "post-processors": [
-        [
-            {
-                "type": "vagrant",
-                "compression_level": 9,
-                "output":"vagrant/debian/debian-{{ user `debian_version` }}-{{.Provider}}.box"
-            }
-        ]
+        {
+            "type": "vagrant",
+            "compression_level": 9,
+	    "keep_input_artifact": true,
+            "output":"vagrant/kali/kali-{{ user `kali_version` }}-{{.Provider}}.box"
+        }
     ]
 }
