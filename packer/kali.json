@@ -1,13 +1,13 @@
 {
     "variables": {
-        "vm_name": "Kali-1.1.0a-amd64",
+        "vm_name": "Kali-light-2.0-amd64",
         "disk_size": "2000",
         "memory_size": "1024",
         "cpus": "1",
-        "iso_url": "http://cdimage.kali.org/kali-1.1.0a/kali-linux-1.1.0a-amd64.iso",
-        "iso_checksum": "2b8d2db20e2709c5e9e0f9f9bbd8606c9b9e729f",
+        "iso_url": "http://cdimage.kali.org/kali-2.0/kali-linux-light-2.0-amd64.iso",
+        "iso_checksum": "fc54f0b4b48ded247e5549d9dd9ee5f1465f24ab",
         "iso_checksum_type": "sha1",
-        "kali_version": "1.1.0a",
+        "kali_version": "2.0",
         "kali_arch": "amd64",
         "vagrant_cloud_token": "{{env `ATLAS_TOKEN`}}",
         "atlas_username": "{{env `ATLAS_USERNAME`}}",
