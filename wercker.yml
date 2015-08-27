@@ -1,0 +1,28 @@
+build:
+  steps:
+    - install-packages:
+        packages: wget unzip
+    - script:
+        name: install packer
+        code: |
+          wget https://dl.bintray.com/mitchellh/packer/0.8.6_linux_amd64.zip
+          unzip 0.8.6_linux_amd64.zip
+          ./packer version | tee $WERCKER_REPORT_MESSAGE_FILE
+    - script:
+        name: validate packer Debian Jessie
+        code: ./packer validate packer/debian_jessie.json | tee $WERCKER_REPORT_MESSAGE_FILE
+    - script:
+        name: validate packer ArchLinux
+        code: ./packer validate packer/archlinux.json | tee $WERCKER_REPORT_MESSAGE_FILE
+    - script:
+        name: validate packer Kali
+        code: ./packer validate packer/kali.json | tee $WERCKER_REPORT_MESSAGE_FILE
+    - script:
+        name: validate packer NixOS
+        code: ./packer validate packer/nixos.json | tee $WERCKER_REPORT_MESSAGE_FILE
+    - script:
+        name: build image Debian Jessie
+        code: |
+          ./packer build packer/debian_jessie | tee "${WERCKER_REPORT_ARTIFACTS_DIR}/packer_build_output.log"
+          tail -n 1 "${WERCKER_REPORT_ARTIFACTS_DIR}/packer_build_output.log" | tee $WERCKER_REPORT_MESSAGE_FILE
+

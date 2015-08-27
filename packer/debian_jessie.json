@@ -4,7 +4,6 @@
         "disk_size": "2000",
         "memory_size": "1024",
         "cpus": "1",
-        "iso_url": "http://cdimage.debian.org/cdimage/release/8.0.0/amd64/iso-cd/debian-8.0.0-amd64-netinst.iso",
         "iso_checksum": "95b46c1c8cb3a02f7b65b5de5dd57d335424684e4b605c2786b168b4851bc17b0b6bf4a53ba22a701532d01883ff4de393ad896ed5595e6c8fd1652d0e3e5690",
         "iso_checksum_type": "sha512",
         "debian_version": "8.0.0",
