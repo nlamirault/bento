@@ -60,8 +60,7 @@ qemu:
 push:
 	$(PACKER) push \
 		--name $(ATLAS_USERNAME)/$(template) \
-		-var 'ATLAS_TOKEN=${ATLAS_TOKEN}' \
-		-var 'ATLAS_USERNAME=${ATLAS_USERNAME}' \
+		-token=${ATLAS_TOKEN} \
 		$(template).json
 
 .PHONY: clean
