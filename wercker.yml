@@ -1,5 +1,7 @@
 build:
   steps:
+    # Execute the bundle install step, a step provided by wercker
+    - bundle-install
     - install-packages:
         packages: wget unzip
     - script:
