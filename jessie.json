@@ -82,7 +82,7 @@
             },
             {
                 "type": "atlas",
-                "only": ["{{ user `vm_name` }}"],
+                "only": ["virtualbox-iso"],
                 "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
                 "artifact_type": "vagrant.box",
                 "metadata": {
