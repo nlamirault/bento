@@ -8,7 +8,7 @@ build:
     - script:
         name: install packer
         code: |
-          wget https://dl.bintray.com/mitchellh/packer/0.8.6_linux_amd64.zip
+          wget https://dl.bintray.com/mitchellh/packer/packer_0.8.6_linux_amd64.zip
           unzip 0.8.6_linux_amd64.zip
           ./packer version | tee $WERCKER_REPORT_MESSAGE_FILE
     - script:
