@@ -46,19 +46,23 @@ templates:
 
 .PHONY: validate
 validate:
-	$(PACKER) validate packer/$(template).json
+	$(PACKER) validate $(template).json
 
 .PHONY: virtualbox
 virtualbox:
-	$(PACKER) build -only=virtualbox-iso packer/$(template).json
+	$(PACKER) build -only=virtualbox-iso $(template).json
 
 .PHONY: qemu
 qemu:
-	$(PACKER) build -only=qemu packer/$(template).json
+	$(PACKER) build -only=qemu $(template).json
 
 .PHONY: push
 push:
-	$(PACKER) push packer/$(template).json
+	$(PACKER) push \
+		--name $(ATLAS_USERNAME)/$(template) \
+		-var 'ATLAS_TOKEN=${ATLAS_TOKEN}' \
+		-var 'ATLAS_USERNAME=${ATLAS_USERNAME}' \
+		$(template).json
 
 .PHONY: clean
 clean:
