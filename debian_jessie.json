@@ -1,4 +1,8 @@
 {
+    "push": {
+      "name": "",
+      "vcs": true
+    },
     "variables": {
         "vm_name": "Debian-8.0.0-amd64",
         "disk_size": "2000",
@@ -44,7 +48,6 @@
             "ssh_password": "vagrant",
             "ssh_port": 22,
             "ssh_wait_timeout": "10000s",
-            "ssh_key_path": "vagrant/keys/vagrant.key",
             "shutdown_command": "sudo -S /sbin/shutdown -hP now",
             "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
             "virtualbox_version_file": ".vbox_version",
@@ -76,6 +79,16 @@
                 "type": "vagrant",
                 "compression_level": 9,
                 "output":"vagrant/debian/debian-{{ user `debian_version` }}-{{.Provider}}.box"
+            },
+            {
+                "type": "atlas",
+                "only": ["virtualbox-iso"],
+                "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+                "artifact_type": "vagrant.box",
+                "metadata": {
+                    "provider": "virtualbox",
+                    "version": "{{user `version`}}"
+                }
             }
         ]
     ]
