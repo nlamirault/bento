@@ -59,8 +59,8 @@ qemu:
 .PHONY: push
 push:
 	$(PACKER) push \
-		--name $(ATLAS_USERNAME)/$(template) \
-		-token=${ATLAS_TOKEN} \
+		--name $(BENTO_ATLAS_USERNAME)/$(template) \
+		-token=${BENTO_ATLAS_TOKEN} \
 		$(template).json
 
 .PHONY: clean
