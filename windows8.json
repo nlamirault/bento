@@ -1,0 +1,68 @@
+{
+    "variables": {
+        "vm_name": "Windows8-64",
+        "disk_size": "40000",
+        "memory_size": "2048",
+        "cpus": "1",
+        "iso_checksum": "5e4ecb86fd8619641f1d58f96e8561ec",
+        "iso_checksum_type": "md5",
+        "windows_version": "8.1.0",
+        "windows_arch": "64",
+        "atlas_token": "{{env `ATLAS_TOKEN`}}",
+        "atlas_username": "{{env `ATLAS_USERNAME`}}",
+        "atlas_name": "windows8",
+        "version": "0.1.0"
+    },
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "iso_url": "http://download.microsoft.com/download/B/9/9/B999286E-0A47-406D-8B3D-5B5AD7373A4A/9600.16384.WINBLUE_RTM.130821-1623_X64FRE_ENTERPRISE_EVAL_EN-US-IRM_CENA_X64FREE_EN-US_DV5.ISO",
+            "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+            "iso_checksum": "{{ user `iso_checksum` }}",
+            "headless": true,
+            "boot_wait": "2m",
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "ssh_wait_timeout": "2h",
+            "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+            "guest_os_type": "Windows81_64",
+            "disk_size": "{{ user `disk_size` }}",
+            "floppy_files": [
+                "floppy/windows-{{ user `windows_version` }}-{{ user `windows_arch` }}/answer_files/81/Autounattend.xml",
+                "scripts/windows-{{ user `windows_version` }}-{{ user `windows_arch` }}/postunattend.xml",
+                "scripts/windows-{{ user `windows_version` }}-{{ user `windows_arch` }}/boxstarter.ps1",
+                "scripts/windows-{{ user `windows_version` }}-{{ user `windows_arch` }}/package.ps1"
+            ],
+            "vboxmanage": [
+                ["modifyvm", "{{.Name}}", "--memory", "{{ user `memory_size` }}"],
+                ["modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"]
+            ]
+        }
+    ],
+    "push": {
+        "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+        "token": "{{user `atlas_name`}}",
+        "vcs": true
+    },
+    "post-processors": [
+        [
+            {
+                "type": "vagrant",
+                "keep_input_artifact": false,
+                "compression_level": 9,
+                "output":"vagrant/windows/windows-{{ user `windows_version` }}-{{.Provider}}.box"
+            },
+            {
+                "type": "atlas",
+                "only": ["virtualbox-iso"],
+                "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+                "artifact_type": "vagrant.box",
+                "metadata": {
+                    "created_at": "{{timestamp}}",
+                    "version": "{{user `version`}}",
+                    "provider": "virtualbox"
+                }
+            }
+        ]
+    ]
+}
