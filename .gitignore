@@ -1,5 +1,5 @@
 packer_cache/
 *.box
 vagrant/nixos/.vagrant/
-vagrant/debian/.vagrant/
+vagrant/debian-*/.vagrant/
 vagrant/archlinux/.vagrant/
