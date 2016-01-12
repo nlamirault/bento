@@ -1,12 +1,11 @@
 {
     "variables": {
         "box_name": "Ubuntu-15.10",
+        "disk_size": "20000",
+        "memory_size": "1024",
+        "cpus": "1",
         "iso_checksum": "86aa35a986eba6e5ad30e3d486d57efe6803ae7ea4859b0216953e9e62871131",
         "iso_checksum_type": "sha256",
-        "iso_name": "ubuntu-15.10-server-amd64.iso",
-        "metadata": "floppy/dummy_metadata.json",
-        "name": "ubuntu-15.10",
-        "template": "ubuntu-15.10-amd64",
         "ubuntu_version": "15.10",
         "ubuntu_arch": "amd64",
         "atlas_token": "{{env `BENTO_ATLAS_TOKEN`}}",
