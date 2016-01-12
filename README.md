@@ -74,8 +74,8 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 
 [D80]: https://atlas.hashicorp.com/nlamirault/boxes/jessie-8.0
-[D81]: https://atlas.hashicorp.com/nlamirault/boxes/jessie-8.1
-[D82]: https://atlas.hashicorp.com/nlamirault/boxes/jessie-8.2
+[D81]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.1
+[D82]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.2
 
 [Arch]: https://atlas.hashicorp.com/nlamirault/boxes/archlinux
 
