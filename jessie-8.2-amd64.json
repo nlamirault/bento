@@ -59,13 +59,13 @@
             "type": "shell",
             "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
             "scripts": [
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/update.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/sudoers.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/vagrant.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/vbguest.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/locale.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/desktop.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/cleanup.sh"
+                "scripts/debian/update.sh",
+                "scripts/debian/sudoers.sh",
+                "scripts/debian/vagrant.sh",
+                "scripts/debian/vbguest.sh",
+                "scripts/debian/locale.sh",
+                "scripts/debian/desktop.sh",
+                "scripts/debian/cleanup.sh"
             ]
         }
     ],
