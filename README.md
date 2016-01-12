@@ -17,6 +17,17 @@ Vagrant.configure("2") do |config|
 end
 ```
 
+## Pre-build boxes
+
+|               | VirtualBox (5.0.12)       | Parallels (11.1.0)        |
+| ------------- | ------------------        | -------------------       |
+| debian-8.0    | [amd64][D80]              |                           |
+| debian-8.1    | [amd64][D81]              |                           |
+| debian-8.2    | [amd64][D82]              |                           |
+| ubuntu-15.10  | [amd64][U1510]            |                           |
+| archlinux     | [amd64][Arch]             |                           |
+
+
 ## Development
 
 * Requirements : [Packer][]
@@ -56,3 +67,14 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 [Packer]: https://www.packer.io/
 [Atlas]:  https://atlas.hashicorp.com
 [Virtualbox]: https://www.virtualbox.org/
+
+
+[D80]: https://atlas.hashicorp.com/nlamirault/boxes/jessie-8.0
+[D81]: https://atlas.hashicorp.com/nlamirault/boxes/jessie-8.1
+[D82]: https://atlas.hashicorp.com/nlamirault/boxes/jessie-8.2
+
+[Arch]: https://atlas.hashicorp.com/nlamirault/boxes/archlinux
+
+[U1510]: https://atlas.hashicorp.com/nlamirault/boxes/ubuntu-15.10
+
+[N1412]: https://atlas.hashicorp.com/nlamirault/boxes/nixos-1412
