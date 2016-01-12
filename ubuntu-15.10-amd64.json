@@ -8,8 +8,8 @@
         "iso_checksum_type": "sha256",
         "ubuntu_version": "15.10",
         "ubuntu_arch": "amd64",
-        "atlas_token": "{{env `BENTO_ATLAS_TOKEN`}}",
-        "atlas_username": "{{env `BENTO_ATLAS_USERNAME`}}",
+        "atlas_token": "{{env `ATLAS_TOKEN`}}",
+        "atlas_username": "{{env `ATLAS_USERNAME`}}",
         "atlas_name": "ubuntu-15.10",
         "version": "0.1.0"
     },
