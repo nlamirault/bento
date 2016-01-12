@@ -79,7 +79,7 @@
             {
                 "type": "vagrant",
                 "compression_level": 9,
-                "output":"vagrant/debian/debian-{{ user `debian_version` }}-{{.Provider}}.box"
+                "output":"vagrant/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}-{{.Provider}}.box"
             },
             {
                 "type": "atlas",
