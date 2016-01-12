@@ -3,6 +3,9 @@ Bento ChangeLog
 
 # Version 0.2.0 (IN PROGRESS)
 
+- Add Debian Jessie 8.2
+- Add Debian Jessie 8.1
+- Init Kali Linux 2.0
 - Add ArchLinux
 
 # Version 0.1.0 (06/08/2015)
