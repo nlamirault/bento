@@ -1,0 +1,106 @@
+{
+    "variables": {
+        "box_name": "Ubuntu-15.10",
+        "disk_size": "20000",
+        "memory_size": "1024",
+        "cpus": "1",
+        "iso_checksum": "86aa35a986eba6e5ad30e3d486d57efe6803ae7ea4859b0216953e9e62871131",
+        "iso_checksum_type": "sha256",
+        "ubuntu_version": "15.10",
+        "ubuntu_arch": "amd64",
+        "atlas_token": "{{env `BENTO_ATLAS_TOKEN`}}",
+        "atlas_username": "{{env `BENTO_ATLAS_USERNAME`}}",
+        "atlas_name": "ubuntu-15.10",
+        "version": "0.1.0"
+    },
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "boot_command": [
+                "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "/install/vmlinuz<wait>",
+                " auto<wait>",
+                " console-setup/ask_detect=false<wait>",
+                " console-setup/layoutcode=us<wait>",
+                " console-setup/modelcode=pc105<wait>",
+                " debconf/frontend=noninteractive<wait>",
+                " debian-installer=en_US<wait>",
+                " fb=false<wait>",
+                " initrd=/install/initrd.gz<wait>",
+                " kbd-chooser/method=us<wait>",
+                " keyboard-configuration/layout=USA<wait>",
+                " keyboard-configuration/variant=USA<wait>",
+                " locale=en_US<wait>",
+                " netcfg/get_domain=vm<wait>",
+                " netcfg/get_hostname=vagrant<wait>",
+                " grub-installer/bootdev=/dev/sda<wait>",
+                " noapic<wait>",
+                " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+                " -- <wait>",
+                "<enter><wait>"
+            ],
+            "boot_wait": "10s",
+            "disk_size": "{{ user `disk_size` }}",
+            "guest_os_type": "Ubuntu_64",
+            "http_directory": "http/ubuntu-{{ user `ubuntu_version` }}-{{ user `ubuntu_arch` }}",
+            "iso_checksum": "{{ user `iso_checksum` }}",
+            "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+            "iso_url": "http://releases.ubuntu.com/{{ user `ubuntu_version` }}/ubuntu-{{ user `ubuntu_version` }}-desktop-{{ user `ubuntu_arch` }}.iso",
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "ssh_port": 22,
+            "ssh_wait_timeout": "10000s",
+            "shutdown_command": "sudo -S /sbin/shutdown -hP now",
+            "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+            "virtualbox_version_file": ".vbox_version",
+            "vm_name": "{{ user `box_name` }}",
+            "vboxmanage": [
+                ["modifyvm", "{{.Name}}", "--memory", "{{ user `memory_size` }}"],
+                ["modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"]
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+            "scripts": [
+                "scripts/ubuntu/update.sh",
+                "scripts/ubuntu/sudoers.sh",
+                "scripts/ubuntu/vagrant.sh",
+                "scripts/ubuntu/vbguest.sh",
+                "scripts/ubuntu/locale.sh",
+                "scripts/ubuntu/desktop.sh",
+                "scripts/ubuntu/cleanup.sh"
+            ]
+        }
+    ],
+    "push": {
+        "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+        "token": "{{user `atlas_name`}}",
+        "vcs": true
+    },
+    "post-processors": [
+        [
+            {
+                "type": "vagrant",
+                "compression_level": 9,
+                "output":"vagrant/ubuntu-{{ user `ubuntu_version` }}-{{ user `ubuntu_arch` }}/ubuntu-{{ user `ubuntu_version` }}-{{ user `ubuntu_arch` }}-{{.Provider}}.box"
+            },
+            {
+                "type": "atlas",
+                "only": ["virtualbox-iso"],
+                "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+                "artifact_type": "vagrant.box",
+                "metadata": {
+                    "created_at": "{{timestamp}}",
+                    "version": "{{user `version`}}",
+                    "provider": "virtualbox"
+                }
+            }
+        ]
+    ]
+}

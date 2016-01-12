@@ -1,17 +1,17 @@
 {
     "variables": {
-        "vm_name": "Debian-8.1.0-amd64",
-        "disk_size": "2000",
+        "vm_name": "Debian-8.0.0-amd64",
+        "disk_size": "20000",
         "memory_size": "1024",
         "cpus": "1",
-        "iso_checksum": "7844a8e84afe7a168a8f893b298d0dd06d869deffc73fef27791a252688a9d2affc6e4f46b2c5db4794054cec84365f2107c012f1025eb85826bb340134932ec",
+        "iso_checksum": "95b46c1c8cb3a02f7b65b5de5dd57d335424684e4b605c2786b168b4851bc17b0b6bf4a53ba22a701532d01883ff4de393ad896ed5595e6c8fd1652d0e3e5690",
         "iso_checksum_type": "sha512",
-        "debian_version": "8.1.0",
+        "debian_version": "8.0.0",
         "debian_arch": "amd64",
         "atlas_token": "{{env `ATLAS_TOKEN`}}",
         "atlas_username": "{{env `ATLAS_USERNAME`}}",
-        "atlas_name": "jessie",
-        "version": "0.2.0"
+        "atlas_name": "debian-8.0",
+        "version": "0.1.0"
     },
     "builders": [
         {
@@ -39,7 +39,7 @@
             "http_directory": "http/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}",
             "iso_checksum": "{{ user `iso_checksum` }}",
             "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-            "iso_url": "http://cdimage.debian.org/cdimage/release/{{ user `debian_version` }}/{{ user `debian_arch` }}/iso-cd/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}-netinst.iso",
+            "iso_url": "http://cdimage.debian.org/cdimage/archive/{{ user `debian_version` }}/{{ user `debian_arch` }}/iso-cd/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}-netinst.iso",
             "ssh_username": "vagrant",
             "ssh_password": "vagrant",
             "ssh_port": 22,
@@ -59,13 +59,13 @@
             "type": "shell",
             "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
             "scripts": [
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/update.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/sudoers.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/vagrant.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/vbguest.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/locale.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/desktop.sh",
-                "scripts/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/cleanup.sh"
+                "scripts/debian/update.sh",
+                "scripts/debian/sudoers.sh",
+                "scripts/debian/vagrant.sh",
+                "scripts/debian/vbguest.sh",
+                "scripts/debian/locale.sh",
+                "scripts/debian/desktop.sh",
+                "scripts/debian/cleanup.sh"
             ]
         }
     ],
@@ -79,7 +79,7 @@
             {
                 "type": "vagrant",
                 "compression_level": 9,
-                "output":"vagrant/debian/debian-{{ user `debian_version` }}-{{.Provider}}.box"
+                "output":"vagrant/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}-{{.Provider}}.box"
             },
             {
                 "type": "atlas",

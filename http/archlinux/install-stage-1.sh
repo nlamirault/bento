@@ -68,9 +68,9 @@ if [ -d /sys/firmware/efi ]; then
 fi
 
 echo "===> Configure Desktop"
-pacman -Sy xorg-server xorg-server-utils xorg-apps
-pacman -Sy slim slim-themes archlinux-themes-slim
-pacman -Sy xfce4-goodies
+pacman -Sy --noconfirm xorg-server xorg-server-utils xorg-apps
+pacman -Sy --noconfirm slim slim-themes archlinux-themes-slim
+pacman -Sy --noconfirm xfce4-goodies
 echo '
 #!/bin/sh
 exec startxfce4

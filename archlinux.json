@@ -1,14 +1,16 @@
 {
     "variables": {
         "vm_name": "ArchLinux-2015.07.01",
-        "disk_size": "2000",
+        "disk_size": "20000",
         "memory_size": "1024",
         "cpus": "1",
-        "iso_url": "https://mirrors.kernel.org/archlinux/iso/2015.07.01/archlinux-2015.07.01-dual.iso",
-        "iso_checksum": "a025ac8e23131b038a0b7f949faeb04d382e5b25",
+        "iso_url": "https://mirrors.kernel.org/archlinux/iso/2016.01.01/archlinux-2016.01.01-dual.iso",
+        "iso_checksum": "ff79a9629a83dfedad6c3a58e2e7838c86282315",
         "iso_checksum_type": "sha1",
-        "version": "0.4.0",
-        "vagrant_cloud_token": "{{env `ATLAS_TOKEN`}}"
+        "atlas_token": "{{env `ATLAS_TOKEN`}}",
+        "atlas_username": "{{env `ATLAS_USERNAME`}}",
+        "atlas_name": "archlinux",
+        "version": "0.6.0"
     },
     "builders": [
         {
@@ -43,11 +45,27 @@
             ]
         }
     ],
+    "push": {
+        "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+        "token": "{{user `atlas_name`}}",
+        "vcs": true
+    },
     "post-processors": [
         [
             {
                 "type": "vagrant",
                 "output": "vagrant/archlinux/ArchLinux-{{.Provider}}-{{ user `version`}}.box"
+            },
+            {
+                "type": "atlas",
+                "only": ["virtualbox-iso"],
+                "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+                "artifact_type": "vagrant.box",
+                "metadata": {
+                    "created_at": "{{timestamp}}",
+                    "version": "{{user `version`}}",
+                    "provider": "virtualbox"
+                }
             }
         ]
     ]

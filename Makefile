@@ -1,10 +1,10 @@
-# Copyright (C) 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+# Copyright (C) 2015, 2016 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http:#www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,7 +21,7 @@ OK_COLOR=\033[32;01m
 ERROR_COLOR=\033[31;01m
 WARN_COLOR=\033[33;01m
 
-VERSION="0.1.0"
+VERSION="0.2.0"
 
 PACKER ?= packer
 
@@ -38,7 +38,7 @@ help:
 
 .PHONY: check
 check:
-	curl "https://atlas.hashicorp.com/ui/tutorial/check?access_token=$ATLAS_TOKEN"
+	@curl "https://atlas.hashicorp.com/ui/tutorial/check?access_token=$(BENTO_ATLAS_TOKEN)"
 
 .PHONY: templates
 templates:
@@ -59,9 +59,8 @@ qemu:
 .PHONY: push
 push:
 	$(PACKER) push \
-		--name $(ATLAS_USERNAME)/$(template) \
-		-var 'ATLAS_TOKEN=${ATLAS_TOKEN}' \
-		-var 'ATLAS_USERNAME=${ATLAS_USERNAME}' \
+		--name $(BENTO_ATLAS_USERNAME)/$(template) \
+		-token=${BENTO_ATLAS_TOKEN} \
 		$(template).json
 
 .PHONY: clean

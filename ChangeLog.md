@@ -1,15 +1,21 @@
 Bento ChangeLog
 ================
 
-# Version 0.2.0 (IN PROGRESS)
+# Version 0.2.0 (01/12/2016)
 
-- Add ArchLinux
+- Add [Debian 8.2][]
+- Add [Debian 8.1][]
+- Init Kali Linux 2.0
+- Add [ArchLinux][]
 
 # Version 0.1.0 (06/08/2015)
 
-- Init [Debian Jessie][] (8.0.0) box
+- Init [Debian 8.0][] (8.0.0) box
 - Init [NixOS][] box (14.12)
 
 
-[Debian Jessie]: https://atlas.hashicorp.com/nlamirault/boxes/jessie
+[Debian 8.0]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.0
+[Debian 8.1]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.1
+[Debian 8.2]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.2
 [NixOS]: https://atlas.hashicorp.com/nlamirault/boxes/nixos
+[NixOS]: https://atlas.hashicorp.com/nlamirault/boxes/archlinux
