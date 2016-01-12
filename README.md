@@ -7,13 +7,13 @@ Some boxes. See: https://atlas.hashicorp.com/nlamirault
 
 * Add a box :
 
-        $ vagrant box add nlamirault/jessie-8.2
+        $ vagrant box add nlamirault/debian-8.2
 
 * Using a box in a Vagrantfile:
 
 ```ruby
 Vagrant.configure("2") do |config|
-  config.vm.box = "nlamirault/jessie-8.2"
+  config.vm.box = "nlamirault/debian-8.2"
 end
 ```
 
@@ -38,11 +38,11 @@ The following boxes are built from this repository's templates :
 
 * Make the box on localhost
 
-        $ make virtualbox template=jessie-8.2-amd64
+        $ make virtualbox template=debian-8.2-amd64
 
 * Push to [Atlas][] a configuration build:
 
-        $ make push template=jessie-8.2-amd64
+        $ make push template=debian-8.2-amd64
 
 * Then on [Atlas][] website, performed a build. And edit settings to make the box public.
 
