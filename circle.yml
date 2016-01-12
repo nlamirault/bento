@@ -18,7 +18,7 @@ dependencies:
       sudo wget --no-verbose https://dl.bintray.com/mitchellh/packer/packer_${PACKER_VERSION}_linux_amd64.zip &&
       echo "Installing packer ${PACKER_VERSION}..." &&
       sudo unzip packer_${PACKER_VERSION}_linux_amd64.zip &&
-      sudo rm packer_${PACKER_VERSION}_linux_amd64.zip &&
+      sudo rm packer_${PACKER_VERSION}_linux_amd64.zip
 
 test:
   override:
