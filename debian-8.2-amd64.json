@@ -8,8 +8,8 @@
         "iso_checksum_type": "sha512",
         "debian_version": "8.2.0",
         "debian_arch": "amd64",
-        "atlas_token": "{{env `BENTO_ATLAS_TOKEN`}}",
-        "atlas_username": "{{env `BENTO_ATLAS_USERNAME`}}",
+        "atlas_token": "{{env `ATLAS_TOKEN`}}",
+        "atlas_username": "{{env `ATLAS_USERNAME`}}",
         "atlas_name": "debian-8.2",
         "version": "0.1.0"
     },
