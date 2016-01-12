@@ -22,7 +22,10 @@ dependencies:
 
 test:
   override:
-    - packer validate *.json
+    - packer validate archlinux.json
+    - packer validate debian-8.0-amd64.json
+    - packer validate debian-8.1-amd64.json
+    - packer validate debian-8.2-amd64.json
 
 # deployment:
 #   release:
