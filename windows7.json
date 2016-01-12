@@ -10,7 +10,7 @@
         "windows_arch": "64",
         "atlas_token": "{{env `ATLAS_TOKEN`}}",
         "atlas_username": "{{env `ATLAS_USERNAME`}}",
-        "atlas_name": "windows7",
+        "atlas_name": "windows7-64",
         "version": "0.3.0"
     },
     "builders": [
