@@ -2,7 +2,7 @@ machine:
   services:
     - docker
   environment:
-    PACKER_VERSION: 0.8.1
+    PACKER_VERSION: 0.8.6
 
 general:
   branches:
@@ -11,27 +11,24 @@ general:
 
 dependencies:
   pre:
-    - sudo apt-get install -qq wget unzip &&
-    - sudo mkdir /opt/packer &&
-    - pushd /opt/packer &&
-    - echo "Downloading packer ${PACKER_VERSION}..." &&
-    - sudo wget --no-verbose https://dl.bintray.com/mitchellh/packer/packer_${PACKER_VERSION}_linux_amd64.zip &&
-    - echo "Installing packer ${PACKER_VERSION}..." &&
-    - sudo unzip packer_${PACKER_VERSION}_linux_amd64.zip &&
-    - sudo rm packer_${PACKER_VERSION}_linux_amd64.zip &&
-    - pushd /usr/bin &&
-    - sudo ln -s /opt/packer/* .
-    
+    - >
+      sudo apt-get install -qq wget unzip &&
+      pushd /usr/bin &&
+      echo "Downloading packer ${PACKER_VERSION}..." &&
+      sudo wget --no-verbose https://dl.bintray.com/mitchellh/packer/packer_${PACKER_VERSION}_linux_amd64.zip &&
+      echo "Installing packer ${PACKER_VERSION}..." &&
+      sudo unzip packer_${PACKER_VERSION}_linux_amd64.zip &&
+      sudo rm packer_${PACKER_VERSION}_linux_amd64.zip &&
 
 test:
   override:
     - packer validate *.json
-    
-deployment:
-  release:
-    tag: /[0-9]+(\.[0-9]+)*/
-    owner: circleci
-    commands:
-      - make push template=jessie
-      - make push template=archlinux
-      - make push template=kali
+
+# deployment:
+#   release:
+#     tag: /[0-9]+(\.[0-9]+)*/
+#     owner: circleci
+#     commands:
+#       - make push template=jessie
+#       - make push template=archlinux
+#       - make push template=kali
