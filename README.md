@@ -19,13 +19,15 @@ end
 
 ## Pre-build boxes
 
-|               | VirtualBox (5.0.12)       | Parallels (11.1.0)        |
-| ------------- | ------------------        | -------------------       |
-| debian-8.0    | [amd64][D80]              |                           |
-| debian-8.1    | [amd64][D81]              |                           |
-| debian-8.2    | [amd64][D82]              |                           |
-| ubuntu-15.10  | [amd64][U1510]            |                           |
-| archlinux     | [amd64][Arch]             |                           |
+The following boxes are built from this repository's templates :
+
+|               | VirtualBox (5.0.12)       |
+| ------------- | ------------------        |
+| debian-8.0    | [amd64][D80]              |
+| debian-8.1    | [amd64][D81]              |
+| debian-8.2    | [amd64][D82]              |
+| ubuntu-15.10  | [amd64][U1510]            |
+| archlinux     | [amd64][Arch]             |
 
 
 ## Development
@@ -34,13 +36,15 @@ end
 
 * Virtualization provider: [Virtualbox][]
 
-* Make the box :
+* Make the box on localhost
 
         $ make virtualbox template=jessie-8.2-amd64
 
 * Push to [Atlas][] a configuration build:
 
         $ make push template=jessie-8.2-amd64
+
+* Then on [Atlas][] website, performed a build. And edit settings to make the box public.
 
 
 ## License
