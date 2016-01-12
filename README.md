@@ -9,7 +9,7 @@ Some boxes. See: https://atlas.hashicorp.com/nlamirault
 
         $ vagrant box add nlamirault/jessie-8.2
 
-* Using a bento box in a Vagrantfile:
+* Using a box in a Vagrantfile:
 
 ```ruby
 Vagrant.configure("2") do |config|
