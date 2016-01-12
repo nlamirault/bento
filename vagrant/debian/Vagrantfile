@@ -13,8 +13,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.gui = true
   end
 
-  config.push.define "atlas" do |push|
-    push.app = "nlamirault/jessie"
-  end
-
 end
