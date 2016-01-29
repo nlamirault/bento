@@ -62,7 +62,7 @@
                 "scripts/debian/update.sh",
                 "scripts/debian/sudoers.sh",
                 "scripts/common/vagrant.sh",
-                "scripts/debian/vbguest.sh",
+                "scripts/common/vbguest.sh",
                 "scripts/debian/locale.sh",
                 "scripts/debian/desktop.sh",
                 "scripts/debian/cleanup.sh"
