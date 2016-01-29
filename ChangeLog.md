@@ -16,14 +16,15 @@ Bento ChangeLog
 
 # Version 0.1.0 (06/08/2015)
 
-- Init [Debian 8.0][] (8.0.0) box
+- Init [Debian 8.0][] box
 - Init [NixOS][] box (14.12)
 
 
 [Debian 8.0]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.0
 [Debian 8.1]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.1
 [Debian 8.2]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.2
-[Debian 8.2]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.3
+[Debian 8.3]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.3
+[ArchLinux]: https://atlas.hashicorp.com/nlamirault/boxes/archlinux
 [Centos 7.2]: https://atlas.hashicorp.com/nlamirault/boxes/centos-7.2
 [FreeBSD 10.2]: https://atlas.hashicorp.com/nlamirault/boxes/freebsd-10.2
 [NixOS]: https://atlas.hashicorp.com/nlamirault/boxes/nixos
