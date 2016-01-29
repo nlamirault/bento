@@ -59,11 +59,11 @@
             ],
             "execute_command": "{{.Vars}} su -m root -c 'sh -eux {{.Path}}'",
             "scripts": [
-                "scripts/freebsd-{{ user `freebsd_version` }}-{{ user `freebsd_arch` }}/update.sh",
-                "scripts/freebsd-{{ user `freebsd_version` }}-{{ user `freebsd_arch` }}/postinstall.sh",
-                "scripts/freebsd-{{ user `freebsd_version` }}-{{ user `freebsd_arch` }}/sudoers.sh",
-                "scripts/freebsd-{{ user `freebsd_version` }}-{{ user `freebsd_arch` }}/cleanup.sh",
-                "scripts/freebsd-{{ user `freebsd_version` }}-{{ user `freebsd_arch` }}/minimize.sh"
+                "scripts/freebsd/update.sh",
+                "scripts/freebsd/postinstall.sh",
+                "scripts/freebsd/sudoers.sh",
+                "scripts/freebsd/cleanup.sh",
+                "scripts/freebsd/minimize.sh"
             ]
         }
     ],
@@ -88,6 +88,6 @@
                     "version": "{{user `version`}}",
                     "provider": "virtualbox"
                 }
-            }
+        }
     ]
 }
