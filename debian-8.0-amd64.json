@@ -11,7 +11,7 @@
         "atlas_token": "{{env `ATLAS_TOKEN`}}",
         "atlas_username": "{{env `ATLAS_USERNAME`}}",
         "atlas_name": "debian-8.0",
-        "version": "0.1.0"
+        "version": "0.2.0"
     },
     "builders": [
         {
@@ -36,7 +36,7 @@
             "boot_wait": "10s",
             "disk_size": "{{ user `disk_size` }}",
             "guest_os_type": "Debian_64",
-            "http_directory": "http/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}",
+            "http_directory": "http/debian-8-{{ user `debian_arch` }}",
             "iso_checksum": "{{ user `iso_checksum` }}",
             "iso_checksum_type": "{{ user `iso_checksum_type` }}",
             "iso_url": "http://cdimage.debian.org/cdimage/archive/{{ user `debian_version` }}/{{ user `debian_arch` }}/iso-cd/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}-netinst.iso",
@@ -61,7 +61,7 @@
             "scripts": [
                 "scripts/debian/update.sh",
                 "scripts/debian/sudoers.sh",
-                "scripts/debian/vagrant.sh",
+                "scripts/common/vagrant.sh",
                 "scripts/debian/vbguest.sh",
                 "scripts/debian/locale.sh",
                 "scripts/debian/desktop.sh",
