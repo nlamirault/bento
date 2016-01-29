@@ -33,8 +33,12 @@ The following boxes are built from this repository's templates :
 | debian-8.0    | [amd64][D80]              |
 | debian-8.1    | [amd64][D81]              |
 | debian-8.2    | [amd64][D82]              |
+| debian-8.3    | [amd64][D83]              |
 | ubuntu-15.10  | [amd64][U1510]            |
 | archlinux     | [amd64][Arch]             |
+| freebsd-10.2  | [amd64][FBSD102]          |
+
+
 
 
 ## Development
@@ -83,9 +87,12 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 [D80]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.0
 [D81]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.1
 [D82]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.2
+[D83]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.3
 
 [Arch]: https://atlas.hashicorp.com/nlamirault/boxes/archlinux
 
 [U1510]: https://atlas.hashicorp.com/nlamirault/boxes/ubuntu-15.10
 
 [N1412]: https://atlas.hashicorp.com/nlamirault/boxes/nixos-1412
+
+[FBSD102]: https://atlas.hashicorp.com/nlamirault/boxes/freebsd-10.2
