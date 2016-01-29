@@ -1,45 +1,33 @@
 {
     "variables": {
-        "vm_name": "Debian-8.2.0-amd64",
+        "box_name": "CentOS-7.2",
         "disk_size": "20000",
         "memory_size": "1024",
         "cpus": "1",
-        "iso_checksum": "923cd1bfbfa62d78aecaa92d919ee54a95c8fca834b427502847228cf06155e7243875f59279b0bf6bfd1b579cbe2f1bc80528a265dafddee9a9d2a197ef3806",
-        "iso_checksum_type": "sha512",
-        "debian_version": "8.2.0",
-        "debian_arch": "amd64",
+        "iso_checksum": "9ed9ffb5d89ab8cca834afce354daa70a21dcb410f58287d6316259ff89758f5",
+        "iso_checksum_type": "sha256",
+        "iso_name": "CentOS-7-x86_64-NetInstall-1511.iso",
+        "centos_version": "7.2.1511",
+        "centos_arch": "x86_64",
         "atlas_token": "{{env `ATLAS_TOKEN`}}",
         "atlas_username": "{{env `ATLAS_USERNAME`}}",
-        "atlas_name": "debian-8.2",
+        "atlas_name": "centos-7.2",
         "version": "0.2.0"
     },
     "builders": [
         {
             "type": "virtualbox-iso",
             "boot_command": [
-                "<esc><wait>",
-                "install <wait>",
-                "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg <wait>",
-                "debian-installer=en_US <wait>",
-                "auto <wait>",
-                "locale=en_US <wait>",
-                "kbd-chooser/method=fr <wait>",
-                "keyboard-configuration/xkb-keymap=fr <wait>",
-                "netcfg/get_hostname={{ .Name }} <wait>",
-                "netcfg/get_domain=vagrantup.com <wait>",
-                "fb=false <wait>",
-                "debconf/frontend=noninteractive <wait>",
-                "console-setup/ask_detect=false <wait>",
-                "console-keymaps-at/keymap=us <wait>",
-                "<enter><wait>"
+                "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
             ],
             "boot_wait": "10s",
             "disk_size": "{{ user `disk_size` }}",
-            "guest_os_type": "Debian_64",
-            "http_directory": "http/debian-8-{{ user `debian_arch` }}",
+            "guest_os_type": "RedHat_64",
+            "http_directory": "http/centos-7.2-{{ user `centos_arch` }}",
             "iso_checksum": "{{ user `iso_checksum` }}",
             "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-            "iso_url": "http://cdimage.debian.org/cdimage/archive/{{ user `debian_version` }}/{{ user `debian_arch` }}/iso-cd/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}-netinst.iso",
+            "iso_url": "http://mirrors.kernel.org/centos/{{ user `centos_version` }}/isos/{{ user `centos_arch` }}/{{ user `iso_name` }}",
+            "ssh_pty": true,
             "ssh_username": "vagrant",
             "ssh_password": "vagrant",
             "ssh_port": 22,
@@ -59,13 +47,12 @@
             "type": "shell",
             "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
             "scripts": [
-                "scripts/debian/update.sh",
-                "scripts/debian/sudoers.sh",
-                "scripts/common/vagrant.sh",
+                "scripts/centos/virtualbox.sh",
                 "scripts/common/vbguest.sh",
-                "scripts/debian/locale.sh",
-                "scripts/debian/desktop.sh",
-                "scripts/debian/cleanup.sh"
+                "scripts/common/vagrant.sh",
+                "scripts/common/sshd.sh",
+                "scripts/centos/locale.sh",
+                "scripts/centos/cleanup.sh"
             ]
         }
     ],
@@ -79,7 +66,7 @@
             {
                 "type": "vagrant",
                 "compression_level": 9,
-                "output":"vagrant/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}-{{.Provider}}.box"
+                "output":"vagrant/centos-{{ user `centos_version` }}-{{ user `centos_arch` }}/centos-{{ user `centos_version` }}-{{ user `centos_arch` }}-{{.Provider}}.box"
             },
             {
                 "type": "atlas",

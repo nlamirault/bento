@@ -62,11 +62,11 @@
             "pause_before": "10s",
             "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'",
             "scripts": [
-                "scripts/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}/update.sh",
-                "scripts/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}/sudoers.sh",
-                "scripts/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}/vagrant.sh",
-                "scripts/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}/vbguest.sh",
-                "scripts/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}/cleanup.sh"
+                "scripts/kali/update.sh",
+                "scripts/kali/sudoers.sh",
+                "scripts/kali/vagrant.sh",
+                "scripts/common/vbguest.sh",
+                "scripts/kali/cleanup.sh"
             ]
         }
     ],
