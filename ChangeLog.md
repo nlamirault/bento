@@ -1,6 +1,8 @@
 Bento ChangeLog
 ================
 
+# Version 0.3.0 (01/29/2016)
+
 - Add [Debian 8.3][]
 - Add [CentOS 7.2][]
 - Add [FreeBSD 10.2][]
