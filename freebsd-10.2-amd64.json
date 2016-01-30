@@ -62,6 +62,7 @@
                 "scripts/freebsd/update.sh",
                 "scripts/freebsd/postinstall.sh",
                 "scripts/freebsd/sudoers.sh",
+                "scripts/freebsd/desktop.sh",
                 "scripts/freebsd/cleanup.sh",
                 "scripts/freebsd/minimize.sh"
             ]
