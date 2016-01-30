@@ -30,10 +30,10 @@ all: help
 help:
 	@echo -e "$(OK_COLOR)==== $(APP) [$(VERSION)] ====$(NO_COLOR)"
 	@echo -e "$(WARN_COLOR)templates $(NO_COLOR)                : Display available templates"
-	@echo -e "$(WARN_COLOR)validate template=xxx $(NO_COLOR)    :  Validate template"
-	@echo -e "$(WARN_COLOR)virtualbox template=xxx $(NO_COLOR)  :  Build box for Virtualbox"
-	@echo -e "$(WARN_COLOR)qemu template=xxx $(NO_COLOR)        :  Build box for QEmu"
-	@echo -e "$(WARN_COLOR)clean              $(NO_COLOR)       :  Clean environment"
+	@echo -e "$(WARN_COLOR)validate template=xxx $(NO_COLOR)    : Validate template"
+	@echo -e "$(WARN_COLOR)virtualbox template=xxx $(NO_COLOR)  : Build box for Virtualbox"
+	@echo -e "$(WARN_COLOR)qemu template=xxx $(NO_COLOR)        : Build box for QEmu"
+	@echo -e "$(WARN_COLOR)clean              $(NO_COLOR)       : Clean environment"
 
 
 .PHONY: check
