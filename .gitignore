@@ -3,5 +3,5 @@ packer_cache/
 vagrant/nixos/.vagrant/
 vagrant/debian-*/.vagrant/
 vagrant/archlinux/.vagrant/
-vagrant/freebsd-*/.vagrant/
-vagrant/centos-7.2.1511-x86_64/.vagrant/
+vagrant/freebsd/.vagrant/
+vagrant/centos-*/.vagrant/
