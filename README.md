@@ -7,7 +7,7 @@
 [![Circle CI](https://circleci.com/gh/nlamirault/bento/tree/develop.svg?style=svg)](https://circleci.com/gh/nlamirault/bento/tree/develop)
 
 
-Some boxes. See: https://atlas.hashicorp.com/nlamirault
+Some desktop boxes . See: https://atlas.hashicorp.com/nlamirault
 
 
 ## Usage
