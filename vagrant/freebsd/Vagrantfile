@@ -4,7 +4,8 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "freebsd-10.2.virtualbox.box"
+  # config.vm.box = "freebsd-10.2.virtualbox.box"
+  config.vm.box = "freebsd-10.3.virtualbox.box"
 
   config.ssh.forward_agent = true
 

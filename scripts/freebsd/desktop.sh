@@ -7,7 +7,10 @@ echo "#!/bin/sh" > ~/.xsession
 echo "exec /usr/local/bin/startxfce4 --with-ck-launch" >> ~/.xsession
 chmod +x ~/.xsession
 
-echo 'hald_enable=""YES"' >> /etc/rc.conf
+echo 'hald_enable="YES"' >> /etc/rc.conf
 echo 'dbus_enable="YES"' >> /etc/rc.conf
 echo 'moused_enable="YES"' >> /etc/rc.conf
 echo 'slim_enable="YES"' >> /etc/rc.conf
+
+sudo Xorg -configure
+sudo cp /root/xorg.conf.new /usr/local/etc/X11/xorg.conf.d/xorg.conf
