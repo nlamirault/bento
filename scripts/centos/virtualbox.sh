@@ -4,8 +4,8 @@ set -e
 set -x
 
 sudo yum -y install wget
-wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-rpm -ivh epel-release-7-5.noarch.rpm
+wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-7.noarch.rpm
+rpm -ivh epel-release-7-7.noarch.rpm
 
 sudo yum -y install bzip2
 sudo yum -y --enablerepo=epel install dkms
