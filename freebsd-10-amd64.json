@@ -1,20 +1,20 @@
 {
   "variables": {
-    "box_basename": "FreeBSD-10.1-amd64",
+    "box_basename": "FreeBSD-10.3-amd64",
     "disk_size": "20000",
     "memory_size": "1024",
     "cpus": "1",
-    "iso_checksum": "97908f5cd00d86cafeb2c265bfabbd0aa79f87e9b6b31ecdb756bc96a4a62e93",
+    "iso_checksum": "fef068cf6dea26923ab84b62ba9f21461ca0bdec90a0741c8ffb0e1ca29e410d",
     "iso_checksum_type": "sha256",
-    "freebsd_version": "10.2",
+    "freebsd_version": "10.3",
     "freebsd_main_version": "10",
     "freebsd_arch": "amd64",
     "atlas_token": "{{env `ATLAS_TOKEN`}}",
     "atlas_username": "{{env `ATLAS_USERNAME`}}",
-    "atlas_name": "freebsd-10.2",
-    "iso_name": "FreeBSD-10.2-amd64-disc1.iso",
+    "atlas_name": "freebsd-10",
+    "iso_name": "FreeBSD-10.3-amd64-disc1.iso",
     "metadata": "floppy/dummy_metadata.json",
-    "version": "0.2.0"
+    "version": "10.3"
   },
   "builders": [
     {

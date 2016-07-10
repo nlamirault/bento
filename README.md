@@ -30,14 +30,11 @@ The following boxes are built from this repository's templates :
 
 | Name          | VirtualBox (5.0.12)       |
 | ------------- | ------------------        |
-| debian-8.0    | [amd64][D80]              |
-| debian-8.1    | [amd64][D81]              |
-| debian-8.2    | [amd64][D82]              |
-| debian-8.3    | [amd64][D83]              |
+| debian-8.x    | [amd64][D8]              |
 | ubuntu-15.10  | [amd64][U1510]            |
 | archlinux     | [amd64][Arch]             |
-| centos-7.2    | [amd64][C72]              |
-| freebsd-10.2  | [amd64][FBSD102]          |
+| centos-7.x    | [amd64][C7]              |
+| freebsd-10.x  | [amd64][FBSD10]          |
 
 
 
@@ -85,17 +82,14 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 [Virtualbox]: https://www.virtualbox.org/
 
 
-[D80]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.0
-[D81]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.1
-[D82]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.2
-[D83]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8.3
+[D8]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8
 
 [Arch]: https://atlas.hashicorp.com/nlamirault/boxes/archlinux
 
 [U1510]: https://atlas.hashicorp.com/nlamirault/boxes/ubuntu-15.10
 
-[C72]: https://atlas.hashicorp.com/nlamirault/boxes/centos-7.2
+[C7]: https://atlas.hashicorp.com/nlamirault/boxes/centos-7
 
 [N1412]: https://atlas.hashicorp.com/nlamirault/boxes/nixos-1412
 
-[FBSD102]: https://atlas.hashicorp.com/nlamirault/boxes/freebsd-10.2
+[FBSD10]: https://atlas.hashicorp.com/nlamirault/boxes/freebsd-10
