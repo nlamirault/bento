@@ -4,14 +4,14 @@
     "disk_size": "20000",
     "memory_size": "1024",
     "cpus": "1",
-    "iso_checksum": "e51200021d0356f6dc84e2307218c56230c7f539634be6ffb243971e93b9d37fc63c7cec9ba58fcf0f970a89733f86d8c71e4b18e5045351536cc36aef4f261b",
+    "iso_checksum": "011386fc26bd926e6e5c771a95490488d0603bbef5da3a5df7afaf62be3e17928c6d1bd728fd3ed18720ede4aec6798c7f718f5cab78aba6b57c9c8204f32546",
     "iso_checksum_type": "sha512",
-    "debian_version": "8.4.0",
+    "debian_version": "8.5.0",
     "debian_arch": "amd64",
     "atlas_token": "{{env `ATLAS_TOKEN`}}",
     "atlas_username": "{{env `ATLAS_USERNAME`}}",
     "atlas_name": "debian-8",
-    "version": "8.4"
+    "version": "8.5"
   },
   "builders": [
     {
@@ -39,7 +39,7 @@
       "http_directory": "http/debian-8-{{ user `debian_arch` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-      "iso_url": "http://cdimage.debian.org/cdimage/archive/{{ user `debian_version` }}/{{ user `debian_arch` }}/iso-cd/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}-netinst.iso",
+      "iso_url": "http://cdimage.debian.org/cdimage/release/{{ user `debian_version` }}/{{ user `debian_arch` }}/iso-cd/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}-netinst.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
