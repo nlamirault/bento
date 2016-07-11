@@ -46,23 +46,23 @@ templates:
 
 .PHONY: validate
 validate:
-	$(PACKER) validate $(template)
+	@$(PACKER) validate $(template)
 
 .PHONY: virtualbox
 virtualbox:
-	$(PACKER) build -only=virtualbox-iso $(template)
+	@$(PACKER) build -only=virtualbox-iso $(template)
 
 .PHONY: qemu
 qemu:
-	$(PACKER) build -only=qemu $(template)
+	@$(PACKER) build -only=qemu $(template)
 
 .PHONY: push
 push:
-	$(PACKER) push \
+	@$(PACKER) push \
 		--name $(ATLAS_USERNAME)/$(template) \
 		-token=${ATLAS_TOKEN} \
 		$(template)
 
 .PHONY: clean
 clean:
-	rm -fr output-virtualbox-iso
+	@rm -fr output-virtualbox-iso
