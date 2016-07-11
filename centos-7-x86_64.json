@@ -11,8 +11,8 @@
         "centos_arch": "x86_64",
         "atlas_token": "{{env `ATLAS_TOKEN`}}",
         "atlas_username": "{{env `ATLAS_USERNAME`}}",
-        "atlas_name": "centos-7.2",
-        "version": "0.2.0"
+        "atlas_name": "centos-7",
+        "version": "7.2"
     },
     "builders": [
         {
