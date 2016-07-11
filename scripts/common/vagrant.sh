@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -x
+
 # Installing vagrant keys
 mkdir /home/vagrant/.ssh
 chmod 700 /home/vagrant/.ssh
