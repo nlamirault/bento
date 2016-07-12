@@ -36,7 +36,23 @@ The following boxes are built from this repository's templates :
 | centos-7.x    | [amd64][C7]              |
 | freebsd-10.x  | [amd64][FBSD10]          |
 
+### Debian
 
+### Archlinux
+
+### CentOS
+
+Make the virtualbox box:
+
+    $ make virtualbox template=netbsd-7-amd64.json
+
+`WARNING`: You must type *Enter* on the first menu (NetBSD Installation CD)
+
+### FreeBSD
+
+### NetBSD
+
+### OpenBSD
 
 
 ## Development
