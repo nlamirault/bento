@@ -42,15 +42,26 @@ The following boxes are built from this repository's templates :
 
 ### CentOS
 
+
+### FreeBSD
+
+### NetBSD
+
 Make the virtualbox box:
 
     $ make virtualbox template=netbsd-7-amd64.json
 
 `WARNING`: You must type *Enter* on the first menu (NetBSD Installation CD)
 
-### FreeBSD
+On the `vagrant/netbsd` directory :
 
-### NetBSD
+    $ vagrant up
+    $ vagrant ssh
+    NetBSD 7.0 (GENERIC.201509250726Z)
+
+    Welcome to NetBSD!
+
+    -bash-4.3$
 
 ### OpenBSD
 

@@ -7,7 +7,9 @@ set -e
 
 #
 r=/targetroot
-release=7.0 # XXX
+
+# NetBSD release number
+release=7.0
 
 # disk partition
 cat <<EOF > /tmp/sed.$$
