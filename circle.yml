@@ -2,7 +2,7 @@ machine:
   services:
     - docker
   environment:
-    PACKER_VERSION: 0.8.6
+    PACKER_VERSION: 0.10.1
 
 general:
   branches:
@@ -23,9 +23,18 @@ dependencies:
 test:
   override:
     - packer validate archlinux.json
-    - packer validate debian-8.0-amd64.json
-    - packer validate debian-8.1-amd64.json
-    - packer validate debian-8.2-amd64.json
+    - packer validate centos-7.2-x86_64.json
+    - packer validate debian-8-amd64.json
+    - packer validate freebsd-10.2-amd64.json
+    - packer validate freebsd-10.3-amd64.json
+    - packer validate kali-amd64.json
+    - packer validate netbsd-7.0-amd64.json
+    - packer validate nixos-14_12-amd64.json
+    - packer validate openbsd-5.9-amd64.json
+    - packer validate ubuntu-15.10-amd64.json
+    - packer validate windows-7-amd64.json
+    - packer validate windows-8-amd64.json
+
 
 # deployment:
 #   release:
