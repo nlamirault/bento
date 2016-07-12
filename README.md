@@ -27,7 +27,7 @@ Some Vagrant boxes . See: https://atlas.hashicorp.com/nlamirault
 | centos-7.2     | [amd64][C72]        |
 | freebsd-10.2   | [amd64][FBSD102]    |
 | freebsd-10.3   | [amd64][FBSD103]    |
-| openbsd-5.9    | [amd64][PBSD59]     |
+| openbsd-5.9    | [amd64][OBSD59]     |
 | netbsd-7.0     | [amd64][NBSD70]     |
 
 
@@ -140,7 +140,7 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 [U1510]: https://atlas.hashicorp.com/nlamirault/boxes/ubuntu-15.10
 
-[C7]: https://atlas.hashicorp.com/nlamirault/boxes/centos-7
+[C72]: https://atlas.hashicorp.com/nlamirault/boxes/centos-7
 
 [N1412]: https://atlas.hashicorp.com/nlamirault/boxes/nixos-1412
 
