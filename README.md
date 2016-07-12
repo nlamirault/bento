@@ -140,7 +140,7 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 [U1510]: https://atlas.hashicorp.com/nlamirault/boxes/ubuntu-15.10
 
-[C72]: https://atlas.hashicorp.com/nlamirault/boxes/centos-7
+[C72]: https://atlas.hashicorp.com/nlamirault/boxes/centos-7.2
 
 [N1412]: https://atlas.hashicorp.com/nlamirault/boxes/nixos-1412
 
