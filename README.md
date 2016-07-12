@@ -6,8 +6,9 @@
 * Develop :
 [![Circle CI](https://circleci.com/gh/nlamirault/bento/tree/develop.svg?style=svg)](https://circleci.com/gh/nlamirault/bento/tree/develop)
 
+![Bento](https://raw.githubusercontent.com/nlamirault/bento/master/img/bento.png)
 
-Some desktop boxes . See: https://atlas.hashicorp.com/nlamirault
+Some Vagrant boxes . See: https://atlas.hashicorp.com/nlamirault
 
 
 ## Usage
@@ -16,45 +17,68 @@ Some desktop boxes . See: https://atlas.hashicorp.com/nlamirault
 
         $ vagrant box add nlamirault/<box_name>
 
+
+* The following boxes are built from this repository's templates :
+
+| Name        | VirtualBox (5.0.12)     |
+| ----------- | ------------------      |
+| debian-8    | [amd64][D8]             |
+| archlinux   | [amd64][Arch]           |
+| centos-7    | [amd64][C7]             |
+| freebsd-10  | [amd64][FBSD10]         |
+| openbsd-5   | [amd64][PBSD5]          |
+| netbsd-7    | [amd64][NBSD7]          |
+
+
 * Using a box in a Vagrantfile:
 
 ```ruby
-Vagrant.configure("2") do |config|
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "nlamirault/<box_name>"
+  config.ssh.forward_agent = true
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1024
+    v.gui = true
+  end
 end
 ```
 
-## Pre-build boxes
-
-The following boxes are built from this repository's templates :
-
-| Name          | VirtualBox (5.0.12)       |
-| ------------- | ------------------        |
-| debian-8.x    | [amd64][D8]              |
-| ubuntu-15.10  | [amd64][U1510]            |
-| archlinux     | [amd64][Arch]             |
-| centos-7.x    | [amd64][C7]              |
-| freebsd-10.x  | [amd64][FBSD10]          |
+## Build boxes
 
 ### Debian
 
+    $ make virtualbox template=debian-8-amd64.json
+
 ### Archlinux
+
+    $ make virtualbox template=archlinux.json
+    $ cd vagrant/archlinux
+    $ vagrant up
 
 ### CentOS
 
+    $ make virtualbox template=centos-7-x86_64.json
+    $ cd vagrant/centos
+    $ vagrant up
+    $ vagrant / vagrant (login / passwd)
+    $> startxfce4
 
 ### FreeBSD
 
+    $ make virtualbox template=freebsd-10-amd64.json
+    $ cd vagrant/freebsd
+    $ vagrant up
+
 ### NetBSD
+
+`WARNING`: You must type *Enter* on the first menu (NetBSD Installation CD)
 
 Make the virtualbox box:
 
     $ make virtualbox template=netbsd-7-amd64.json
-
-`WARNING`: You must type *Enter* on the first menu (NetBSD Installation CD)
-
-On the `vagrant/netbsd` directory :
-
+    $ cd vagrant/netbsd
     $ vagrant up
     $ vagrant ssh
     NetBSD 7.0 (GENERIC.201509250726Z)
@@ -120,3 +144,5 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 [N1412]: https://atlas.hashicorp.com/nlamirault/boxes/nixos-1412
 
 [FBSD10]: https://atlas.hashicorp.com/nlamirault/boxes/freebsd-10
+[NBSD7]: https://atlas.hashicorp.com/nlamirault/boxes/netbsd-7
+[OBSD5]: https://atlas.hashicorp.com/nlamirault/boxes/openbsd-5
