@@ -4,14 +4,14 @@
     "disk_size": "20000",
     "memory_size": "1024",
     "cpus": "1",
-    "iso_url": "http://ftp.openbsd.org/pub/OpenBSD/5.9/amd64/cd59.iso",
     "iso_checksum": "ea3bad95ed6975784bfc85a837820dace4147443e57cf23c1a6e4d12243d37c2",
     "iso_checksum_type": "sha256",
+    "openbsd_version": "5.9",
     "openbsd_arch": "amd64",
     "atlas_token": "{{env `ATLAS_TOKEN`}}",
     "atlas_username": "{{env `ATLAS_USERNAME`}}",
-    "atlas_name": "openbsd-5",
-    "version": "5.9"
+    "atlas_name": "openbsd-5.9",
+    "version": "1"
   },
   "builders": [
     {
@@ -33,7 +33,7 @@
         "install -af install.conf && reboot<wait5><enter>"
       ],
       "boot_wait": "15s",
-      "iso_url": "{{ user `iso_url` }}",
+      "iso_url": "http://ftp.openbsd.org/pub/OpenBSD/{{ user `openbsd_version` }}/{{ user `openbsd_arch` }}/cd59.iso",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
       "guest_os_type": "OpenBSD_64",
@@ -72,12 +72,13 @@
     "vcs": true
   },
   "post-processors": [
-    {
-      "type": "vagrant",
-      "compression_level": 9,
-      "output": "vagrant/openbsd/OpenBSD-{{ .Provider }}-{{ user `version` }}.box"
-    },
-    {
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "output": "vagrant/openbsd/OpenBSD-{{ .Provider }}-{{ user `version` }}.box"
+      },
+      {
         "type": "atlas",
         "only": ["virtualbox-iso"],
         "artifact": "{{ user `atlas_username` }}/{{ user `atlas_name` }}",
@@ -88,5 +89,6 @@
           "provider": "virtualbox"
         }
       }
+    ]
   ]
 }

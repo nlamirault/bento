@@ -10,8 +10,8 @@
     "netbsd_version": "7.0",
     "atlas_token": "{{env `ATLAS_TOKEN`}}",
     "atlas_username": "{{env `ATLAS_USERNAME`}}",
-    "atlas_name": "netbsd-7",
-    "version": "7.0"
+    "atlas_name": "netbsd-7.0",
+    "version": "1"
   },
   "builders": [
     {
@@ -63,12 +63,13 @@
     "vcs": true
   },
   "post-processors": [
-    {
-      "type": "vagrant",
-      "compression_level": 9,
-      "output": "vagrant/openbsd/NetBSD-{{ .Provider }}-{{ user `version` }}.box"
-    },
-    {
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "output": "vagrant/openbsd/NetBSD-{{ .Provider }}-{{ user `version` }}.box"
+      },
+      {
         "type": "atlas",
         "only": ["virtualbox-iso"],
         "artifact": "{{ user `atlas_username` }}/{{ user `atlas_name` }}",
@@ -79,5 +80,6 @@
           "provider": "virtualbox"
         }
       }
+    ]
   ]
 }

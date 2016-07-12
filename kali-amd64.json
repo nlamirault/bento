@@ -71,11 +71,24 @@
     }
   ],
   "post-processors": [
-    {
-      "type": "vagrant",
-      "compression_level": 9,
-      "keep_input_artifact": true,
-      "output":"vagrant/kali/kali-{{ user `kali_version` }}-{{.Provider}}.box"
-    }
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "keep_input_artifact": true,
+        "output":"vagrant/kali/kali-{{ user `kali_version` }}-{{.Provider}}.box"
+      },
+      {
+        "type": "atlas",
+        "only": ["virtualbox-iso"],
+        "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "created_at": "{{timestamp}}",
+          "version": "{{user `version`}}",
+          "provider": "virtualbox"
+        }
+      }
+    ]
   ]
 }

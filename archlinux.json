@@ -4,7 +4,6 @@
     "disk_size": "20000",
     "memory_size": "1024",
     "cpus": "1",
-    "iso_url": "https://mirrors.kernel.org/archlinux/iso/2016.07.01/archlinux-2016.07.01-dual.iso",
     "iso_checksum": "b5caa9cddab841e508ab46722d220986b8f5fdac",
     "iso_checksum_type": "sha1",
     "atlas_token": "{{env `ATLAS_TOKEN`}}",
@@ -24,7 +23,7 @@
         "DISK=/dev/sda bash ./prepare-machine.sh<enter>"
       ],
       "boot_wait": "5s",
-      "iso_url": "{{user `iso_url`}}",
+      "iso_url": "https://mirrors.kernel.org/archlinux/iso/{{ user `version` }}/archlinux-{{ user `version` }}-dual.iso",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "guest_os_type": "ArchLinux_64",

@@ -20,14 +20,15 @@ Some Vagrant boxes . See: https://atlas.hashicorp.com/nlamirault
 
 * The following boxes are built from this repository's templates :
 
-| Name        | VirtualBox (5.0.12)     |
-| ----------- | ------------------      |
-| debian-8    | [amd64][D8]             |
-| archlinux   | [amd64][Arch]           |
-| centos-7    | [amd64][C7]             |
-| freebsd-10  | [amd64][FBSD10]         |
-| openbsd-5   | [amd64][PBSD5]          |
-| netbsd-7    | [amd64][NBSD7]          |
+| Name           | VirtualBox (5.x)    |
+| -------------- | ------------------- |
+| debian-8       | [amd64][D8]         |
+| archlinux      | [amd64][Arch]       |
+| centos-7.2     | [amd64][C72]        |
+| freebsd-10.2   | [amd64][FBSD102]    |
+| freebsd-10.3   | [amd64][FBSD103]    |
+| openbsd-5.9    | [amd64][PBSD59]     |
+| netbsd-7.0     | [amd64][NBSD70]     |
 
 
 * Using a box in a Vagrantfile:
@@ -59,7 +60,7 @@ end
 
 ### CentOS
 
-    $ make virtualbox template=centos-7-x86_64.json
+    $ make virtualbox template=centos-7.x-x86_64.json
     $ cd vagrant/centos
     $ vagrant up
     $ vagrant / vagrant (login / passwd)
@@ -67,7 +68,7 @@ end
 
 ### FreeBSD
 
-    $ make virtualbox template=freebsd-10-amd64.json
+    $ make virtualbox template=freebsd-10.x-amd64.json
     $ cd vagrant/freebsd
     $ vagrant up
 
@@ -77,7 +78,7 @@ end
 
 Make the virtualbox box:
 
-    $ make virtualbox template=netbsd-7-amd64.json
+    $ make virtualbox template=netbsd-7.0-amd64.json
     $ cd vagrant/netbsd
     $ vagrant up
     $ vagrant ssh
@@ -143,6 +144,7 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 [N1412]: https://atlas.hashicorp.com/nlamirault/boxes/nixos-1412
 
-[FBSD10]: https://atlas.hashicorp.com/nlamirault/boxes/freebsd-10
-[NBSD7]: https://atlas.hashicorp.com/nlamirault/boxes/netbsd-7
-[OBSD5]: https://atlas.hashicorp.com/nlamirault/boxes/openbsd-5
+[FBSD102]: https://atlas.hashicorp.com/nlamirault/boxes/freebsd-10.3
+[FBSD103]: https://atlas.hashicorp.com/nlamirault/boxes/freebsd-10.2
+[NBSD70]: https://atlas.hashicorp.com/nlamirault/boxes/netbsd-7.0
+[OBSD59]: https://atlas.hashicorp.com/nlamirault/boxes/openbsd-5.9

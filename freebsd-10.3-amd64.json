@@ -11,10 +11,10 @@
     "freebsd_arch": "amd64",
     "atlas_token": "{{env `ATLAS_TOKEN`}}",
     "atlas_username": "{{env `ATLAS_USERNAME`}}",
-    "atlas_name": "freebsd-10",
+    "atlas_name": "freebsd-10.3",
     "iso_name": "FreeBSD-10.3-amd64-disc1.iso",
     "metadata": "floppy/dummy_metadata.json",
-    "version": "10.3"
+    "version": "1"
   },
   "builders": [
     {
