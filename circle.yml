@@ -12,7 +12,7 @@ general:
 dependencies:
   pre:
     - >
-      sudo apt-get update
+      sudo apt-get update &&
       sudo apt-get install -qq wget unzip &&
       pushd /usr/bin &&
       echo "Downloading packer ${PACKER_VERSION}..." &&
