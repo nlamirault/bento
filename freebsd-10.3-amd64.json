@@ -75,21 +75,23 @@
     "vcs": true
   },
   "post-processors": [
-    {
-      "type": "vagrant",
-      "compression_level": 9,
-      "output": "vagrant/freebsd/freebsd-{{ user `freebsd_version`}}.{{.Provider}}.box"
-    },
-    {
-      "type": "atlas",
-      "only": ["virtualbox-iso"],
-      "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-      "artifact_type": "vagrant.box",
-      "metadata": {
-        "created_at": "{{timestamp}}",
-        "version": "{{user `version`}}",
-        "provider": "virtualbox"
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "output": "vagrant/freebsd/freebsd-{{ user `freebsd_version`}}.{{.Provider}}.box"
+      },
+      {
+        "type": "atlas",
+        "only": ["virtualbox-iso"],
+        "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "created_at": "{{timestamp}}",
+          "version": "{{user `version`}}",
+          "provider": "virtualbox"
+        }
       }
-    }
+    ]
   ]
 }
