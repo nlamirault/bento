@@ -3,3 +3,7 @@ packer_cache/
 vagrant/nixos/.vagrant/
 vagrant/debian-*/.vagrant/
 vagrant/archlinux/.vagrant/
+vagrant/freebsd/.vagrant/
+vagrant/openbsd/.vagrant/
+vagrant/netbsd/.vagrant/
+vagrant/centos-*/.vagrant/

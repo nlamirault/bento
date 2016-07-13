@@ -2,7 +2,7 @@ machine:
   services:
     - docker
   environment:
-    PACKER_VERSION: 0.8.6
+    PACKER_VERSION: 0.10.1
 
 general:
   branches:
@@ -12,10 +12,11 @@ general:
 dependencies:
   pre:
     - >
+      sudo apt-get update &&
       sudo apt-get install -qq wget unzip &&
       pushd /usr/bin &&
       echo "Downloading packer ${PACKER_VERSION}..." &&
-      sudo wget --no-verbose https://dl.bintray.com/mitchellh/packer/packer_${PACKER_VERSION}_linux_amd64.zip &&
+      sudo wget --no-verbose https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
       echo "Installing packer ${PACKER_VERSION}..." &&
       sudo unzip packer_${PACKER_VERSION}_linux_amd64.zip &&
       sudo rm packer_${PACKER_VERSION}_linux_amd64.zip
@@ -23,9 +24,18 @@ dependencies:
 test:
   override:
     - packer validate archlinux.json
-    - packer validate debian-8.0-amd64.json
-    - packer validate debian-8.1-amd64.json
-    - packer validate debian-8.2-amd64.json
+    - packer validate centos-7.2-x86_64.json
+    - packer validate debian-8-amd64.json
+    - packer validate freebsd-10.2-amd64.json
+    - packer validate freebsd-10.3-amd64.json
+    - packer validate kali-amd64.json
+    - packer validate netbsd-7.0-amd64.json
+    - packer validate nixos-14_12-amd64.json
+    - packer validate openbsd-5.9-amd64.json
+    - packer validate ubuntu-15.10-amd64.json
+    - packer validate windows-7-amd64.json
+    - packer validate windows-8-amd64.json
+
 
 # deployment:
 #   release:

@@ -4,7 +4,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "debian-8.0.0-virtualbox.box"
+  config.vm.box = "centos-7.2.1511-x86_64-virtualbox.box"
 
   config.ssh.forward_agent = true
 

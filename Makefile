@@ -21,7 +21,7 @@ OK_COLOR=\033[32;01m
 ERROR_COLOR=\033[31;01m
 WARN_COLOR=\033[33;01m
 
-VERSION="0.3.0"
+VERSION="0.4.0"
 
 PACKER ?= packer
 
@@ -30,10 +30,10 @@ all: help
 help:
 	@echo -e "$(OK_COLOR)==== $(APP) [$(VERSION)] ====$(NO_COLOR)"
 	@echo -e "$(WARN_COLOR)templates $(NO_COLOR)                : Display available templates"
-	@echo -e "$(WARN_COLOR)validate template=xxx $(NO_COLOR)    :  Validate template"
-	@echo -e "$(WARN_COLOR)virtualbox template=xxx $(NO_COLOR)  :  Build box for Virtualbox"
-	@echo -e "$(WARN_COLOR)qemu template=xxx $(NO_COLOR)        :  Build box for QEmu"
-	@echo -e "$(WARN_COLOR)clean              $(NO_COLOR)       :  Clean environment"
+	@echo -e "$(WARN_COLOR)validate template=xxx $(NO_COLOR)    : Validate template"
+	@echo -e "$(WARN_COLOR)virtualbox template=xxx $(NO_COLOR)  : Build box for Virtualbox"
+	@echo -e "$(WARN_COLOR)qemu template=xxx $(NO_COLOR)        : Build box for QEmu"
+	@echo -e "$(WARN_COLOR)clean              $(NO_COLOR)       : Clean environment"
 
 
 .PHONY: check
@@ -46,23 +46,23 @@ templates:
 
 .PHONY: validate
 validate:
-	$(PACKER) validate $(template).json
+	@$(PACKER) validate $(template)
 
 .PHONY: virtualbox
 virtualbox:
-	$(PACKER) build -only=virtualbox-iso $(template).json
+	@$(PACKER) build -only=virtualbox-iso $(template)
 
 .PHONY: qemu
 qemu:
-	$(PACKER) build -only=qemu $(template).json
+	@$(PACKER) build -only=qemu $(template)
 
 .PHONY: push
 push:
-	$(PACKER) push \
-		--name $(BENTO_ATLAS_USERNAME)/$(template) \
-		-token=${BENTO_ATLAS_TOKEN} \
-		$(template).json
+	@$(PACKER) push \
+		--name $(ATLAS_USERNAME)/$(template) \
+		-token=${ATLAS_TOKEN} \
+		$(template)
 
 .PHONY: clean
 clean:
-	rm -fr output-virtualbox-iso
+	@rm -fr output-virtualbox-iso

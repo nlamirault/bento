@@ -77,24 +77,24 @@
         "token": "{{user `atlas_name`}}",
         "vcs": true
     },
-    "post-processors": [
-        [
-            {
-                "type": "vagrant",
-                "compression_level": 9,
-                "output":"vagrant/ubuntu-{{ user `ubuntu_version` }}-{{ user `ubuntu_arch` }}/ubuntu-{{ user `ubuntu_version` }}-{{ user `ubuntu_arch` }}-{{.Provider}}.box"
-            },
-            {
-                "type": "atlas",
-                "only": ["virtualbox-iso"],
-                "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-                "artifact_type": "vagrant.box",
-                "metadata": {
-                    "created_at": "{{timestamp}}",
-                    "version": "{{user `version`}}",
-                    "provider": "virtualbox"
-                }
-            }
-        ]
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "output":"vagrant/ubuntu-{{ user `ubuntu_version` }}-{{ user `ubuntu_arch` }}/ubuntu-{{ user `ubuntu_version` }}-{{ user `ubuntu_arch` }}-{{.Provider}}.box"
+      },
+      {
+        "type": "atlas",
+        "only": ["virtualbox-iso"],
+        "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "created_at": "{{timestamp}}",
+          "version": "{{user `version`}}",
+          "provider": "virtualbox"
+        }
+      }
     ]
+  ]
 }

@@ -1,0 +1,94 @@
+{
+  "variables": {
+    "vm_name": "Kali-light-2016.1-amd64",
+    "disk_size": "2000",
+    "memory_size": "1024",
+    "cpus": "1",
+    "iso_url": "http://ftp.free.fr/pub/kali-images/kali-2016.1/kali-linux-light-2016.1-amd64.iso",
+    "iso_checksum": "4132238042deba9e3bc1702afbdb1b4672b64bcb",
+    "iso_checksum_type": "sha1",
+    "kali_version": "2016.1",
+    "kali_arch": "amd64",
+    "vagrant_cloud_token": "{{env `ATLAS_TOKEN`}}",
+    "atlas_username": "{{env `ATLAS_USERNAME`}}",
+    "atlas_name": "kali",
+    "version": "2016.1"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<esc><wait>",
+        "install <wait>",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg <wait>",
+        "debian-installer=en_US <wait>",
+        "auto <wait>",
+        "locale=en_US <wait>",
+        "kbd-chooser/method=fr <wait>",
+        "keyboard-configuration/xkb-keymap=fr <wait>",
+        "netcfg/get_hostname={{ .Name }} <wait>",
+        "netcfg/get_domain=vagrantup.com <wait>",
+        "fb=false <wait>",
+        "debconf/frontend=noninteractive <wait>",
+        "console-setup/ask_detect=false <wait>",
+        "console-keymaps-at/keymap=us <wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{ user `disk_size` }}",
+      "guest_os_type": "Debian_64",
+      "http_directory": "http/kali-{{ user `kali_arch` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "iso_url": "{{ user `iso_url` }}",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "ssh_key_path": "vagrant/keys/vagrant.key",
+      "shutdown_command": "sudo -S /sbin/shutdown -hP now",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "{{ user `vm_name` }}",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "{{ user `memory_size` }}"],
+        ["modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "pause_before": "10s",
+      "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'",
+      "scripts": [
+        "scripts/kali/update.sh",
+        "scripts/kali/sudoers.sh",
+        "scripts/kali/vagrant.sh",
+        "scripts/common/vbguest.sh",
+        "scripts/kali/cleanup.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "keep_input_artifact": true,
+        "output":"vagrant/kali/kali-{{ user `kali_version` }}-{{.Provider}}.box"
+      },
+      {
+        "type": "atlas",
+        "only": ["virtualbox-iso"],
+        "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "created_at": "{{timestamp}}",
+          "version": "{{user `version`}}",
+          "provider": "virtualbox"
+        }
+      }
+    ]
+  ]
+}

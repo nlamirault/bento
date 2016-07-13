@@ -1,0 +1,85 @@
+{
+  "variables": {
+    "vm_name": "NetBSD-7.0",
+    "disk_size": "20000",
+    "memory_size": "1024",
+    "cpus": "1",
+    "iso_checksum": "ec63aa3bfe6ddee2ae9cd801bbc2533524b29bca41266415ebd567151d19b0839f75cd75e1dd674632761a7658599684c4842e6458cd6e9171d5959d47f15ffb",
+    "iso_checksum_type": "sha512",
+    "netbsd_arch": "amd64",
+    "netbsd_version": "7.0",
+    "atlas_token": "{{env `ATLAS_TOKEN`}}",
+    "atlas_username": "{{env `ATLAS_USERNAME`}}",
+    "atlas_name": "netbsd-7.0",
+    "version": "1"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "a<enter>",
+        "b<enter>",
+        "e<enter>",
+        "a<enter>",
+        "dhcpcd wm0<enter>",
+        "sleep 2<enter>",
+        "ftp -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install-{{ user `netbsd_version` }}.sh<enter>",
+        "sh /tmp/install.sh<enter>reboot<enter>"
+      ],
+      "boot_wait": "15s",
+      "iso_url": "http://ftp.netbsd.org/pub/NetBSD/NetBSD-{{ user `netbsd_version` }}/iso/NetBSD-{{ user `netbsd_version` }}-{{ user `netbsd_arch` }}.iso",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "guest_os_type": "NetBSD_64",
+      "guest_additions_mode": "disable",
+      "http_directory": "http/netbsd-{{ user `netbsd_arch` }}",
+      "shutdown_command": "echo vagrant | sudo -S /sbin/poweroff",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "ssh_key_path": "vagrant/keys/vagrant.key",
+      "disk_size": "{{ user `disk_size` }}",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "{{ user `vm_name` }}",
+      "vboxmanage": [
+        ["modifyvm", "{{ .Name }}", "--memory", "{{ user `memory_size` }}"],
+        ["modifyvm", "{{ .Name }}", "--cpus", "{{ user `cpus` }}"]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/netbsd/init.sh",
+        "scripts/common/sshd.sh"
+      ]
+    }
+  ],
+  "push": {
+    "name": "{{ user `atlas_username` }}/{{ user `atlas_name` }}",
+    "token": "{{ user `atlas_name` }}",
+    "vcs": true
+  },
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "output": "vagrant/openbsd/NetBSD-{{ .Provider }}-{{ user `version` }}.box"
+      },
+      {
+        "type": "atlas",
+        "only": ["virtualbox-iso"],
+        "artifact": "{{ user `atlas_username` }}/{{ user `atlas_name` }}",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "created_at": "{{ timestamp }}",
+          "version": "{{ user `version` }}",
+          "provider": "virtualbox"
+        }
+      }
+    ]
+  ]
+}
