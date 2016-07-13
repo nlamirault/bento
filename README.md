@@ -48,9 +48,18 @@ end
 
 ## Build boxes
 
+* Setup your Atlas token :
+
+        $ export ATLAS_TOKEN="xxxxxxxxxxxx"
+
+* Username : `vagrant`
+* Password: `vagrant`
+
 ### Debian
 
     $ make virtualbox template=debian-8-amd64.json
+    $ cd vagrant/debian
+    $ vagrant up
 
 ### Archlinux
 
@@ -63,7 +72,6 @@ end
     $ make virtualbox template=centos-7.x-x86_64.json
     $ cd vagrant/centos
     $ vagrant up
-    $ vagrant / vagrant (login / passwd)
     $> startxfce4
 
 ### FreeBSD
