@@ -5,6 +5,7 @@ ntpdate -v -b in.pool.ntp.org;
 
 # Install sudo, curl and ca_root_nss
 pkg install -y curl;
+pkg install -y wget;
 pkg install -y ca_root_nss;
 
 # Emulate the ETCSYMLINK behavior of ca_root_nss; this is for FreeBSD 10,
