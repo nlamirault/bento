@@ -8,7 +8,7 @@
 
 ![Bento](https://raw.githubusercontent.com/nlamirault/bento/master/img/bento.png)
 
-Some Vagrant boxes . See: https://atlas.hashicorp.com/nlamirault
+Some [Vagrant][] boxes . See: https://atlas.hashicorp.com/nlamirault
 
 
 ## Usage
@@ -47,6 +47,8 @@ end
 ```
 
 ## Build boxes
+
+* Install [Packer][] (>= 0.8)
 
 * Setup your Atlas token :
 
@@ -139,6 +141,8 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 [Packer]: https://www.packer.io/
 [Atlas]:  https://atlas.hashicorp.com
+[Vagrant]: https://www.vagrantup.com/
+
 [Virtualbox]: https://www.virtualbox.org/
 
 
