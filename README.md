@@ -6,7 +6,7 @@
 * Develop :
 [![Circle CI](https://circleci.com/gh/nlamirault/bento/tree/develop.svg?style=svg)](https://circleci.com/gh/nlamirault/bento/tree/develop)
 
-![Bento](https://raw.githubusercontent.com/nlamirault/bento/master/img/bento_process.png)
+![bento](img/bento_process.png)
 
 Some [Vagrant][] boxes . See: https://atlas.hashicorp.com/nlamirault
 
