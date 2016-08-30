@@ -45,7 +45,7 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
-      "ssh_key_path": "vagrant/keys/vagrant.key",
+      "ssh_private_key_file": "vagrant/keys/vagrant.key",
       "shutdown_command": "sudo -S /sbin/shutdown -hP now",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",

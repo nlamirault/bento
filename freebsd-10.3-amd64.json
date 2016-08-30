@@ -14,7 +14,7 @@
     "atlas_name": "freebsd-10.3",
     "iso_name": "FreeBSD-10.3-amd64-disc1.iso",
     "metadata": "floppy/dummy_metadata.json",
-    "version": "1"
+    "version": "2"
   },
   "builders": [
     {
@@ -41,7 +41,7 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
-      "ssh_key_path": "vagrant/keys/vagrant.key",
+      "ssh_private_key_file": "vagrant/keys/vagrant.key",
       "shutdown_command": "su -m root -c 'shutdown -p now'",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
@@ -63,6 +63,7 @@
         "scripts/freebsd/update.sh",
         "scripts/freebsd/postinstall.sh",
         "scripts/freebsd/sudoers.sh",
+        "scripts/common/vagrant.sh",
         "scripts/freebsd/desktop.sh",
         "scripts/freebsd/cleanup.sh",
         "scripts/freebsd/minimize.sh"
