@@ -16,16 +16,17 @@ Some [Vagrant][] boxes . See: https://atlas.hashicorp.com/nlamirault
 
 * The following boxes are built from this repository's templates :
 
-| Name           | VirtualBox (5.x)    |
-| -------------- | ------------------- |
-| debian-8       | [amd64][D8]         |
-| archlinux      | [amd64][Arch]       |
-| centos-7.2     | [amd64][C72]        |
-| freebsd-10.2   | [amd64][FBSD102]    |
-| freebsd-10.3   | [amd64][FBSD103]    |
-| openbsd-5.9    | [amd64][OBSD59]     |
-| netbsd-7.0     | [amd64][NBSD70]     |
-
+| Name           | VirtualBox (5.x)     |
+| -------------- | -------------------  |
+| debian-8       | [amd64][D8]          |
+| archlinux      | [amd64][Arch]        |
+| centos-7.2     | [amd64][C72]         |
+| freebsd-10.2   | [amd64][FBSD102]     |
+| freebsd-10.3   | [amd64][FBSD103]     |
+| openbsd-5.9    | [amd64][OBSD59]      |
+| netbsd-7.0     | [amd64][NBSD70]      |
+| alpine 3.3     | [x86_64][Alpine3.3]  |
+| alpine 3.4     | [x86_64][Alpine3.4]  |
 
 * Using a box in a Vagrantfile:
 
@@ -156,3 +157,6 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 [FBSD103]: https://atlas.hashicorp.com/nlamirault/boxes/freebsd-10.2
 [NBSD70]: https://atlas.hashicorp.com/nlamirault/boxes/netbsd-7.0
 [OBSD59]: https://atlas.hashicorp.com/nlamirault/boxes/openbsd-5.9
+
+[Alpine3.3]: https://atlas.hashicorp.com/nlamirault/boxes/alpine-3.3
+[Alpine3.4]: https://atlas.hashicorp.com/nlamirault/boxes/alpine-3.4

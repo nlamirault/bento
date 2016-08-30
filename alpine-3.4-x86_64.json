@@ -1,0 +1,99 @@
+{
+  "variables": {
+    "vm_name": "Alpine-Linux-3.4-x86_64",
+    "disk_size": "20000",
+    "memory_size": "512",
+    "cpus": "1",
+    "variant": "minimal",
+    "iso_checksum": "7dd15b86cf5679b35dd5f1c511f6a67470293a58",
+    "iso_checksum_type": "sha1",
+    "alpine_arch": "x86_64",
+    "alpine_version": "3.4",
+    "alpine_release": "3.4.1",
+    "atlas_token": "{{env `ATLAS_TOKEN`}}",
+    "atlas_username": "{{env `ATLAS_USERNAME`}}",
+    "atlas_name": "alpine-3.4",
+    "version": "1"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "root<enter><wait>",
+        "ifconfig eth0 up && udhcpc -i eth0<enter><wait>",
+        "wget -O /tmp/answers.txt http://{{ .HTTPIP }}:{{ .HTTPPort }}/answers.txt<enter><wait>",
+        "setup-alpine -f /tmp/answers.txt<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "y<enter><wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "wget -O /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.sh<enter><wait>",
+        "sh /tmp/install.sh<enter><wait>"
+      ],
+      "boot_wait": "60s",
+      "disk_size": "{{ user `disk_size` }}",
+      "guest_os_type": "Linux26_64",
+      "http_directory": "http/alpine-{{ user `alpine_version` }}-{{ user `alpine_arch` }}",
+      "iso_urls": "http://dl-cdn.alpinelinux.org/alpine/v{{ user `alpine_version` }}/releases/{{ user `alpine_arch` }}/alpine-{{ user `alpine_release` }}-{{ user `alpine_arch` }}.iso",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "/sbin/poweroff",
+      "guest_additions_mode": "disable",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "{{user `vm_name`}}-{{user `variant`}}",
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "{{ user `memory_size` }}" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}" ],
+        [ "modifyvm", "{{.Name}}", "--rtcuseutc", "on" ]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "scripts": [
+        "scripts/alpine/init.sh",
+        "scripts/alpine/sshd.sh",
+        "scripts/alpine/vagrant.sh",
+        "scripts/alpine/sudoers.sh",
+        "scripts/alpine/vbguest.sh",
+        "scripts/common/motd.sh",
+        "scripts/alpine/cleanup.sh"
+      ]
+    }
+  ],
+  "push": {
+    "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+    "token": "{{user `atlas_name`}}",
+    "vcs": true
+  },
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "output":"vagrant/alpine-{{ user `alpine_version` }}-{{ user `alpine_arch` }}/alpine-{{ user `alpine_version` }}-{{ user `alpine_arch` }}-{{.Provider}}.box"
+      },
+      {
+        "type": "atlas",
+        "only": ["virtualbox-iso"],
+        "artifact": "{{ user `atlas_username` }}/{{ user `atlas_name` }}",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "created_at": "{{timestamp}}",
+          "version": "{{ user `version` }}",
+          "provider": "virtualbox"
+        }
+      }
+    ]
+  ]
+}
