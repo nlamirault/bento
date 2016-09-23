@@ -1,6 +1,6 @@
 #!/bin/bash
 
-apt-get update
-apt-get dist-upgrade
+DEBIAN_FRONTEND=noninteractive apt-get -y update
+# apt-get dist-upgrade
 # install curl to fix broken wget while retrieving content from secured sites
-apt-get -y install curl
+DEBIAN_FRONTEND=noninteractive apt-get -y install curl

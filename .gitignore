@@ -7,3 +7,4 @@ vagrant/freebsd/.vagrant/
 vagrant/openbsd/.vagrant/
 vagrant/netbsd/.vagrant/
 vagrant/centos-*/.vagrant/
+vagrant/kali-*/.vagrant/
