@@ -21,6 +21,7 @@ Some [Vagrant][] boxes . See: https://atlas.hashicorp.com/nlamirault
 | debian-8       | [amd64][D8]          |
 | archlinux      | [amd64][Arch]        |
 | centos-7.2     | [amd64][C72]         |
+| kali linux     | [amd64][Kali]        |
 | freebsd-10.2   | [amd64][FBSD102]     |
 | freebsd-10.3   | [amd64][FBSD103]     |
 | openbsd-5.9    | [amd64][OBSD59]      |
@@ -64,6 +65,12 @@ end
 
     $ make virtualbox template=archlinux.json
     $ cd vagrant/archlinux
+    $ vagrant up
+
+### Kali Linux
+
+    $ make virtualbox template=kali-amd64.json
+    $ cd vagrant/kali-amd64
     $ vagrant up
 
 ### CentOS
@@ -146,6 +153,8 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 [D8]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8
 
 [Arch]: https://atlas.hashicorp.com/nlamirault/boxes/archlinux
+
+[Kali]: https://atlas.hashicorp.com/nlamirault/boxes/kali
 
 [U1510]: https://atlas.hashicorp.com/nlamirault/boxes/ubuntu-15.10
 
