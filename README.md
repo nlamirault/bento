@@ -21,7 +21,7 @@ Some [Vagrant][] boxes . See: https://atlas.hashicorp.com/nlamirault
 | debian-8       | [amd64][D8]          |
 | archlinux      | [amd64][Arch]        |
 | centos-7.2     | [amd64][C72]         |
-| kali linux     | [amd64][Kali]        |
+| kali           | [amd64][Kali]        |
 | freebsd-10.2   | [amd64][FBSD102]     |
 | freebsd-10.3   | [amd64][FBSD103]     |
 | openbsd-5.9    | [amd64][OBSD59]      |
