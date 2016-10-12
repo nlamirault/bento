@@ -1,18 +1,17 @@
 {
   "variables": {
-    "vm_name": "Kali-2016.1-amd64",
+    "vm_name": "Kali-2016.2-amd64",
     "disk_size": "20000",
     "memory_size": "1024",
     "cpus": "1",
     "kali_arch": "amd64",
-    "iso_url": "http://ftp.free.fr/pub/kali-images/kali-2016.1/kali-linux-2016.1-amd64.iso",
-    "iso_checksum": "deaa41c5c8f26b7854cafb34b6f1b567871c4875",
+    "iso_checksum": "25cc6d53a8bd8886fcb468eb4fbb4cdfac895c65",
     "iso_checksum_type": "sha1",
-    "kali_version": "2016.1",
+    "kali_version": "2016.2",
     "vagrant_cloud_token": "{{env `ATLAS_TOKEN`}}",
     "atlas_username": "{{env `ATLAS_USERNAME`}}",
     "atlas_name": "kali",
-    "version": "2016.1"
+    "version": "2016.2"
   },
   "builders": [
     {
@@ -40,7 +39,7 @@
       "http_directory": "http/kali-{{ user `kali_arch` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-      "iso_url": "http://ftp.free.fr/pub/kali-images/kali-{{ `kali_version` }}/kali-linux-{{ `kali_version` }}-{{ `kali_arch` }}.iso",
+      "iso_url": "http://ftp.free.fr/pub/kali-images/kali-{{ user `kali_version` }}/kali-linux-{{ user `kali_version` }}-{{ user `kali_arch` }}.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -76,16 +75,16 @@
         "type": "vagrant",
         "compression_level": 9,
         "keep_input_artifact": true,
-        "output":"vagrant/kali/kali-{{ `kali_arch` }}/kali-{{ user `kali_version` }}-{{ `kali_arch` }}-{{.Provider}}.box"
+        "output":"vagrant/kali/kali-{{ user `kali_arch` }}/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}-{{.Provider}}.box"
       },
       {
         "type": "atlas",
         "only": ["virtualbox-iso"],
-        "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+        "artifact": "{{ user `atlas_username` }}/{{ user `atlas_name` }}",
         "artifact_type": "vagrant.box",
         "metadata": {
           "created_at": "{{timestamp}}",
-          "version": "{{user `version`}}",
+          "version": "{{ user `version` }}",
           "provider": "virtualbox"
         }
       }
