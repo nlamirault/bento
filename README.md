@@ -28,6 +28,7 @@ Some [Vagrant][] boxes . See: https://atlas.hashicorp.com/nlamirault
 | netbsd-7.0     | [amd64][NBSD70]      |
 | alpine 3.3     | [x86_64][Alpine3.3]  |
 | alpine 3.4     | [x86_64][Alpine3.4]  |
+| blackarch      | [amd64][BlackArch]   |
 
 * Using a box in a Vagrantfile:
 
@@ -169,3 +170,5 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 [Alpine3.3]: https://atlas.hashicorp.com/nlamirault/boxes/alpine-3.3
 [Alpine3.4]: https://atlas.hashicorp.com/nlamirault/boxes/alpine-3.4
+
+[BlackArch]: https://blackarch.org/

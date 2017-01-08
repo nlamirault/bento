@@ -1,0 +1,85 @@
+{
+  "variables": {
+    "vm_name": "BlackArch-amd64",
+    "disk_size": "20000",
+    "memory_size": "1024",
+    "cpus": "1",
+    "iso_checksum": "1acb685c9a9f2df6eef15d2fc3e8e93edc33c9da",
+    "iso_checksum_type": "sha1",
+    "arch_version": "2017.01.01",
+    "atlas_token": "{{env `ATLAS_TOKEN`}}",
+    "atlas_username": "{{env `ATLAS_USERNAME`}}",
+    "atlas_name": "blackarch",
+    "version": "1"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<enter><wait10><wait10>",
+        "/usr/bin/curl -o /tmp/virtualbox.sh http://{{.HTTPIP}}:{{.HTTPPort}}/virtualbox.sh<enter><wait5>",
+        "/usr/bin/bash /tmp/virtualbox.sh<enter>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{ user `disk_size` }}",
+      "guest_os_type": "ArchLinux_64",
+      "http_directory": "http/blackarch",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "iso_url": "http://mirror.rackspace.com/archlinux/iso/{{ user `arch_version` }}/archlinux-{{ user `arch_version` }}-dual.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "sudo poweroff",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "{{ user `vm_name` }}",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--rtcuseutc", "on"],
+        ["modifyvm", "{{.Name}}", "--memory", "{{ user `memory_size` }}"],
+        ["modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "scripts": [
+        "scripts/blackarch/pacman.sh",
+        "scripts/blackarch/yaourt.sh",
+        "scripts/common/vagrant.sh",
+        "scripts/blackarch/network.sh",
+        "scripts/blackarch/blackarch.sh",
+        "scripts/blackarch/cleanup.sh",
+        "scripts/blackarch/zerodisk.sh"
+      ]
+    }
+  ],
+  "push": {
+    "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+    "token": "{{user `atlas_name`}}",
+    "vcs": true
+  },
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "output":"vagrant/blackarch/blackarch-{{ user `arch_version` }}-{{.Provider}}.box"
+      },
+      {
+        "type": "atlas",
+        "only": ["virtualbox-iso"],
+        "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "created_at": "{{timestamp}}",
+          "version": "{{user `version`}}",
+          "provider": "virtualbox"
+        }
+      }
+    ]
+  ]
+}
