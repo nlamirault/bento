@@ -1,0 +1,17 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "alpine-3.6-x86_64-virtualbox.box"
+  # config.vm.box = "nlamirault/alpine-3"
+
+  config.ssh.forward_agent = true
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1024
+    v.gui = true
+  end
+
+end
