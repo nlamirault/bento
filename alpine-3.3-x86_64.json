@@ -37,7 +37,7 @@
       "boot_wait": "60s",
       "disk_size": "{{ user `disk_size` }}",
       "guest_os_type": "Linux26_64",
-      "http_directory": "http/alpine-{{ user `alpine_version` }}-{{ user `alpine_arch` }}",
+      "http_directory": "http/alpine-3-{{ user `alpine_arch` }}",
       "iso_urls": "http://dl-cdn.alpinelinux.org/alpine/v{{ user `alpine_version` }}/releases/{{ user `alpine_arch` }}/alpine-{{ user `alpine_release` }}-{{ user `alpine_arch` }}.iso",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
