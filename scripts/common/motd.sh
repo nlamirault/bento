@@ -18,7 +18,6 @@ PLATFORM_MSG=$(printf '%s' "$PLATFORM_OS $PLATFORM_RELEASE $PLATFORM_ARCH")
 
 BUILT_MSG=$(printf 'built %s' $(date +%Y-%m-%d))
 
-
 printf '%0.1s' "-"{1..64} > ${MOTD_FILE}
 # printf '\n' >> ${MOTD_FILE}
 printf '
@@ -32,3 +31,4 @@ printf '\n' >> ${MOTD_FILE}
 printf '%2s%-30s%30s\n' " " "${PLATFORM_MSG}" "${BUILT_MSG}" >> ${MOTD_FILE}
 printf '%0.1s' "-"{1..64} >> ${MOTD_FILE}
 printf '\n' >> ${MOTD_FILE}
+mv ${MOTD_FILE} /etc/motd
