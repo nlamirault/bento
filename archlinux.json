@@ -1,35 +1,46 @@
 {
   "variables": {
-    "vm_name": "ArchLinux-2016.07.01",
+    "vm_name": "ArchLinux",
     "disk_size": "20000",
     "memory_size": "1024",
     "cpus": "1",
-    "iso_checksum": "b5caa9cddab841e508ab46722d220986b8f5fdac",
+    "root_password": "vagrant",
+    "vagrant_username": "vagrant",
+    "vagrant_group": "vagrant",
+    "vagrant_password": "vagrant",
+    "vagrant_hostname": "bento",
+    "iso_checksum": "77508eaf2be9f15e22b1cc920db12d4e90c2cf77",
     "iso_checksum_type": "sha1",
-    "atlas_token": "{{env `ATLAS_TOKEN`}}",
-    "atlas_username": "{{env `ATLAS_USERNAME`}}",
-    "atlas_name": "archlinux",
-    "version": "2016.07.01"
+    "archlinux_version": "2017.06.01",
+    "archlinux_arch": "x86_64",
+    "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
+    "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
+    "vagrantcloud_name": "archlinux",
+    "version": "2017.06.01"
   },
   "builders": [
     {
       "type": "virtualbox-iso",
       "boot_command": [
-        "<enter><wait10><wait10>",
-        "/usr/bin/curl -o /etc/pacman.conf http://{{.HTTPIP}}:{{.HTTPPort}}/pacman.conf<enter><wait5>",
-        "/usr/bin/curl -O http://{{.HTTPIP}}:{{.HTTPPort}}/prepare-machine.sh<enter><wait5>",
-        "/usr/bin/curl -O http://{{.HTTPIP}}:{{.HTTPPort}}/install-stage-1.sh<enter><wait5>",
-        "/usr/bin/curl -O http://{{.HTTPIP}}:{{.HTTPPort}}/poweroff.time<enter><wait>",
-        "DISK=/dev/sda bash ./prepare-machine.sh<enter>"
+        "<enter><wait10><wait10><wait10><wait10>",
+        "curl -O 'http://{{.HTTPIP}}:{{.HTTPPort}}/install{,-chroot}.sh'<enter><wait>",
+        "cat > /tmp/environment_vars.txt << \"EOF\"<enter>",
+        "VAGRANT_HOSTNAME={{user `hostname`}}<enter>",
+        "ROOT_PASSWORD={{user `root_password`}}<enter>",
+        "VAGRANT_USERNAME={{user `vagrant_username`}}<enter>",
+        "VAGRANT_GROUP={{user `vagrant_group`}}<enter>",
+        "VAGRANT_PASSWORD={{user `vagrant_password`}}<enter>",
+        "EOF<enter>",
+        "bash install.sh /tmp/environment_vars.txt<enter>"
       ],
       "boot_wait": "5s",
-      "iso_url": "https://mirrors.kernel.org/archlinux/iso/{{ user `version` }}/archlinux-{{ user `version` }}-dual.iso",
+      "iso_url": "https://mirrors.kernel.org/archlinux/iso/{{ user `archlinux_version` }}/archlinux-{{ user `archlinux_version`}}-{{ user `archlinux_arch` }}.iso",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "guest_os_type": "ArchLinux_64",
       "guest_additions_mode": "disable",
       "http_directory": "http/archlinux",
-      "shutdown_command": "sudo /sbin/shutdown -hP now",
+      "shutdown_command": "sudo systemctl poweroff",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -44,11 +55,19 @@
       ]
     }
   ],
-  "push": {
-    "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-    "token": "{{user `atlas_name`}}",
-    "vcs": true
-  },
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "scripts": [
+        "scripts/common/vagrant.sh",
+        "scripts/archlinux/postinstall.sh",
+        "scripts/archlinux/vbguest.sh",
+        "scripts/archlinux/desktop.sh",
+        "scripts/archlinux/cleanup.sh"
+      ]
+    }
+  ],
   "post-processors": [
     [
       {
@@ -57,15 +76,10 @@
         "output": "vagrant/archlinux/ArchLinux-{{.Provider}}-{{ user `version`}}.box"
       },
       {
-        "type": "atlas",
-        "only": ["virtualbox-iso"],
-        "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-          "created_at": "{{timestamp}}",
-          "version": "{{user `version`}}",
-          "provider": "virtualbox"
-        }
+        "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{ user `vagrantcloud_username` }}/{{ user `vagrantcloud_name` }}",
+        "version": "{{user `version`}}"
       }
     ]
   ]
