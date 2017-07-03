@@ -2,7 +2,7 @@
 
 ![bento](img/bento_process.png)
 
-Some [Vagrant][] boxes . See: https://atlas.hashicorp.com/nlamirault
+Some [Vagrant][] boxes . See [vagrant cloud](https://app.vagrantup.com/nlamirault)
 
 * Master : [![Circle CI](https://circleci.com/gh/nlamirault/bento/tree/master.svg?style=svg)](https://circleci.com/gh/nlamirault/bento/tree/master)
 * Develop : [![Circle CI](https://circleci.com/gh/nlamirault/bento/tree/develop.svg?style=svg)](https://circleci.com/gh/nlamirault/bento/tree/develop)
