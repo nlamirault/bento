@@ -27,12 +27,16 @@ Some [Vagrant][] boxes . See [vagrant cloud](https://app.vagrantup.com/nlamiraul
 | Name           | VirtualBox (5.x)     | Qemu  |
 | -------------- | -------------------  | ----- |
 | debian-8       | [amd64][D8]          |       |
+| debian-9       | [amd64][D8]          |       |
 | archlinux      | [amd64][Arch]        |       |
 | centos-7.2     | [amd64][C72]         |       |
 | kali           | [amd64][Kali]        |       |
 | freebsd-10.2   | [amd64][FBSD102]     |       |
 | freebsd-10.3   | [amd64][FBSD103]     |       |
+| freebsd-11.0   | [amd64][FBSD110]     |       |
 | openbsd-5.9    | [amd64][OBSD59]      |       |
+| openbsd-6.0    | [amd64][OBSD60]      |       |
+| openbsd-6.1    | [amd64][OBSD61]      |       |
 | netbsd-7.0     | [amd64][NBSD70]      |       |
 | alpine 3.3     | [x86_64][Alpine3.3]  |       |
 | alpine 3.4     | [x86_64][Alpine3.4]  |       |
@@ -137,14 +141,6 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 [LICENSE]: https://github.com/nlamirault/bento/blob/master/LICENSE
 
 
-
-[Packer]: https://www.packer.io/
-[Atlas]:  https://atlas.hashicorp.com
-[Vagrant]: https://www.vagrantup.com/
-
-[Virtualbox]: https://www.virtualbox.org/
-
-
 [D8]: https://app.vagrantup.com/nlamirault/boxes/debian-8
 [D9]: https://app.vagrantup.com/nlamirault/boxes/debian-9
 
@@ -160,8 +156,13 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 [FBSD102]: https://app.vagrantup.com/nlamirault/boxes/freebsd-10.3
 [FBSD103]: https://app.vagrantup.com/nlamirault/boxes/freebsd-10.2
+[FBSD110]: https://app.vagrantup.com/nlamirault/boxes/freebsd-11.0
+
 [NBSD70]: https://app.vagrantup.com/nlamirault/boxes/netbsd-7.0
+
 [OBSD59]: https://app.vagrantup.com/nlamirault/boxes/openbsd-5.9
+[OBSD60]: https://app.vagrantup.com/nlamirault/boxes/openbsd-6.0
+[OBSD61]: https://app.vagrantup.com/nlamirault/boxes/openbsd-6.1
 
 [Alpine3.3]: https://app.vagrantup.com/nlamirault/boxes/alpine-3.3
 [Alpine3.4]: https://app.vagrantup.com/nlamirault/boxes/alpine-3.4
