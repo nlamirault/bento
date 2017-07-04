@@ -24,24 +24,24 @@ Some [Vagrant][] boxes . See [vagrant cloud](https://app.vagrantup.com/nlamiraul
 
 * The following boxes are built from this repository's templates :
 
-| Name           | Link                 | VirtualBox (5.x)     | Qemu  |
-| -------------- | -------------------  | -------------------- |       |
-| debian-8       | [amd64][D8]          | [x] | [x] |
-| debian-9       | [amd64][D8]          |     |     |
-| archlinux      | [amd64][Arch]        |     |     |
-| centos-7.2     | [amd64][C72]         | [x] |     |
-| kali           | [amd64][Kali]        |     |     |
-| freebsd-10.2   | [amd64][FBSD102]     | [x] |     |
-| freebsd-10.3   | [amd64][FBSD103]     | [x] |     |
-| freebsd-11.0   | [amd64][FBSD110]     |     |     |
-| openbsd-5.9    | [amd64][OBSD59]      | [x] |     |
-| openbsd-6.0    | [amd64][OBSD60]      |     |     |
-| openbsd-6.1    | [amd64][OBSD61]      |     |     |
-| netbsd-7.0     | [amd64][NBSD70]      | [x] |     |
-| alpine 3.3     | [x86_64][Alpine3.3]  | [x] |     |
-| alpine 3.4     | [x86_64][Alpine3.4]  | [x] |     |
-| alpine 3.6     | [x86_64][Alpine3.6]  | [x] |     |
-| blackarch      | [amd64][BlackArch]   |     |     |
+| Name           | Link                 | VirtualBox (5.x) | Qemu  |
+| -------------- | -------------------  | -----------------|-------|
+| debian-8       | [amd64][D8]          | [x]              | [x]   |
+| debian-9       | [amd64][D8]          |                  |       |
+| archlinux      | [amd64][Arch]        |                  |       |
+| centos-7.2     | [amd64][C72]         | [x]              |       |
+| kali           | [amd64][Kali]        |                  |       |
+| freebsd-10.2   | [amd64][FBSD102]     | [x]              |       |
+| freebsd-10.3   | [amd64][FBSD103]     | [x]              |       |
+| freebsd-11.0   | [amd64][FBSD110]     |                  |       |
+| openbsd-5.9    | [amd64][OBSD59]      | [x]              |       |
+| openbsd-6.0    | [amd64][OBSD60]      |                  |       |
+| openbsd-6.1    | [amd64][OBSD61]      |                  |       |
+| netbsd-7.0     | [amd64][NBSD70]      | [x]              |       |
+| alpine 3.3     | [x86_64][Alpine3.3]  | [x]              |       |
+| alpine 3.4     | [x86_64][Alpine3.4]  | [x]              |       |
+| alpine 3.6     | [x86_64][Alpine3.6]  | [x]              |       |
+| blackarch      | [amd64][BlackArch]   |                  |       |
 
 * Using a box in a Vagrantfile:
 
