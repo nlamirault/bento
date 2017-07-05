@@ -3,9 +3,6 @@
 set -e
 set -x
 
-echo "Load customization: $1"
-. "$1"
-
 if [ -e /dev/vda ]; then
   device=/dev/vda
 elif [ -e /dev/sda ]; then
@@ -28,27 +25,14 @@ mkswap "${device}1"
 mkfs.btrfs -L "rootfs" "${device}2"
 mount "${device}2" /mnt
 
-cp /etc/pacman.d/mirrorlist /tmp/mirrorlist.backup
-sed -i 's/^#Server/Server/' /tmp/mirrorlist.backup
-rankmirrors -vn 6 /tmp/mirrorlist.backup > /etc/pacman.d/mirrorlist
+# cp /etc/pacman.d/mirrorlist /tmp/mirrorlist.backup
+# sed -i 's/^#Server/Server/' /tmp/mirrorlist.backup
+# rankmirrors -vn 6 /tmp/mirrorlist.backup > /etc/pacman.d/mirrorlist
 
 pacstrap /mnt base grub openssh sudo polkit btrfs-progs
+
 swapon "${device}1"
 genfstab -p /mnt >> /mnt/etc/fstab
 swapoff "${device}1"
 
-cp /tmp/install-chroot.sh /mnt/root/
-arch-chroot /mnt sh -ex /root/install-chroot.sh
-
-rm /mnt/root/install-chroot.sh
-
-sed \
-  -e 's/^PermitRootLogin .*/PermitRootLogin no/' \
-  -e 's/^#PubkeyAuthentication .*/PubkeyAuthentication yes/' \
-  -e 's/^#PasswordAuthentication yes/PasswordAuthentication yes/' \
-  -e 's/^#UseDNS .*/UseDNS no/' /mnt/etc/ssh/sshd_config > /tmp/sshd_config
-mv /tmp/sshd_config /mnt/etc/ssh/sshd_config
-
-umount -R /mnt
-
-reboot
+arch-chroot /mnt /bin/bash

@@ -4,25 +4,53 @@ set -e
 set -x
 
 ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+sed -i -e 's/^#\(en_US.UTF-8\)/\1/' /etc/locale.gen
+locale-gen
 
-echo ${VAGRANT_HOSTNAME:=archlinux} > /etc/hostname
-echo "127.0.0.1	${VAGRANT_HOSTNAME}.localdomain	localhost" >> /etc/hosts
+# setting vagrant user credentials
+echo -e 'vagrant\nvagrant' | passwd
+useradd -m -U vagrant
+echo -e 'vagrant\nvagrant' | passwd vagrant
 
-(echo ${ROOT_PASSWORD:=vagrant}; echo ${ROOT_PASSWORD}) | passwd
+# setting automatic authentication for any action requiring admin rights via Polkit
+cat <<EOF > /etc/polkit-1/rules.d/49-nopasswd_global.rules
+polkit.addRule(function(action, subject) {
+    if (subject.isInGroup("vagrant")) {
+        return polkit.Result.YES;
+    }
+});
+EOF
 
-groupadd ${VAGRANT_GROUP:=${VAGRANT_USERNAME:=vagrant}}
-useradd -m -g $VAGRANT_GROUP $VAGRANT_USERNAME
-(echo ${VAGRANT_PASSWORD:=vagrant}; echo $VAGRANT_PASSWORD) | passwd $VAGRANT_USERNAME
+# setting sudo for vagrant user
+cat <<EOF > /etc/sudoers.d/vagrant
+Defaults:vagrant !requiretty
+vagrant ALL=(ALL) NOPASSWD: ALL
+EOF
+chmod 440 /etc/sudoers.d/vagrant
 
-mkdir -pm 700 /home/$VAGRANT_USERNAME/.ssh
-curl https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub > /home/$VAGRANT_USERNAME/.ssh/authorized_keys
-chown -R $VAGRANT_USERNAME:$VAGRANT_GROUP /home/$VAGRANT_USERNAME
-chmod -R og-rwx /home/$VAGRANT_USERNAME/.ssh
+# install vagrant ssh key
+install --directory --owner=vagrant --group=vagrant --mode=0700 /home/vagrant/.ssh
+curl --output /home/vagrant/.ssh/authorized_keys --location https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub
+chown vagrant:vagrant /home/vagrant/.ssh/authorized_keys
+chmod 0600 /home/vagrant/.ssh/authorized_keys
 
-echo y | pacman -S sudo
-echo "$VAGRANT_USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$VAGRANT_USERNAME
+# setup unpredictable kernel names
+ln -s /dev/null /etc/systemd/network/99-default.link
 
-echo y | pacman -S openssh
-systemctl enable sshd.service
+# setup network
+cat <<EOF > /etc/systemd/network/eth0.network
+[Match]
+Name=eth0
 
-exit
+[Network]
+DHCP=ipv4
+EOF
+
+# enabling important services
+systemctl enable sshd
+systemctl enable systemd-networkd
+systemctl enable systemd-resolved
+
+grub-install "$device"
+sed -i -e 's/^GRUB_TIMEOUT=.*$/GRUB_TIMEOUT=1/' /etc/default/grub
+grub-mkconfig -o /boot/grub/grub.cfg
