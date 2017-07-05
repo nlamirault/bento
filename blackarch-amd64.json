@@ -7,9 +7,9 @@
     "iso_checksum": "1acb685c9a9f2df6eef15d2fc3e8e93edc33c9da",
     "iso_checksum_type": "sha1",
     "arch_version": "2017.01.01",
-    "atlas_token": "{{env `ATLAS_TOKEN`}}",
-    "atlas_username": "{{env `ATLAS_USERNAME`}}",
-    "atlas_name": "blackarch",
+    "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
+    "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
+    "vagrantcloud_name": "blackarch",
     "version": "1"
   },
   "builders": [
@@ -57,11 +57,6 @@
       ]
     }
   ],
-  "push": {
-    "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-    "token": "{{user `atlas_name`}}",
-    "vcs": true
-  },
   "post-processors": [
     [
       {
@@ -70,15 +65,10 @@
         "output":"vagrant/blackarch/blackarch-{{ user `arch_version` }}-{{.Provider}}.box"
       },
       {
-        "type": "atlas",
-        "only": ["virtualbox-iso"],
-        "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-          "created_at": "{{timestamp}}",
-          "version": "{{user `version`}}",
-          "provider": "virtualbox"
-        }
+        "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{ user `vagrantcloud_username` }}/{{ user `vagrantcloud_name` }}",
+        "version": "{{user `version`}}"
       }
     ]
   ]
