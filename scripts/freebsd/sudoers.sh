@@ -1,4 +1,4 @@
 #!/bin/sh -eux
 
 pkg install -y sudo;
-echo "vagrant ALL=(ALL) NOPASSWD: ALL" >>/usr/local/etc/sudoers;
+echo "$VAGRANT_USER ALL=(ALL) NOPASSWD: ALL" >>/usr/local/etc/sudoers;
