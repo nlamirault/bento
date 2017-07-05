@@ -89,15 +89,10 @@
         "output":"vagrant/alpine-{{ user `alpine_version` }}-{{ user `alpine_arch` }}/alpine-{{ user `alpine_version` }}-{{ user `alpine_arch` }}-{{.Provider}}.box"
       },
       {
-        "type": "atlas",
-        "only": ["virtualbox-iso"],
-        "artifact": "{{ user `atlas_username` }}/{{ user `atlas_name` }}",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-          "created_at": "{{timestamp}}",
-          "version": "{{ user `version` }}",
-          "provider": "virtualbox"
-        }
+        "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{ user `vagrantcloud_username` }}/{{ user `vagrantcloud_name` }}",
+        "version": "{{user `version`}}"
       }
     ]
   ]
