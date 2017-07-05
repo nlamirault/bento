@@ -23,7 +23,7 @@ dependencies:
 
 test:
   override:
-    - make lint
+    - VAGRANTCLOUD_TOKEN="1234567890" make lint
 
 
 # deployment:
