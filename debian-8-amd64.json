@@ -8,9 +8,9 @@
     "iso_checksum_type": "sha512",
     "debian_version": "8.5.0",
     "debian_arch": "amd64",
-    "atlas_token": "{{env `ATLAS_TOKEN`}}",
-    "atlas_username": "{{env `ATLAS_USERNAME`}}",
-    "atlas_name": "debian-8",
+    "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
+    "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
+    "vagrantcloud_name": : "debian-8",
     "version": "8.5"
   },
   "builders": [
@@ -69,11 +69,6 @@
       ]
     }
   ],
-  "push": {
-    "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-    "token": "{{user `atlas_name`}}",
-    "vcs": true
-  },
   "post-processors": [
     [
       {
@@ -82,15 +77,10 @@
         "output":"vagrant/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}-{{.Provider}}.box"
       },
       {
-        "type": "atlas",
-        "only": ["virtualbox-iso"],
-        "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-          "created_at": "{{timestamp}}",
-          "version": "{{user `version`}}",
-          "provider": "virtualbox"
-        }
+        "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{ user `vagrantcloud_username` }}/{{ user `vagrantcloud_name` }}",
+        "version": "{{user `version`}}"
       }
     ]
   ]
