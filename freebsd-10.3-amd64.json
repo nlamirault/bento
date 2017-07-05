@@ -9,11 +9,11 @@
     "freebsd_version": "10.3",
     "freebsd_main_version": "10",
     "freebsd_arch": "amd64",
-    "atlas_token": "{{env `ATLAS_TOKEN`}}",
-    "atlas_username": "{{env `ATLAS_USERNAME`}}",
-    "atlas_name": "freebsd-10.3",
     "iso_name": "FreeBSD-10.3-amd64-disc1.iso",
     "metadata": "floppy/dummy_metadata.json",
+    "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
+    "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
+    "vagrantcloud_name": "freebsd-10.3",
     "version": "2"
   },
   "builders": [
@@ -70,11 +70,6 @@
       ]
     }
   ],
-  "push": {
-    "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-    "token": "{{user `atlas_name`}}",
-    "vcs": true
-  },
   "post-processors": [
     [
       {
@@ -83,15 +78,10 @@
         "output": "vagrant/freebsd/freebsd-{{ user `freebsd_version`}}.{{.Provider}}.box"
       },
       {
-        "type": "atlas",
-        "only": ["virtualbox-iso"],
-        "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-          "created_at": "{{timestamp}}",
-          "version": "{{user `version`}}",
-          "provider": "virtualbox"
-        }
+        "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{ user `vagrantcloud_username` }}/{{ user `vagrantcloud_name` }}",
+        "version": "{{user `version`}}"
       }
     ]
   ]
