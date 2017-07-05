@@ -3,4 +3,4 @@
 set -e
 set -x
 
-pacman -Scc
+yes | sudo pacman -Scc
