@@ -8,9 +8,9 @@
     "iso_checksum": "25cc6d53a8bd8886fcb468eb4fbb4cdfac895c65",
     "iso_checksum_type": "sha1",
     "kali_version": "2016.2",
-    "vagrant_cloud_token": "{{env `ATLAS_TOKEN`}}",
-    "atlas_username": "{{env `ATLAS_USERNAME`}}",
-    "atlas_name": "kali",
+    "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
+    "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
+    "vagrantcloud_name": "kali",
     "version": "2016.2"
   },
   "builders": [
@@ -78,15 +78,10 @@
         "output":"vagrant/kali/kali-{{ user `kali_arch` }}/kali-{{ user `kali_version` }}-{{ user `kali_arch` }}-{{.Provider}}.box"
       },
       {
-        "type": "atlas",
-        "only": ["virtualbox-iso"],
-        "artifact": "{{ user `atlas_username` }}/{{ user `atlas_name` }}",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-          "created_at": "{{timestamp}}",
-          "version": "{{ user `version` }}",
-          "provider": "virtualbox"
-        }
+        "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{ user `vagrantcloud_username` }}/{{ user `vagrantcloud_name` }}",
+        "version": "{{user `version`}}"
       }
     ]
   ]
