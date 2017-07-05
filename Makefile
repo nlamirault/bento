@@ -56,6 +56,13 @@ virtualbox:
 qemu:
 	@$(PACKER) build -only=qemu $(template)
 
+.PHONY: lint
+lint:
+	@for tpl in `ls *.json`; do \
+		echo $$tpl; \
+		$(PACKER) validate $$tpl; \
+	done
+
 .PHONY: push
 push:
 	@$(PACKER) push \

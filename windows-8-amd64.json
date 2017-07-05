@@ -28,7 +28,7 @@
       "guest_os_type": "Windows81_64",
       "disk_size": "{{ user `disk_size` }}",
       "floppy_files": [
-        "floppy/windows-{{ user `windows_version` }}-{{ user `windows_arch` }}/answer_files/81/Autounattend.xml",
+        "floppy/windows-{{ user `windows_version` }}-{{ user `windows_arch` }}/answer_files/Autounattend.xml",
         "scripts/windows-{{ user `windows_version` }}-{{ user `windows_arch` }}/postunattend.xml",
         "scripts/windows-{{ user `windows_version` }}-{{ user `windows_arch` }}/boxstarter.ps1",
         "scripts/windows-{{ user `windows_version` }}-{{ user `windows_arch` }}/package.ps1"
