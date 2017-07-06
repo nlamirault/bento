@@ -3,6 +3,8 @@
 set -e
 set -x
 
+pkg_add xfce4 xfce4-extras
+
 # sudo PATH="/usr/pkg/sbin:http://ftp.netbsd.org/pub/pkgsrc/packages/$(uname -s)/$(uname -m)/$(uname -r|cut -f '1 2' -d.)/All" pkgin -y install tdb samba gvfs xfce4-thunar xfce4-desktop xfce4
 
 # sudo cp -f /usr/pkg/share/examples/rc.d/famd /etc/rc.d/

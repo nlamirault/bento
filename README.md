@@ -68,7 +68,6 @@ end
         $ export VAGRANTCLOUD_TOKEN="xxxxxxxxxxxx"
         $ export VAGRANTCLOUD_USERNAME="xxxxxxxxxxxx"
 
-
 ### Debian
 
     $ make virtualbox template=debian-9-amd64.json
@@ -96,7 +95,7 @@ end
 
 ### FreeBSD
 
-    $ make virtualbox template=freebsd-10.x-amd64.json
+    $ make virtualbox template=freebsd-xxx-amd64.json
     $ cd vagrant/freebsd
     $ vagrant up
 
@@ -106,7 +105,7 @@ end
 
 Make the virtualbox box:
 
-    $ make virtualbox template=netbsd-7.0-amd64.json
+    $ make virtualbox template=netbsd-xxx-amd64.json
     $ cd vagrant/netbsd
     $ vagrant up
     $ vagrant ssh
@@ -139,7 +138,6 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 
 [LICENSE]: https://github.com/nlamirault/bento/blob/master/LICENSE
-
 
 [D8]: https://app.vagrantup.com/nlamirault/boxes/debian-8
 [D9]: https://app.vagrantup.com/nlamirault/boxes/debian-9
