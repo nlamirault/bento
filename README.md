@@ -27,15 +27,15 @@ Some [Vagrant][] boxes . See [vagrant cloud](https://app.vagrantup.com/nlamiraul
 | Name           | Link                 | VirtualBox (5.x) | Qemu  |
 | -------------- | -------------------  | -----------------|-------|
 | debian-8       | [amd64][D8]          | [x]              | [x]   |
-| debian-9       | [amd64][D8]          |                  |       |
-| archlinux      | [amd64][Arch]        |                  |       |
+| debian-9       | [amd64][D9]          | [x]              |       |
+| archlinux      | [amd64][Arch]        | [x]              |       |
 | centos-7.2     | [amd64][C72]         | [x]              |       |
 | kali           | [amd64][Kali]        |                  |       |
 | freebsd-10.2   | [amd64][FBSD102]     | [x]              |       |
 | freebsd-10.3   | [amd64][FBSD103]     | [x]              |       |
-| freebsd-11.0   | [amd64][FBSD110]     |                  |       |
+| freebsd-11.0   | [amd64][FBSD110]     | [x]              |       |
 | openbsd-5.9    | [amd64][OBSD59]      | [x]              |       |
-| openbsd-6.0    | [amd64][OBSD60]      |                  |       |
+| openbsd-6.0    | [amd64][OBSD60]      | [x]              |       |
 | openbsd-6.1    | [amd64][OBSD61]      |                  |       |
 | netbsd-7.0     | [amd64][NBSD70]      | [x]              |       |
 | alpine 3.3     | [x86_64][Alpine3.3]  | [x]              |       |
