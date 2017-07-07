@@ -23,7 +23,7 @@ WARN_COLOR=\033[33;01m
 
 VERSION="0.5.0"
 
-PACKER ?= packer
+PACKER ?= PACKER_LOG=1 packer
 
 all: help
 
