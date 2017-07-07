@@ -1,0 +1,124 @@
+{
+  "variables": {
+    "vm_name": "OpenBSD-6.0",
+    "disk_size": "20480",
+    "memory_size": "1024",
+    "cpus": "1",
+    "iso_checksum": "a9b6b812cb456f11ba4362e232efdd5f0c47868f4281e383ecee77541b54498c",
+    "iso_checksum_type": "sha256",
+    "openbsd_version": "6.0",
+    "openbsd_arch": "amd64",
+    "ssh_username": "root",
+    "ssh_password": "vagrant",
+    "vagrant_username": "vagrant",
+    "vagrant_password": "vagrant",
+    "vagrant_group": "vagrant",
+    "hostname": "bento",
+    "source": "cd0",
+    "proxy": "",
+    "http_server": "",
+    "install_without_signature": "yes",
+    "path": "6.0/amd64",
+    "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
+    "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
+    "vagrantcloud_name": "openbsd-6.0",
+    "version": "1"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "i<enter><wait>",
+        "default<enter><wait>",
+        "{{ user `hostname` }}<enter><wait>",
+        "em0<enter><wait>",
+        "dhcp<enter><wait>",
+        "<wait10>",
+        "none<enter><wait>",
+        "done<enter><wait>",
+        "{{ user `ssh_password` }}<enter><wait>",
+        "{{ user `ssh_password` }}<enter><wait>",
+        "yes<enter><wait>",
+        "yes<enter><wait>",
+        "no<enter><wait>",
+        "{{ user `vagrant_username` }}<enter><wait>",
+        "{{ user `vagrant_username` }}<enter><wait>",
+        "{{ user `vagrant_password` }}<enter><wait>",
+        "{{ user `vagrant_password` }}<enter><wait>",
+        "no<enter><wait>",
+        "UTC<enter><wait>",
+        "wd0<enter><wait>",
+        "whole<enter><wait>",
+        "a<enter><wait>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "{{ user `source` }}<enter><wait>",
+        "{{ user `proxy` }}",
+        "{{ user `http_server` }}",
+        "{{ user `path` }}<enter><wait>",
+        "-c*<enter><wait>",
+        "-game*<enter><wait>",
+        "done<enter><wait>",
+        "{{ user `install_without_signature` }}<enter><wait>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "done<enter><wait5>",
+        "yes<enter><wait>",
+        "ftp -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.sh<enter><wait>",
+        "OPENBSD_RELEASE={{ user `openbsd_version` }} OPENBSD_ARCH={{ user `openbsd_arch` }} sh /tmp/install.sh<enter><wait>",
+        "reboot<enter>"
+      ],
+      "boot_wait": "30s",
+      "iso_url": "http://ftp.openbsd.org/pub/OpenBSD/{{ user `openbsd_version` }}/{{ user `openbsd_arch` }}/install60.iso",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "guest_os_type": "OpenBSD_64",
+      "guest_additions_mode": "disable",
+      "http_directory": "http/openbsd",
+      "shutdown_command": "shutdown -h -p now",
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "ssh_private_key_file": "vagrant/keys/vagrant.key",
+      "disk_size": "{{ user `disk_size` }}",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "{{ user `vm_name` }}",
+      "vboxmanage": [
+        ["modifyvm", "{{ .Name }}", "--memory", "{{ user `memory_size` }}"],
+        ["modifyvm", "{{ .Name }}", "--cpus", "{{ user `cpus` }}"]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/openbsd/init.sh",
+        "scripts/openbsd/sudoers.sh",
+        "scripts/openbsd/vagrant.sh",
+        "scripts/common/sshd.sh",
+        "scripts/openbsd/minimize.sh"
+      ],
+      "environment_vars": [
+        "PKG_PATH=http://ftp.openbsd.org/pub/OpenBSD/{{ user `openbsd_version` }}/packages/{{ user `openbsd_arch` }}/",
+        "VAGRANT_USER={{user `vagrant_username`}}",
+        "VAGRANT_PASSWORD={{user `vagrant_password`}}",
+        "VAGRANT_GROUP={{user `vagrant_group`}}"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "output": "vagrant/openbsd/OpenBSD-{{ .Provider }}-{{ user `version` }}.box"
+      },
+      {
+        "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{ user `vagrantcloud_username` }}/{{ user `vagrantcloud_name` }}",
+        "version": "{{user `version`}}"
+      }
+    ]
+  ]
+}
