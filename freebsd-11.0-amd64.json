@@ -1,0 +1,106 @@
+{
+  "variables": {
+    "box_basename": "FreeBSD-11.0-amd64",
+    "disk_size": "20480",
+    "memory_size": "1024",
+    "cpus": "1",
+    "iso_checksum": "08b12f2dc378f7a61b5469219824c74a2f9faef580acc85ffab45365df79872d",
+    "iso_checksum_type": "sha256",
+    "freebsd_version": "11.0",
+    "freebsd_main_version": "11",
+    "freebsd_arch": "amd64",
+    "ssh_username": "root",
+    "ssh_password": "vagrant",
+    "root_password": "vagrant",
+    "vagrant_username": "vagrant",
+    "vagrant_password": "vagrant",
+    "vagrant_group": "vagrant",
+    "metadata": "floppy/dummy_metadata.json",
+    "virtualbox_partition": "ada0",
+    "vmware_partition": "da0",
+    "DISTRIBUTIONS": "'base.txz kernel.txz lib32.txz'",
+    "ABI": "FreeBSD:11:amd64",
+    "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
+    "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
+    "vagrantcloud_name": "freebsd-11.0",
+    "version": "1"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<enter>",
+        "<wait10><wait10><wait5>",
+        "s",
+        "<wait5>",
+        "dhclient em0<enter><wait5>",
+        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.sh<enter>",
+        "<wait>",
+        "PARTITIONS=ada0 ",
+        "BSDINSTALL_DISTSITE=/usr/freebsd-dist ",
+        "ABI={{user `ABI`}} ",
+        "ROOT_PASSWORD={{user `root_password`}} ",
+        "VAGRANT_USER={{user `vagrant_username`}} ",
+        "VAGRANT_PASSWORD={{user `vagrant_password`}} ",
+        "VAGRANT_GROUP={{user `vagrant_group`}} ",
+        "bsdinstall script /tmp/install.sh<enter>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{user `disk_size`}}",
+      "guest_os_type": "FreeBSD_64",
+      "http_directory": "http/freebsd-{{ user `freebsd_main_version` }}-{{ user `freebsd_arch` }}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "http://ftp4.freebsd.org/pub/FreeBSD/releases/{{ user `freebsd_arch` }}/{{ user `freebsd_arch` }}/ISO-IMAGES/{{ user `freebsd_version` }}/FreeBSD-{{ user `freebsd_version` }}-RELEASE-{{ user `freebsd_arch` }}-disc1.iso",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ssh_password": "{{user `ssh_password`}}",
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'vagrant' | sudo shutdown -p now",
+      "guest_additions_mode": "disable",
+      "vm_name": "{{user `vm_name`}}",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "{{ user `memory_size` }}"],
+        ["modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/freebsd/update.sh",
+        "scripts/freebsd/postinstall.sh",
+        "scripts/freebsd/sudoers.sh",
+        "scripts/freebsd/vagrant.sh",
+        "scripts/freebsd/desktop.sh",
+        "scripts/freebsd/cleanup.sh",
+        "scripts/freebsd/minimize.sh"
+      ],
+      "execute_command": "chmod +x {{ .Path }}; env {{ .Vars }} {{ .Path }}",
+      "environment_vars": [
+        "ROOT_PASSWORD={{user `root_password`}}",
+        "VAGRANT_USER={{user `vagrant_username`}}",
+        "VAGRANT_PASSWORD={{user `vagrant_password`}}",
+        "VAGRANT_GROUP={{user `vagrant_group`}}",
+        "SLIM=slim-1.3.6_12",
+        "SLIM_THEMES=slim-themes-1.0.1"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "output": "vagrant/freebsd/freebsd-{{ user `freebsd_version`}}.{{.Provider}}.box"
+      },
+      {
+        "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{ user `vagrantcloud_username` }}/{{ user `vagrantcloud_name` }}",
+        "version": "{{user `version`}}"
+      }
+    ]
+  ]
+}

@@ -5,15 +5,20 @@
     "memory_size": "512",
     "cpus": "1",
     "variant": "minimal",
+    "ssh_username": "root",
+    "ssh_password": "vagrant",
+    "root_password": "vagrant",
+    "vagrant_username": "vagrant",
+    "vagrant_password": "vagrant",
     "iso_checksum": "436dca9493abc63b1698fae6d5065d89819fd76a2b05a0eb3d12023be6a391fe568b3f06fb6361adfed63516388abc06ee32cfe3ec81509f8e9e2237f516fec1",
     "iso_checksum_type": "sha512",
     "alpine_arch": "x86_64",
     "alpine_version": "3.3",
     "alpine_release": "3.3.3",
-    "atlas_token": "{{env `ATLAS_TOKEN`}}",
-    "atlas_username": "{{env `ATLAS_USERNAME`}}",
-    "atlas_name": "alpine-3.3",
-    "version": "1"
+    "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
+    "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
+    "vagrantcloud_name": "alpine-3.3",
+    "version": "2"
   },
   "builders": [
     {
@@ -37,12 +42,12 @@
       "boot_wait": "60s",
       "disk_size": "{{ user `disk_size` }}",
       "guest_os_type": "Linux26_64",
-      "http_directory": "http/alpine-{{ user `alpine_version` }}-{{ user `alpine_arch` }}",
+      "http_directory": "http/alpine-3-{{ user `alpine_arch` }}",
       "iso_urls": "http://dl-cdn.alpinelinux.org/alpine/v{{ user `alpine_version` }}/releases/{{ user `alpine_arch` }}/alpine-{{ user `alpine_release` }}-{{ user `alpine_arch` }}.iso",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-      "ssh_username": "root",
-      "ssh_password": "vagrant",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ssh_password": "{{user `ssh_password`}}",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "/sbin/poweroff",
@@ -68,14 +73,14 @@
         "scripts/alpine/vbguest.sh",
         "scripts/common/motd.sh",
         "scripts/alpine/cleanup.sh"
+      ],
+      "environment_vars": [
+        "ROOT_PASSWORD={{user `root_password`}}",
+        "VAGRANT_USERNAME={{user `vagrant_username`}}",
+        "VAGRANT_PASSWORD={{user `vagrant_password`}}"
       ]
     }
   ],
-  "push": {
-    "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-    "token": "{{user `atlas_name`}}",
-    "vcs": true
-  },
   "post-processors": [
     [
       {
@@ -84,15 +89,10 @@
         "output":"vagrant/alpine-{{ user `alpine_version` }}-{{ user `alpine_arch` }}/alpine-{{ user `alpine_version` }}-{{ user `alpine_arch` }}-{{.Provider}}.box"
       },
       {
-        "type": "atlas",
-        "only": ["virtualbox-iso"],
-        "artifact": "{{ user `atlas_username` }}/{{ user `atlas_name` }}",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-          "created_at": "{{timestamp}}",
-          "version": "{{ user `version` }}",
-          "provider": "virtualbox"
-        }
+        "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{ user `vagrantcloud_username` }}/{{ user `vagrantcloud_name` }}",
+        "version": "{{user `version`}}"
       }
     ]
   ]

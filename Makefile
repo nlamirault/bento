@@ -1,4 +1,4 @@
-# Copyright (C) 2015, 2016 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+# Copyright (C) 2015-2017 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ WARN_COLOR=\033[33;01m
 
 VERSION="0.5.0"
 
-PACKER ?= packer
+PACKER ?= PACKER_LOG=1 packer
 
 all: help
 
@@ -55,6 +55,13 @@ virtualbox:
 .PHONY: qemu
 qemu:
 	@$(PACKER) build -only=qemu $(template)
+
+.PHONY: lint
+lint:
+	@for tpl in `ls *.json`; do \
+		echo $$tpl; \
+		$(PACKER) validate $$tpl; \
+	done
 
 .PHONY: push
 push:

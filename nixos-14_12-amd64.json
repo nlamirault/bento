@@ -1,90 +1,83 @@
 {
-    "push": {
-      "name": "nlamirault/nixos"
+  "variables": {
+    "vm_name": "NixOS-14_12_x86_64",
+    "disk_size": "2000",
+    "memory_size": "1024",
+    "cpus": "1",
+    "iso_url": "http://releases.nixos.org/nixos/14.12/nixos-14.12.673.0672315/nixos-minimal-14.12.673.0672315-x86_64-linux.iso",
+    "iso_checksum": "541de764672f33d0c205caa6eda696330d6af9368ee63cc7146311ed79beaf92",
+    "iso_checksum_type": "sha256",
+    "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
+    "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
+    "vagrantcloud_name": "nixos",
+    "version": "0.1.0"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "vm_name": "{{ user `vm_name` }}",
+      "guest_os_type": "Linux_64",
+      "disk_size": "{{ user `disk_size` }}",
+      "boot_wait": "1m",
+      "boot_command": [
+        "root<enter>",
+        "stop sshd<enter>",
+        "fdisk /dev/sda<enter>",
+        "n<enter>",
+        "p<enter>",
+        "1<enter>",
+        "<enter><enter>",
+        "a<enter>",
+        "w<enter>",
+        "<wait>",
+        "mkfs.ext4 -j -L nixos /dev/sda1<enter><wait5>",
+        "mount LABEL=nixos /mnt<enter><wait>",
+        "nixos-generate-config --root /mnt<enter><wait>",
+        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/configuration.nix > /mnt/etc/nixos/configuration.nix<enter><wait>",
+        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/guest.nix > /mnt/etc/nixos/guest.nix<enter><wait>",
+        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/graphical.nix > /mnt/etc/nixos/graphical.nix<enter><wait>",
+        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/text.nix > /mnt/etc/nixos/text.nix<enter><wait>",
+        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/users.nix > /mnt/etc/nixos/users.nix<enter><wait>",
+        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/vagrant-hostname.nix > /mnt/etc/nixos/vagrant-hostname.nix<enter><wait>",
+        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/vagrant-network.nix > /mnt/etc/nixos/vagrant-network.nix<enter><wait>",
+        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/vagrant.nix > /mnt/etc/nixos/vagrant.nix<enter><wait>",
+        "nixos-install && reboot<enter>"
+      ],
+      "guest_additions_mode": "disable",
+      "http_directory": "http/nixos",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "iso_url": "{{ user `iso_url` }}",
+      "shutdown_command": "sudo shutdown -h now",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_wait_timeout": "55m",
+      "ssh_private_key_file": "vagrant/keys/vagrant.key",
+      "virtualbox_version_file": ".vbox_version",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "{{ user `memory_size` }}"],
+        ["modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "sudo sh '{{.Path}}'",
+      "script": "scripts/nixos/postinstall.sh"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "vagrant/nixos/nixbox64-{{.Provider}}.box"
     },
-    "variables": {
-        "vm_name": "NixOS-14_12_x86_64",
-        "disk_size": "2000",
-        "memory_size": "1024",
-        "cpus": "1",
-        "iso_url": "http://releases.nixos.org/nixos/14.12/nixos-14.12.673.0672315/nixos-minimal-14.12.673.0672315-x86_64-linux.iso",
-        "iso_checksum": "541de764672f33d0c205caa6eda696330d6af9368ee63cc7146311ed79beaf92",
-        "iso_checksum_type": "sha256",
-        "vagrant_cloud_token": "{{env `ATLAS_TOKEN`}}",
-        "atlas_username": "{{env `ATLAS_USERNAME`}}",
-        "atlas_name": "nixos",
-        "version": "0.1.0"
-    },
-    "builders": [
-        {
-            "type": "virtualbox-iso",
-            "vm_name": "{{ user `vm_name` }}",
-            "guest_os_type": "Linux_64",
-            "disk_size": "{{ user `disk_size` }}",
-            "boot_wait": "1m",
-            "boot_command": [
-                "root<enter>",
-                "stop sshd<enter>",
-                "fdisk /dev/sda<enter>",
-                "n<enter>",
-                "p<enter>",
-                "1<enter>",
-                "<enter><enter>",
-                "a<enter>",
-                "w<enter>",
-                "<wait>",
-                "mkfs.ext4 -j -L nixos /dev/sda1<enter><wait5>",
-                "mount LABEL=nixos /mnt<enter><wait>",
-                "nixos-generate-config --root /mnt<enter><wait>",
-                "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/configuration.nix > /mnt/etc/nixos/configuration.nix<enter><wait>",
-                "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/guest.nix > /mnt/etc/nixos/guest.nix<enter><wait>",
-                "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/graphical.nix > /mnt/etc/nixos/graphical.nix<enter><wait>",
-                "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/text.nix > /mnt/etc/nixos/text.nix<enter><wait>",
-                "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/users.nix > /mnt/etc/nixos/users.nix<enter><wait>",
-                "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/vagrant-hostname.nix > /mnt/etc/nixos/vagrant-hostname.nix<enter><wait>",
-                "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/vagrant-network.nix > /mnt/etc/nixos/vagrant-network.nix<enter><wait>",
-                "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/vagrant.nix > /mnt/etc/nixos/vagrant.nix<enter><wait>",
-                "nixos-install && reboot<enter>"
-            ],
-            "guest_additions_mode": "disable",
-            "http_directory": "http/nixos",
-            "iso_checksum": "{{ user `iso_checksum` }}",
-            "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-            "iso_url": "{{ user `iso_url` }}",
-            "shutdown_command": "sudo shutdown -h now",
-            "ssh_port": 22,
-            "ssh_username": "vagrant",
-            "ssh_password": "vagrant",
-            "ssh_wait_timeout": "55m",
-            "ssh_private_key_file": "vagrant/keys/vagrant.key",
-            "virtualbox_version_file": ".vbox_version",
-            "vboxmanage": [
-                ["modifyvm", "{{.Name}}", "--memory", "{{ user `memory_size` }}"],
-                ["modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"]
-            ]
-        }
-    ],
-    "provisioners": [
-        {
-            "type": "shell",
-            "execute_command": "sudo sh '{{.Path}}'",
-            "script": "scripts/nixos/postinstall.sh"
-        }
-    ],
-    "post-processors": [
-        {
-            "type": "vagrant",
-            "output": "vagrant/nixos/nixbox64-{{.Provider}}.box"
-        },
-        {
-            "type": "atlas",
-            "only": ["virtualbox-iso"],
-            "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-            "artifact_type": "vagrant.box",
-            "metadata": {
-                "provider": "virtualbox",
-                "version": "{{ user `version` }}"
-            }
-        }
-    ]
+    {
+        "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{ user `vagrantcloud_username` }}/{{ user `vagrantcloud_name` }}",
+        "version": "{{user `version`}}"
+      }
+  ]
 }

@@ -2,10 +2,18 @@
 
 ![bento](img/bento_process.png)
 
-Some [Vagrant][] boxes . See: https://atlas.hashicorp.com/nlamirault
+Some [Vagrant][] boxes . See [vagrant cloud](https://app.vagrantup.com/nlamirault)
 
 * Master : [![Circle CI](https://circleci.com/gh/nlamirault/bento/tree/master.svg?style=svg)](https://circleci.com/gh/nlamirault/bento/tree/master)
 * Develop : [![Circle CI](https://circleci.com/gh/nlamirault/bento/tree/develop.svg?style=svg)](https://circleci.com/gh/nlamirault/bento/tree/develop)
+
+
+## Prerequisites
+
+* [Packer](https://www.packer.io/)
+* [Vagrant](https://www.vagrantup.com/)
+* [VirtualBox](https://www.virtualbox.org/) Version
+
 
 ## Usage
 
@@ -16,18 +24,24 @@ Some [Vagrant][] boxes . See: https://atlas.hashicorp.com/nlamirault
 
 * The following boxes are built from this repository's templates :
 
-| Name           | VirtualBox (5.x)     |
-| -------------- | -------------------  |
-| debian-8       | [amd64][D8]          |
-| archlinux      | [amd64][Arch]        |
-| centos-7.2     | [amd64][C72]         |
-| kali           | [amd64][Kali]        |
-| freebsd-10.2   | [amd64][FBSD102]     |
-| freebsd-10.3   | [amd64][FBSD103]     |
-| openbsd-5.9    | [amd64][OBSD59]      |
-| netbsd-7.0     | [amd64][NBSD70]      |
-| alpine 3.3     | [x86_64][Alpine3.3]  |
-| alpine 3.4     | [x86_64][Alpine3.4]  |
+| Name           | Link                 | VirtualBox (5.x) | Qemu  |
+| -------------- | -------------------  | -----------------|-------|
+| debian-8       | [amd64][D8]          | [x]              | [x]   |
+| debian-9       | [amd64][D9]          | [x]              |       |
+| archlinux      | [amd64][Arch]        | [x]              |       |
+| centos-7.2     | [amd64][C72]         | [x]              |       |
+| kali           | [amd64][Kali]        |                  |       |
+| freebsd-10.2   | [amd64][FBSD102]     | [x]              |       |
+| freebsd-10.3   | [amd64][FBSD103]     | [x]              |       |
+| freebsd-11.0   | [amd64][FBSD110]     | [x]              |       |
+| openbsd-5.9    | [amd64][OBSD59]      | [x]              |       |
+| openbsd-6.0    | [amd64][OBSD60]      | [x]              |       |
+| openbsd-6.1    | [amd64][OBSD61]      |                  |       |
+| netbsd-7.0     | [amd64][NBSD70]      | [x]              |       |
+| alpine 3.3     | [x86_64][Alpine3.3]  | [x]              |       |
+| alpine 3.4     | [x86_64][Alpine3.4]  | [x]              |       |
+| alpine 3.6     | [x86_64][Alpine3.6]  | [x]              |       |
+| blackarch      | [amd64][BlackArch]   |                  |       |
 
 * Using a box in a Vagrantfile:
 
@@ -44,20 +58,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 end
 ```
 
+
 ## Build boxes
 
-* Install [Packer][] (>= 0.8)
+* Install [Packer][]
 
-* Setup your Atlas token :
+* Setup your [Vagrant-cloud](https://app.vagrantup.com/) settings :
 
-        $ export ATLAS_TOKEN="xxxxxxxxxxxx"
-
-* Username : `vagrant`
-* Password: `vagrant`
+        $ export VAGRANTCLOUD_TOKEN="xxxxxxxxxxxx"
+        $ export VAGRANTCLOUD_USERNAME="xxxxxxxxxxxx"
 
 ### Debian
 
-    $ make virtualbox template=debian-8-amd64.json
+    $ make virtualbox template=debian-9-amd64.json
     $ cd vagrant/debian
     $ vagrant up
 
@@ -82,7 +95,7 @@ end
 
 ### FreeBSD
 
-    $ make virtualbox template=freebsd-10.x-amd64.json
+    $ make virtualbox template=freebsd-xxx-amd64.json
     $ cd vagrant/freebsd
     $ vagrant up
 
@@ -92,7 +105,7 @@ end
 
 Make the virtualbox box:
 
-    $ make virtualbox template=netbsd-7.0-amd64.json
+    $ make virtualbox template=netbsd-xxx-amd64.json
     $ cd vagrant/netbsd
     $ vagrant up
     $ vagrant ssh
@@ -105,21 +118,6 @@ Make the virtualbox box:
 ### OpenBSD
 
 
-## Development
-
-* Requirements : [Packer][]
-
-* Virtualization provider: [Virtualbox][]
-
-* Make the box on localhost
-
-        $ make virtualbox template=debian-8.2-amd64
-
-* Push to [Atlas][] a configuration build:
-
-        $ make push template=debian-8.2-amd64
-
-* Then on [Atlas][] website, performed a build. And edit settings to make the box public.
 
 
 ## License
@@ -141,31 +139,31 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 [LICENSE]: https://github.com/nlamirault/bento/blob/master/LICENSE
 
+[D8]: https://app.vagrantup.com/nlamirault/boxes/debian-8
+[D9]: https://app.vagrantup.com/nlamirault/boxes/debian-9
 
+[Arch]: https://app.vagrantup.com/nlamirault/boxes/archlinux
 
-[Packer]: https://www.packer.io/
-[Atlas]:  https://atlas.hashicorp.com
-[Vagrant]: https://www.vagrantup.com/
+[Kali]: https://app.vagrantup.com/nlamirault/boxes/kali
 
-[Virtualbox]: https://www.virtualbox.org/
+[U1510]: https://app.vagrantup.com/nlamirault/boxes/ubuntu-15.10
 
+[C72]: https://app.vagrantup.com/nlamirault/boxes/centos-7.2
 
-[D8]: https://atlas.hashicorp.com/nlamirault/boxes/debian-8
+[N1412]: https://app.vagrantup.com/nlamirault/boxes/nixos-1412
 
-[Arch]: https://atlas.hashicorp.com/nlamirault/boxes/archlinux
+[FBSD102]: https://app.vagrantup.com/nlamirault/boxes/freebsd-10.3
+[FBSD103]: https://app.vagrantup.com/nlamirault/boxes/freebsd-10.2
+[FBSD110]: https://app.vagrantup.com/nlamirault/boxes/freebsd-11.0
 
-[Kali]: https://atlas.hashicorp.com/nlamirault/boxes/kali
+[NBSD70]: https://app.vagrantup.com/nlamirault/boxes/netbsd-7.0
 
-[U1510]: https://atlas.hashicorp.com/nlamirault/boxes/ubuntu-15.10
+[OBSD59]: https://app.vagrantup.com/nlamirault/boxes/openbsd-5.9
+[OBSD60]: https://app.vagrantup.com/nlamirault/boxes/openbsd-6.0
+[OBSD61]: https://app.vagrantup.com/nlamirault/boxes/openbsd-6.1
 
-[C72]: https://atlas.hashicorp.com/nlamirault/boxes/centos-7.2
+[Alpine3.3]: https://app.vagrantup.com/nlamirault/boxes/alpine-3.3
+[Alpine3.4]: https://app.vagrantup.com/nlamirault/boxes/alpine-3.4
+[Alpine3.6]: https://app.vagrantup.com/nlamirault/boxes/alpine-3.6
 
-[N1412]: https://atlas.hashicorp.com/nlamirault/boxes/nixos-1412
-
-[FBSD102]: https://atlas.hashicorp.com/nlamirault/boxes/freebsd-10.3
-[FBSD103]: https://atlas.hashicorp.com/nlamirault/boxes/freebsd-10.2
-[NBSD70]: https://atlas.hashicorp.com/nlamirault/boxes/netbsd-7.0
-[OBSD59]: https://atlas.hashicorp.com/nlamirault/boxes/openbsd-5.9
-
-[Alpine3.3]: https://atlas.hashicorp.com/nlamirault/boxes/alpine-3.3
-[Alpine3.4]: https://atlas.hashicorp.com/nlamirault/boxes/alpine-3.4
+[BlackArch]: https://blackarch.org/

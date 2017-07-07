@@ -5,7 +5,7 @@
 KEYMAPOPTS="us us"
 
 # Set hostname to localhost
-HOSTNAMEOPTS="-n alpine34"
+HOSTNAMEOPTS="-n alpine-bento"
 
 # Contents of /etc/network/interfaces
 INTERFACESOPTS="auto lo
@@ -17,7 +17,7 @@ iface eth0 inet dhcp
 "
 
 # Search domain of example.com, Google public nameserver
-DNSOPTS="8.8.8.8"
+DNSOPTS="-d local -n 8.8.8.8 8.8.4.4"
 
 # Set timezone to UTC
 TIMEZONEOPTS="-z UTC"
@@ -26,7 +26,7 @@ TIMEZONEOPTS="-z UTC"
 PROXYOPTS="none"
 
 # Add a random mirror
-APKREPOSOPTS="-f"
+APKREPOSOPTS="http://dl-cdn.alpinelinux.org/alpine/v3.6/main"
 
 # Install Openssh
 SSHDOPTS="-c openssh"

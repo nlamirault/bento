@@ -1,7 +1,7 @@
 set -eux
 
 apk add sudo
-adduser vagrant wheel
+adduser $VAGRANT_USERNAME wheel
 
 echo "Defaults exempt_group=wheel" > /etc/sudoers
 echo "%wheel ALL=NOPASSWD:ALL" >> /etc/sudoers

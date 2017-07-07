@@ -1,103 +1,52 @@
 #!/bin/sh -eux
 
 sudo pkg update -f
-sudo pkg install -y xorg slim xfce i3 i3lock i3status
-echo "exec /usr/local/bin/startxfce4 --with-ck-launch" > ~/.xinitrc
-echo "#!/bin/sh" > ~/.xsession
-echo "exec /usr/local/bin/startxfce4 --with-ck-launch" >> ~/.xsession
-chmod +x ~/.xsession
+pkg install -y ${XFCE:-"xfce-4.12_1"} ${ARANDR:-"arandr-0.1.7.1_2"}
 
-echo 'hald_enable="YES"' >> /etc/rc.conf
-echo 'dbus_enable="YES"' >> /etc/rc.conf
-echo 'moused_enable="YES"' >> /etc/rc.conf
-echo 'slim_enable="YES"' >> /etc/rc.conf
+cat >> /usr/local/etc/polkit-1/rules.d/10-restart.rules << EOF
+polkit.addRule(function (action, subject) {
+if (action.id == "org.freedesktop.consolekit.system.restart" ||
+action.id == "org.freedesktop.consolekit.system.stop"
+&& subject.isInGroup("wheel")) {
+return polkit.Result.YES;
+}
+});
+EOF
 
-# sudo Xorg -configure
-# sudo cp /root/xorg.conf.new /usr/local/etc/X11/xorg.conf.d/xorg.conf
-cat >>/usr/local/etc/X11/xorg.conf.d/xorg.conf << XORG_CONF
+cat >> /usr/local/etc/polkit-1/rules.d/11-suspend.rules << EOF
+polkit.addRule(function (action, subject) {
+if (action.id == "org.freedesktop.consolekit.system.suspend"
+&& subject.isInGroup("wheel")) {
+return polkit.Result.YES;
+}
+});
+EOF
 
-Section "ServerLayout"
-	Identifier     "X.org Configured"
-	Screen      0  "Screen0" 0 0
-	InputDevice    "Mouse0" "CorePointer"
-	InputDevice    "Keyboard0" "CoreKeyboard"
+pw groupmod wheel -m ${VAGRANT_USER:=vagrant}
+
+cat >> /etc/X11/xorg.conf << EOF
+
+Section "Module"
+	Load "freetype"
 EndSection
 
 Section "Files"
-	ModulePath   "/usr/local/lib/xorg/modules"
-	FontPath     "/usr/local/share/fonts/misc/"
-	FontPath     "/usr/local/share/fonts/TTF/"
-	FontPath     "/usr/local/share/fonts/OTF/"
-	FontPath     "/usr/local/share/fonts/Type1/"
-	FontPath     "/usr/local/share/fonts/100dpi/"
-	FontPath     "/usr/local/share/fonts/75dpi/"
+	FontPath "/usr/local/share/fonts/dejavu/"
 EndSection
+EOF
 
-Section "Module"
-	Load  "glx"
-EndSection
+echo "exec /usr/local/bin/startxfce4 --with-ck-launch" > /home/$VAGRANT_USER/.xinitrc
+chown $VAGRANT_USER:${VAGRANT_GROUP:=vagrant} /home/$VAGRANT_USER/.xinitrc
 
-Section "InputDevice"
-	Identifier  "Keyboard0"
-	Driver      "kbd"
-EndSection
+cat > /home/$VAGRANT_USER/.xsession << EOF
+#!/bin/sh
+exec /usr/local/bin/startxfce4 --with-ck-launch
+EOF
+chown $VAGRANT_USER:$VAGRANT_GROUP /home/$VAGRANT_USER/.xsession
+chmod +x /home/$VAGRANT_USER/.xsession
 
-Section "InputDevice"
-	Identifier  "Mouse0"
-	Driver      "mouse"
-	Option	    "Protocol" "auto"
-	Option	    "Device" "/dev/sysmouse"
-	Option	    "ZAxisMapping" "4 5 6 7"
-EndSection
+pkg install -y $SLIM $SLIM_THEMES
+echo 'slim_enable="YES"' >> /etc/rc.conf
 
-Section "Monitor"
-	Identifier   "Monitor0"
-	VendorName   "Monitor Vendor"
-	ModelName    "Monitor Model"
-EndSection
-
-Section "Device"
-        ### Available Driver options are:-
-        ### Values: <i>: integer, <f>: float, <bool>: "True"/"False",
-        ### <string>: "String", <freq>: "<f> Hz/kHz/MHz",
-        ### <percent>: "<f>%"
-        ### [arg]: arg optional
-        #Option     "ShadowFB"           	# [<bool>]
-        #Option     "DefaultRefresh"     	# [<bool>]
-        #Option     "ModeSetClearScreen" 	# [<bool>]
-	Identifier  "Card0"
-	Driver      "vesa"
-	BusID       "PCI:0:2:0"
-EndSection
-
-Section "Screen"
-	Identifier "Screen0"
-	Device     "Card0"
-	Monitor    "Monitor0"
-	SubSection "Display"
-		Viewport   0 0
-		Depth     1
-	EndSubSection
-	SubSection "Display"
-		Viewport   0 0
-		Depth     4
-	EndSubSection
-	SubSection "Display"
-		Viewport   0 0
-		Depth     8
-	EndSubSection
-	SubSection "Display"
-		Viewport   0 0
-		Depth     15
-	EndSubSection
-	SubSection "Display"
-		Viewport   0 0
-		Depth     16
-	EndSubSection
-	SubSection "Display"
-		Viewport   0 0
-		Depth     24
-	EndSubSection
-EndSection
-
-XORG_CONF
+cp /usr/local/etc/slim.conf /usr/local/etc/slim.conf.orig
+sed '/current_theme/s/default/fbsd/' /usr/local/etc/slim.conf.orig > /usr/local/etc/slim.conf

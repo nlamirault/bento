@@ -1,45 +1,79 @@
 {
   "variables": {
     "vm_name": "OpenBSD-5.9",
-    "disk_size": "20000",
+    "disk_size": "20480",
     "memory_size": "1024",
     "cpus": "1",
-    "iso_checksum": "ea3bad95ed6975784bfc85a837820dace4147443e57cf23c1a6e4d12243d37c2",
+    "iso_checksum": "685262fc665425c61a2952b2820389a2d331ac5558217080e6d564d2ce88eecb",
     "iso_checksum_type": "sha256",
     "openbsd_version": "5.9",
     "openbsd_arch": "amd64",
-    "atlas_token": "{{env `ATLAS_TOKEN`}}",
-    "atlas_username": "{{env `ATLAS_USERNAME`}}",
-    "atlas_name": "openbsd-5.9",
-    "version": "1"
+    "ssh_username": "root",
+    "ssh_password": "vagrant",
+    "vagrant_username": "vagrant",
+    "vagrant_password": "vagrant",
+    "vagrant_group": "vagrant",
+    "hostname": "bento",
+    "source": "cd0",
+    "proxy": "",
+    "http_server": "",
+    "install_without_signature": "yes",
+    "path": "5.9/amd64",
+    "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
+    "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
+    "vagrantcloud_name": "openbsd-5.9",
+    "version": "2"
   },
   "builders": [
     {
       "type": "virtualbox-iso",
       "boot_command": [
-        "S<enter><wait>",
-        "cat <<EOF >>install.conf<enter>",
-        "System hostname = openbsd59<enter>",
-        "Password for root = vagrant<enter>",
-        "Do you expect to run the X Window System = no<enter>",
-        "Setup a user = vagrant<enter>",
-        "Password for user vagrant = vagrant<enter>",
-        "Location of sets = http<enter>",
-        "Set name(s) = -game*<enter>",
-        "Set name(s) = -x*<enter>",
-        "Allow root ssh login = yes<enter>",
-        "What timezone are you in = Etc/UTC<enter>",
-        "EOF<enter>",
-        "install -af install.conf && reboot<wait5><enter>"
+        "i<enter><wait>",
+        "default<enter><wait>",
+        "{{ user `hostname` }}<enter><wait>",
+        "em0<enter><wait>",
+        "dhcp<enter><wait>",
+        "<wait10>",
+        "none<enter><wait>",
+        "done<enter><wait>",
+        "{{ user `ssh_password` }}<enter><wait>",
+        "{{ user `ssh_password` }}<enter><wait>",
+        "yes<enter><wait>",
+        "yes<enter><wait>",
+        "no<enter><wait>",
+        "{{ user `vagrant_username` }}<enter><wait>",
+        "{{ user `vagrant_username` }}<enter><wait>",
+        "{{ user `vagrant_password` }}<enter><wait>",
+        "{{ user `vagrant_password` }}<enter><wait>",
+        "no<enter><wait>",
+        "UTC<enter><wait>",
+        "wd0<enter><wait>",
+        "whole<enter><wait>",
+        "a<enter><wait>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "{{ user `source` }}<enter><wait>",
+        "{{ user `proxy` }}",
+        "{{ user `http_server` }}",
+        "{{ user `path` }}<enter><wait>",
+        "-c*<enter><wait>",
+        "-game*<enter><wait>",
+        "done<enter><wait>",
+        "{{ user `install_without_signature` }}<enter><wait>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "done<enter><wait5>",
+        "yes<enter><wait>",
+        "ftp -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.sh<enter><wait>",
+        "OPENBSD_RELEASE={{ user `openbsd_version` }} OPENBSD_ARCH={{ user `openbsd_arch` }} sh /tmp/install.sh<enter><wait>",
+        "reboot<enter>"
       ],
       "boot_wait": "15s",
-      "iso_url": "http://ftp.openbsd.org/pub/OpenBSD/{{ user `openbsd_version` }}/{{ user `openbsd_arch` }}/cd59.iso",
+      "iso_url": "http://ftp.openbsd.org/pub/OpenBSD/{{ user `openbsd_version` }}/{{ user `openbsd_arch` }}/install59.iso",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
       "guest_os_type": "OpenBSD_64",
       "guest_additions_mode": "disable",
       "http_directory": "http/openbsd",
-      "shutdown_command": "sudo shutdown -h -p now",
+      "shutdown_command": "shutdown -h -p now",
       "ssh_username": "root",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -60,17 +94,18 @@
       "scripts": [
         "scripts/openbsd/init.sh",
         "scripts/openbsd/sudoers.sh",
-        "scripts/common/vagrant.sh",
+        "scripts/openbsd/vagrant.sh",
         "scripts/common/sshd.sh",
         "scripts/openbsd/minimize.sh"
+      ],
+      "environment_vars": [
+        "PKG_PATH=http://ftp.openbsd.org/pub/OpenBSD/{{ user `openbsd_version` }}/packages/{{ user `openbsd_arch` }}/",
+        "VAGRANT_USER={{user `vagrant_username`}}",
+        "VAGRANT_PASSWORD={{user `vagrant_password`}}",
+        "VAGRANT_GROUP={{user `vagrant_group`}}"
       ]
     }
   ],
-  "push": {
-    "name": "{{ user `atlas_username` }}/{{ user `atlas_name` }}",
-    "token": "{{ user `atlas_name` }}",
-    "vcs": true
-  },
   "post-processors": [
     [
       {
@@ -79,15 +114,10 @@
         "output": "vagrant/openbsd/OpenBSD-{{ .Provider }}-{{ user `version` }}.box"
       },
       {
-        "type": "atlas",
-        "only": ["virtualbox-iso"],
-        "artifact": "{{ user `atlas_username` }}/{{ user `atlas_name` }}",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-          "created_at": "{{ timestamp }}",
-          "version": "{{ user `version` }}",
-          "provider": "virtualbox"
-        }
+        "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{ user `vagrantcloud_username` }}/{{ user `vagrantcloud_name` }}",
+        "version": "{{user `version`}}"
       }
     ]
   ]

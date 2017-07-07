@@ -1,6 +1,13 @@
 Bento ChangeLog
 ================
 
+# Version 0.6.0 (07/07/2017)
+
+- Migrate to Vagrant Cloud
+- Add OpenBSD 6.0 and 6.1
+- Add FreeBSD 11.0
+- Add Alpine Linux 3.6
+
 # Version 0.5.0 (08/30/2016)
 
 - Update documentation

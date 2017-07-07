@@ -1,13 +1,10 @@
-#!/bin/ksh
+#!/bin/sh
 
 set -e
 set -x
 
-for dir in $(mount | awk '{ print $3 }'); do
-  sudo dd if=/dev/zero of="$dir/EMPTY" bs=1M || :
-  sudo rm "$dir/EMPTY"
-done
-
-swap_device=$(swapctl -l | awk '!/^Device/ { print $1 }')
-sudo swapctl -d "$swap_device"
-sudo dd if=/dev/zero of="$swap_device" bs=1M || :
+dd if=/dev/zero of=/EMPTY bs=1M || echo "dd exit code $? is suppressed";
+rm -f /EMPTY;
+# Block until the empty file has been removed, otherwise, Packer
+# will try to kill the box while the disk is still full and that's bad
+sync;
