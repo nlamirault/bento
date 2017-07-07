@@ -12,7 +12,7 @@
     "ssh_password": "vagrant",
     "vagrant_username": "vagrant",
     "vagrant_password": "vagrant",
-    "vagrant_group": "users",
+    "vagrant_group": "vagrant",
     "hostname": "bento",
     "source": "cd0",
     "proxy": "",
@@ -22,7 +22,7 @@
     "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
     "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
     "vagrantcloud_name": "openbsd-5.9",
-    "version": "1"
+    "version": "2"
   },
   "builders": [
     {
@@ -73,7 +73,7 @@
       "guest_os_type": "OpenBSD_64",
       "guest_additions_mode": "disable",
       "http_directory": "http/openbsd",
-      "shutdown_command": "sudo shutdown -h -p now",
+      "shutdown_command": "shutdown -h -p now",
       "ssh_username": "root",
       "ssh_password": "vagrant",
       "ssh_port": 22,

@@ -1,8 +1,10 @@
-#!/bin/ksh
+#!/bin/sh
 
 set -e
 set -x
 
-dd if=/dev/zero of=/tmp/zero.bin
-rm /tmp/zero.bin
-echo "$(date): Disk cleanup completed."
+dd if=/dev/zero of=/EMPTY bs=1M || echo "dd exit code $? is suppressed";
+rm -f /EMPTY;
+# Block until the empty file has been removed, otherwise, Packer
+# will try to kill the box while the disk is still full and that's bad
+sync;
