@@ -28,7 +28,7 @@ Some [Vagrant][] boxes . See [vagrant cloud](https://app.vagrantup.com/nlamiraul
 | -------------- | -------------------  | -----------------|-------|
 | debian-8       | [amd64][D8]          | [x]              | [x]   |
 | debian-9       | [amd64][D9]          | [x]              |       |
-| archlinux      | [amd64][Arch]        | [x]              |       |
+| archlinux      | [amd64][Arch]        | [x]              | [x]   |
 | centos-7.2     | [amd64][C72]         | [x]              |       |
 | kali           | [amd64][Kali]        |                  |       |
 | freebsd-10.2   | [amd64][FBSD102]     | [x]              |       |
