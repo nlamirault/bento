@@ -21,7 +21,6 @@ Some [Vagrant][] boxes . See [vagrant cloud](https://app.vagrantup.com/nlamiraul
 
         $ vagrant box add nlamirault/<box_name>
 
-
 * The following boxes are built from this repository's templates :
 
 | Name           | Link                 | VirtualBox (5.x) | Qemu  |
@@ -29,6 +28,7 @@ Some [Vagrant][] boxes . See [vagrant cloud](https://app.vagrantup.com/nlamiraul
 | debian-8       | [amd64][D8]          | [x]              | [x]   |
 | debian-9       | [amd64][D9]          | [x]              |       |
 | archlinux      | [amd64][Arch]        | [x]              | [x]   |
+| voidlinux      | [amd64][Void]        | [x]              | [x]   |
 | centos-7.2     | [amd64][C72]         | [x]              |       |
 | kali           | [amd64][Kali]        |                  |       |
 | freebsd-10.2   | [amd64][FBSD102]     | [x]              |       |
@@ -78,6 +78,12 @@ end
 
     $ make virtualbox template=archlinux.json
     $ cd vagrant/archlinux
+    $ vagrant up
+
+### Voidlinux
+
+    $ make virtualbox template=voidlinux.json
+    $ cd vagrant/voidlinux
     $ vagrant up
 
 ### Kali Linux
@@ -143,6 +149,8 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 [D9]: https://app.vagrantup.com/nlamirault/boxes/debian-9
 
 [Arch]: https://app.vagrantup.com/nlamirault/boxes/archlinux
+
+[Void]: https://app.vagrantup.com/nlamirault/boxes/voidlinux
 
 [Kali]: https://app.vagrantup.com/nlamirault/boxes/kali
 
