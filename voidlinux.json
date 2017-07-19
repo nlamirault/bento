@@ -1,0 +1,117 @@
+{
+  "variables": {
+    "vm_name": "VoidLinux",
+    "disk_size": "20480",
+    "memory_size": "1024",
+    "cpus": "2",
+    "headless": "false",
+    "ssh_username": "root",
+    "ssh_password": "voidlinux",
+    "vagrant_username": "vagrant",
+    "vagrant_group": "vagrant",
+    "vagrant_password": "vagrant",
+    "vagrant_hostname": "bento",
+    "iso_checksum": "eae521df432b6b6a89b9dadd1ae781e73174c270f13805837b00d19c8747a043",
+    "iso_checksum_type": "sha256",
+    "voidlinux_version": "20170220",
+    "voidlinux_arch": "x86_64",
+    "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
+    "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
+    "vagrantcloud_name": "voidlinux",
+    "version": "20170220"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<enter>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{user `disk_size`}}",
+      "guest_os_type": "Linux_64",
+      "http_directory": "http/voidlinux",
+      "iso_url": "https://repo.voidlinux.eu/live/current/void-live-{{ user `voidlinux_arch` }}-{{ user `voidlinux_version` }}.iso",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ssh_password": "{{user `ssh_password`}}",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "sudo poweroff",
+      "guest_additions_mode": "disable",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "{{ user `memory_size` }}"],
+        ["modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"]
+      ]
+    },
+    {
+      "type": "qemu",
+      "boot_command": [
+        "<enter>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{user `disk_size`}}",
+      "http_directory": "http/voidlinux",
+      "iso_url": "https://repo.voidlinux.eu/live/current/void-live-{{ user `voidlinux_arch` }}-{{ user `voidlinux_version` }}.iso",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ssh_password": "{{user `ssh_password`}}",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "sudo poweroff",
+      "qemuargs": [
+        [ "-m", "{{ user `memory_size` }}" ],
+        [ "-smp", "{{ user `cpus` }}" ]
+      ]
+    }
+
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/voidlinux/install.sh",
+        "scripts/voidlinux/desktop.sh",
+        "scripts/voidlinux/virtualbox.sh",
+        "scripts/voidlinux/cleanup.sh"
+      ],
+      "environment_vars": [
+        "VAGRANT_USERNAME={{user `vagrant_username`}}",
+        "VAGRANT_PASSWORD={{user `vagrant_password`}}"
+      ],
+      "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'",
+      "only": ["virtualbox-iso"]
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/voidlinux/install.sh",
+        "scripts/voidlinux/qemu.sh",
+        "scripts/voidlinux/desktop.sh",
+        "scripts/voidlinux/cleanup.sh"
+      ],
+      "environment_vars": [
+        "VAGRANT_USERNAME={{user `vagrant_username`}}",
+        "VAGRANT_PASSWORD={{user `vagrant_password`}}"
+      ],
+      "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'",
+      "only": ["qemu"]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "output": "vagrant/voidlinux/Voidlinux-{{.Provider}}-{{ user `version`}}.box"
+      },
+      {
+        "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{ user `vagrantcloud_username` }}/{{ user `vagrantcloud_name` }}",
+        "version": "{{user `version`}}"
+      }
+    ]
+  ]
+}
