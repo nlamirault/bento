@@ -16,7 +16,7 @@
     "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
     "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
     "vagrantcloud_name": "debian-9",
-    "version": "1"
+    "version": "9.0"
   },
   "builders": [
     {
