@@ -10,9 +10,9 @@ Some [Vagrant][] boxes . See [vagrant cloud](https://app.vagrantup.com/nlamiraul
 
 ## Prerequisites
 
-* [Packer](https://www.packer.io/)
-* [Vagrant](https://www.vagrantup.com/)
-* [VirtualBox](https://www.virtualbox.org/) Version
+* [Packer][]
+* [Vagrant][]
+* [VirtualBox][]
 
 
 ## Usage
@@ -142,8 +142,11 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 
 
-
 [LICENSE]: https://github.com/nlamirault/bento/blob/master/LICENSE
+
+[Packer]: https://www.packer.io
+[Vagrant]: https://www.vagrantup.com
+[VirtualBox]: https://www.virtualbox.org
 
 [D8]: https://app.vagrantup.com/nlamirault/boxes/debian-8
 [D9]: https://app.vagrantup.com/nlamirault/boxes/debian-9
