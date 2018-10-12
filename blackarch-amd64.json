@@ -2,15 +2,16 @@
   "variables": {
     "vm_name": "BlackArch-amd64",
     "disk_size": "20000",
-    "memory_size": "1024",
+    "memory_size": "2048",
     "cpus": "1",
-    "iso_checksum": "1acb685c9a9f2df6eef15d2fc3e8e93edc33c9da",
+    "iso_checksum": "0755f656917eb201bff8f702f33c2e2fe149d69d",
     "iso_checksum_type": "sha1",
-    "arch_version": "2017.01.01",
+    "arch_version": "2018.10.01",
+    "archlinux_arch": "x86_64",
     "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
     "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
     "vagrantcloud_name": "blackarch",
-    "version": "1"
+    "version": "2018.10.01"
   },
   "builders": [
     {
@@ -26,7 +27,7 @@
       "http_directory": "http/blackarch",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-      "iso_url": "http://mirror.rackspace.com/archlinux/iso/{{ user `arch_version` }}/archlinux-{{ user `arch_version` }}-dual.iso",
+      "iso_url": "http://mirror.rackspace.com/archlinux/iso/{{ user `arch_version` }}/archlinux-{{ user `arch_version` }}-{{ user `archlinux_arch` }}.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -48,7 +49,6 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [
         "scripts/blackarch/pacman.sh",
-        "scripts/blackarch/yaourt.sh",
         "scripts/common/vagrant.sh",
         "scripts/blackarch/network.sh",
         "scripts/blackarch/blackarch.sh",

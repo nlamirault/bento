@@ -7,3 +7,5 @@ set -e
 /usr/bin/pacman -Syu
 
 /usr/bin/pacman -Sy --noconfirm wget
+
+/usr/bin/pacman -Sy --noconfirm yay
