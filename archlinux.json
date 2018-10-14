@@ -2,7 +2,7 @@
   "variables": {
     "vm_name": "ArchLinux",
     "disk_size": "20480",
-    "memory_size": "1024",
+    "memory_size": "2048",
     "cpus": "2",
     "headless": "false",
     "ssh_username": "vagrant",
@@ -11,14 +11,14 @@
     "vagrant_group": "vagrant",
     "vagrant_password": "vagrant",
     "vagrant_hostname": "bento",
-    "iso_checksum": "dd03d811211c332d29155069d8e4bb2306c70f33",
+    "iso_checksum": "0755f656917eb201bff8f702f33c2e2fe149d69d",
     "iso_checksum_type": "sha1",
-    "archlinux_version": "2017.07.01",
+    "archlinux_version": "2018.10.01",
     "archlinux_arch": "x86_64",
     "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
     "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
     "vagrantcloud_name": "archlinux",
-    "version": "2017.07.01"
+    "version": "2018.10.01"
   },
   "builders": [
     {
@@ -90,6 +90,7 @@
     {
       "type": "shell",
       "scripts": [
+        "scripts/archlinux/pacman.sh",
         "scripts/archlinux/postinstall.sh",
         "scripts/archlinux/qemu.sh",
         "scripts/archlinux/desktop.sh",
