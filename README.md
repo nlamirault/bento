@@ -5,7 +5,6 @@
 Some [Vagrant][] boxes . See [vagrant cloud](https://app.vagrantup.com/nlamirault)
 
 * Master : [![Circle CI](https://circleci.com/gh/nlamirault/bento/tree/master.svg?style=svg)](https://circleci.com/gh/nlamirault/bento/tree/master)
-* Develop : [![Circle CI](https://circleci.com/gh/nlamirault/bento/tree/develop.svg?style=svg)](https://circleci.com/gh/nlamirault/bento/tree/develop)
 
 
 ## Prerequisites
@@ -17,33 +16,11 @@ Some [Vagrant][] boxes . See [vagrant cloud](https://app.vagrantup.com/nlamiraul
 
 ## Usage
 
-* Add a box :
+Add a box :
 
-        $ vagrant box add nlamirault/<box_name>
+    $ vagrant box add nlamirault/<box_name>
 
-* The following boxes are built from this repository's templates :
-
-| Name           | Link                 | VirtualBox (5.x) | Qemu  |
-| -------------- | -------------------  | -----------------|-------|
-| debian-8       | [amd64][D8]          | [x]              | [x]   |
-| debian-9       | [amd64][D9]          | [x]              |       |
-| archlinux      | [amd64][Arch]        | [x]              | [x]   |
-| voidlinux      | [amd64][Void]        | [x]              | [x]   |
-| centos-7.2     | [amd64][C72]         | [x]              |       |
-| kali           | [amd64][Kali]        |                  |       |
-| freebsd-10.2   | [amd64][FBSD102]     | [x]              |       |
-| freebsd-10.3   | [amd64][FBSD103]     | [x]              |       |
-| freebsd-11.0   | [amd64][FBSD110]     | [x]              |       |
-| openbsd-5.9    | [amd64][OBSD59]      | [x]              |       |
-| openbsd-6.0    | [amd64][OBSD60]      | [x]              |       |
-| openbsd-6.1    | [amd64][OBSD61]      |                  |       |
-| netbsd-7.0     | [amd64][NBSD70]      | [x]              |       |
-| alpine 3.3     | [x86_64][Alpine3.3]  | [x]              |       |
-| alpine 3.4     | [x86_64][Alpine3.4]  | [x]              |       |
-| alpine 3.6     | [x86_64][Alpine3.6]  | [x]              |       |
-| blackarch      | [amd64][BlackArch]   |                  |       |
-
-* Using a box in a Vagrantfile:
+Using a box in a Vagrantfile:
 
 ```ruby
 VAGRANTFILE_API_VERSION = "2"
@@ -57,6 +34,86 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 end
 ```
+
+## Boxes
+
+### Debian
+
+| Name           | VirtualBox (5.x) | Qemu  |
+| -------------- | -----------------|-------|
+| [8.4][D8.4]    | [x]              | [x]   |
+| [8.5][D8.5]    | [x]              | [x]   |
+| [9.0][D9.0]    | [x]              | [x]   |
+| [9.1][D9.1]    | [x]              | [x]   |
+| [9.2][D9.2]    | [x]              | [x]   |
+| [9.3][D9.3]    | [x]              | [x]   |
+| [9.4][D9.4]    | [x]              | [x]   |
+| [9.5][D9.5]    | [x]              | [x]   |
+| -------------- | -----------------|-------|
+
+### Archlinux
+
+| Name                           | VirtualBox (5.x) | Qemu  |
+| ------------------------------ | -----------------|-------|
+| [2018.10.01][Arch2018.10.01]   | [x]              |       |
+| [2017.07.01][Arch2017.07.01]   | [x]              |       |
+| [2016.07.01][Arch2016.07.01]   | [x]              |       |
+| ------------------------------ | -----------------|-------|
+
+### BlackArch
+
+| Name                                | VirtualBox (5.x) | Qemu  |
+| ----------------------------------- | -----------------|-------|
+| [2018.10.01][BlackArch2018.10.01]   | [x]              |       |
+| ----------------------------------- | -----------------|-------|
+
+### Voidlinux
+
+| Name                                | VirtualBox (5.x) | Qemu  |
+| ----------------------------------- | -----------------|-------|
+| [20170220][Voidlinux20170220]       | [x]              |       |
+| ----------------------------------- | -----------------|-------|
+
+### CentOS
+
+| Name                  | VirtualBox (5.x) | Qemu  |
+| --------------------- | -----------------|-------|
+| [7.2][C72]            | [x]              |       |
+| --------------------- | -----------------|-------|
+
+### Alpine Linux
+
+| Name                  | VirtualBox (5.x) | Qemu  |
+| --------------------- | -----------------|-------|
+| [3.6][Alpine3.6]      | [x]              |       |
+| [3.4][Alpine3.4]      | [x]              |       |
+| [3.3][Alpine3.3]      | [x]              |       |
+|---------------------- | -----------------|-------|
+
+### FreeBSD
+
+| Name                  | VirtualBox (5.x) | Qemu  |
+| --------------------- | -----------------|-------|
+| [11.0][FBSD110]       | [x]              |       |
+| [10.3][FBSD103]       | [x]              |       |
+| [10.2][FBSD102]       | [x]              |       |
+|---------------------- | -----------------|-------|
+
+### NetBSD
+
+| Name                  | VirtualBox (5.x) | Qemu  |
+| --------------------- | -----------------|-------|
+| [7.0][NBSD70]         | [x]              |       |
+|---------------------- | -----------------|-------|
+
+### OpenBSD
+
+| Name                  | VirtualBox (5.x) | Qemu  |
+| --------------------- | -----------------|-------|
+| [6.1][OBSD61]         | [x]              |       |
+| [6.0][OBSD60]         | [x]              |       |
+| [5.9][OBSD59]         | [x]              |       |
+|---------------------- | -----------------|-------|
 
 
 ## Build boxes
@@ -149,11 +206,27 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 [VirtualBox]: https://www.virtualbox.org
 
 [D8]: https://app.vagrantup.com/nlamirault/boxes/debian-8
+[D8.4]: https://app.vagrantup.com/nlamirault/boxes/debian-8/versions/8.4
+[D8.5]: https://app.vagrantup.com/nlamirault/boxes/debian-8/versions/8.5
+
 [D9]: https://app.vagrantup.com/nlamirault/boxes/debian-9
+[D9.0]: https://app.vagrantup.com/nlamirault/boxes/debian-9/versions/9.0
+[D9.1]: https://app.vagrantup.com/nlamirault/boxes/debian-9/versions/9.1
+[D9.2]: https://app.vagrantup.com/nlamirault/boxes/debian-9/versions/9.2
+[D9.3]: https://app.vagrantup.com/nlamirault/boxes/debian-9/versions/9.3
+[D9.4]: https://app.vagrantup.com/nlamirault/boxes/debian-9/versions/9.4
+[D9.5]: https://app.vagrantup.com/nlamirault/boxes/debian-9/versions/9.5
 
 [Arch]: https://app.vagrantup.com/nlamirault/boxes/archlinux
+[Arch2018.10.01]: https://app.vagrantup.com/nlamirault/boxes/archlinux/versions/2018.10.01
+[Arch2017.07.01]: https://app.vagrantup.com/nlamirault/boxes/archlinux/versions/2017.07.01
+[Arch2016.07.01]: https://app.vagrantup.com/nlamirault/boxes/archlinux/versions/2016.07.01
+
+[BlackArch]: https://app.vagrantup.com/nlamirault/boxes/blackarch
+[BlackArch2018.10.01]: https://app.vagrantup.com/nlamirault/boxes/blackarch/versions/2018.10.01
 
 [Void]: https://app.vagrantup.com/nlamirault/boxes/voidlinux
+[Voidlinux20170220]: https://app.vagrantup.com/nlamirault/boxes/voidlinux/versions/20170220
 
 [Kali]: https://app.vagrantup.com/nlamirault/boxes/kali
 
