@@ -3,7 +3,7 @@
 
 Vagrant.configure(2) do |config|
 
-  config.vm.box = "ArchLinux-virtualbox-2016.07.01.box"
+  config.vm.box = "ArchLinux-libvirt-2018.10.01.box"
 
   config.ssh.forward_agent = true
 
