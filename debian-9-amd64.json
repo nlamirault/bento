@@ -2,21 +2,21 @@
   "variables": {
     "vm_name": "Debian-9-amd64",
     "disk_size": "20480",
-    "memory_size": "1024",
+    "memory_size": "2048",
     "cpus": "1",
     "ssh_name": "root",
     "ssh_pass": "vagrant",
     "root_password": "vagrant",
     "vagrant_username": "vagrant",
     "vagrant_password": "vagrant",
-    "iso_checksum": "697600a110c7a5a1471fbf45c8030dd99b3c570db612044730f09b4624aa49f2a3d79469d55f1c18610c2414e9fffde1533b9a6fab6f3af4b5ba7c2d59003dc1",
+    "iso_checksum": "345c4e674dc10476e8c4f1571fbcdba4ce9788aa5584c5e2590ab3e89e7bb9acb370536f41a3ac740eb92b6aebe3cb8eb9734874dd1658c68875981b8351bc38",
     "iso_checksum_type": "sha512",
-    "debian_version": "9.1.0",
+    "debian_version": "9.4.0",
     "debian_arch": "amd64",
     "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
     "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
     "vagrantcloud_name": "debian-9",
-    "version": "9.1"
+    "version": "9.4"
   },
   "builders": [
     {
@@ -39,7 +39,7 @@
       "http_directory": "http/debian-9-{{ user `debian_arch` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-      "iso_url": "http://cdimage.debian.org/cdimage/release/{{ user `debian_version` }}/{{ user `debian_arch` }}/iso-cd/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}-netinst.iso",
+      "iso_url": "http://cdimage.debian.org/mirror/cdimage/archive/{{ user `debian_version` }}/{{ user `debian_arch` }}/iso-cd/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}-netinst.iso",
       "ssh_username": "{{user `ssh_name`}}",
       "ssh_password": "{{user `ssh_pass`}}",
       "ssh_port": 22,
