@@ -51,6 +51,7 @@
         "scripts/blackarch/pacman.sh",
         "scripts/common/vagrant.sh",
         "scripts/blackarch/network.sh",
+        "scripts/blackarch/strap.sh",
         "scripts/blackarch/blackarch.sh",
         "scripts/blackarch/cleanup.sh",
         "scripts/blackarch/zerodisk.sh"

@@ -61,6 +61,7 @@ cat <<-EOF > "${TARGET_DIR}${CONFIG_SCRIPT}"
   set -e
 
 	echo '${FQDN}' > /etc/hostname
+	rm -f /etc/localtime
 	/usr/bin/ln -s /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 	/usr/bin/hwclock --systohc --utc
 	echo 'KEYMAP=${KEYMAP}' > /etc/vconsole.conf
