@@ -74,34 +74,30 @@
   "provisioners": [
     {
       "type": "shell",
-      "scripts": [
-        "scripts/archlinux/postinstall.sh",
-        "scripts/archlinux/desktop.sh",
-        "scripts/archlinux/virtualbox.sh",
-        "scripts/archlinux/cleanup.sh"
-      ],
-      "environment_vars": [
-        "VAGRANT_USERNAME={{user `vagrant_username`}}",
-        "VAGRANT_PASSWORD={{user `vagrant_password`}}"
-      ],
-      "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'",
-      "only": ["virtualbox-iso"]
+      "inline": [
+        "sudo pacman -Sy --noconfirm --needed ansible"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "extra_arguments": ["-v"],
+      "playbook_file": "provision/packer.yml",
+      "role_paths": [
+        "provision/roles/base",
+        "provision/roles/desktop"
+      ]
     },
     {
       "type": "shell",
       "scripts": [
-        "scripts/archlinux/pacman.sh",
-        "scripts/archlinux/postinstall.sh",
-        "scripts/archlinux/qemu.sh",
-        "scripts/archlinux/desktop.sh",
         "scripts/archlinux/cleanup.sh"
       ],
       "environment_vars": [
-        "VAGRANT_USERNAME={{user `vagrant_username`}}",
-        "VAGRANT_PASSWORD={{user `vagrant_password`}}"
+        "VAGRANT_USERNAME={{ user `vagrant_username`}} ",
+        "VAGRANT_PASSWORD={{ user `vagrant_password`}} "
       ],
       "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'",
-      "only": ["qemu"]
+      "only": ["virtualbox-iso"]
     }
   ],
   "post-processors": [
@@ -110,12 +106,6 @@
         "type": "vagrant",
         "compression_level": 9,
         "output": "vagrant/archlinux/ArchLinux-{{.Provider}}-{{ user `version`}}.box"
-      },
-      {
-        "type": "vagrant-cloud",
-        "access_token": "{{user `vagrantcloud_token`}}",
-        "box_tag": "{{ user `vagrantcloud_username` }}/{{ user `vagrantcloud_name` }}",
-        "version": "{{user `version`}}"
       }
     ]
   ]

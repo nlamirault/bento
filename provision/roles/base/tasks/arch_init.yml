@@ -1,0 +1,73 @@
+# Copyright (C) 2013-2018 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+- name: Install Arch Pacman file
+  copy:
+    src: pacman.conf
+    dest: /etc/
+    owner: root
+    mode: 0644
+
+- name: Update packages database
+  pacman:
+    update_cache: yes
+
+# - name: Install Archlinux tools
+#   pacman:
+#     name: "{{ item }}"
+#     state: present
+#   with_items:
+#     - pacman-contrib
+#     - yay
+
+- name: Install shell tools
+  pacman:
+    name: [ "bash-completion", "tree", "tmux", "ncdu"]
+    state: present
+
+- name: Install terminal emulators
+  pacman:
+    name: [ "termite" ]
+    state: present
+
+- name: Install defaults packages
+  pacman:
+    name: [ "man-db", "wget", "curl", "git", "gnupg", "tig", "unzip"]
+    state: present
+
+- name: Install networks tools
+  pacman:
+    name: [ "dhclient", "openssh", "bind-tools", "mtr", "traceroute", "openbsd-netcat", "ipcalc", "nmap", "ngrep", "nethogs"]
+    state: present
+
+- name: Install modern Unix tools
+  pacman:
+    name: [ "fzf", "exa", "fd" ]
+    state: present
+
+- name: Install X
+  pacman:
+    name: [ "libglvnd", "xorg-server", "xorg-xinit", "slim", "slim-themes", "archlinux-themes-slim", "sddm", "lightdm" ]
+    state: present
+
+- name: Install Python tools
+  pacman:
+    name: [ "python-pip", "python-pylint", "python-pycurl" ]
+    state: present
+
+- name: Install Privacy tools
+  pacman:
+    name: [ "openvpn", "wireguard-tools" ]
+    state: present

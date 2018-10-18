@@ -46,16 +46,30 @@
   "provisioners": [
     {
       "type": "shell",
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
-      "scripts": [
-        "scripts/blackarch/pacman.sh",
-        "scripts/common/vagrant.sh",
-        "scripts/blackarch/network.sh",
-        "scripts/blackarch/strap.sh",
-        "scripts/blackarch/blackarch.sh",
-        "scripts/blackarch/cleanup.sh",
-        "scripts/blackarch/zerodisk.sh"
+      "inline": [
+        "sudo pacman -Sy --noconfirm --needed ansible"
       ]
+    },
+    {
+      "type": "ansible-local",
+      "extra_arguments": ["-v"],
+      "playbook_file": "provision/packer.yml",
+      "role_paths": [
+        "provision/roles/base",
+        "provision/roles/desktop"
+      ]
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/archlinux/cleanup.sh"
+      ],
+      "environment_vars": [
+        "VAGRANT_USERNAME={{ user `vagrant_username`}} ",
+        "VAGRANT_PASSWORD={{ user `vagrant_password`}} "
+      ],
+      "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'",
+      "only": ["virtualbox-iso"]
     }
   ],
   "post-processors": [
