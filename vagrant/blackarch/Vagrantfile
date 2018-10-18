@@ -3,7 +3,7 @@
 
 Vagrant.configure(2) do |config|
 
-  config.vm.box = "blackarch-2017.01.01-virtualbox.box"
+  config.vm.box = "blackarch-2018.10.01-virtualbox.box"
   config.ssh.forward_agent = true
   config.vm.provider "virtualbox" do |vb|
     vb.memory = "1024"
