@@ -63,6 +63,7 @@ end
 
 | Name                                | VirtualBox (5.x) | Qemu  |
 | ----------------------------------- | -----------------|-------|
+| [2018.12.01][BlackArch2018.12.01]   | [x]              |       |
 | [2018.10.01][BlackArch2018.10.01]   | [x]              |       |
 
 ### Voidlinux
@@ -217,6 +218,7 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 [BlackArch]: https://app.vagrantup.com/nlamirault/boxes/blackarch
 [BlackArch2018.10.01]: https://app.vagrantup.com/nlamirault/boxes/blackarch/versions/2018.10.01
+[BlackArch2018.12.01]: https://app.vagrantup.com/nlamirault/boxes/blackarch/versions/2018.12.01
 
 [Void]: https://app.vagrantup.com/nlamirault/boxes/voidlinux
 [Voidlinux20170220]: https://app.vagrantup.com/nlamirault/boxes/voidlinux/versions/20170220
