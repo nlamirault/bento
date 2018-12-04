@@ -25,6 +25,38 @@
     - xinit
     - gdm3
 
+- name: Install i3 and tools
+  apt:
+    pkg: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - i3
+      - i3lock
+      - dmenu
+      - rofi
+
+- name: Install windows managers tools
+  apt:
+    pkg: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - conky-all
+      - thunar
+      - thunar-volman
+      - thunar-archive-plugin
+
+- name: Install XFCE
+  apt:
+    pkg: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - xfce4
+      # - xfce4-goodies
+      - xfce4-notifyd
+
 - name: Install web applications
   apt:
     pkg: "{{ item }}"
