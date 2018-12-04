@@ -46,10 +46,15 @@ Name=eth0
 DHCP=ipv4
 EOF
 
+# Configure SSHD
+/usr/bin/sed -i 's/#UseDNS yes/UseDNS no/g' /etc/ssh/sshd_config
+/usr/bin/sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
+/usr/bin/systemctl enable sshd.service
+
 # enabling important services
-systemctl enable sshd
-systemctl enable systemd-networkd
-systemctl enable systemd-resolved
+/usr/bin/systemctl enable sshd.service
+/usr/bin/systemctl enable systemd-networkd.service
+/usr/bin/systemctl enable systemd-resolved.service
 
 grub-install "$device"
 sed -i -e 's/^GRUB_TIMEOUT=.*$/GRUB_TIMEOUT=1/' /etc/default/grub
