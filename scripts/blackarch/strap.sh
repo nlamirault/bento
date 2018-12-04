@@ -72,11 +72,13 @@ fetch_keyring()
 # note: this is pointless if you do not verify the key fingerprint
 verify_keyring()
 {
+  msg "Verify keyring from pgp.mit.edu"
   if ! gpg --keyserver pgp.mit.edu \
-     --recv-keys 4345771566D76038C7FEB43863EC0ADBEA87E4E3 > /dev/null 2>&1
+     --recv-keys 4345771566D76038C7FEB43863EC0ADBEA87E4E3 # > /dev/null 2>&1
   then
+     msg "Verify keyring from pool.sks-keyservers.net"
     if ! gpg --keyserver hkp://pool.sks-keyservers.net \
-       --recv-keys 4345771566D76038C7FEB43863EC0ADBEA87E4E3 > /dev/null 2>&1
+       --recv-keys 4345771566D76038C7FEB43863EC0ADBEA87E4E3 # > /dev/null 2>&1
     then
       err "could not verify the key. Please check: https://blackarch.org/faq.html"
     fi
@@ -106,10 +108,10 @@ check_pacman_gnupg()
 # install the keyring
 install_keyring()
 {
-  # if ! pacman --config /dev/null --noconfirm \
-  #   -U blackarch-keyring.pkg.tar.xz ; then
-  #     err 'keyring installation failed'
-  # fi
+  if ! pacman --config /dev/null --noconfirm \
+    -U blackarch-keyring.pkg.tar.xz ; then
+      err 'keyring installation failed'
+  fi
 
   # just in case
   pacman-key --populate archlinux blackarch
@@ -121,30 +123,37 @@ get_mirror()
   mirror_p="/etc/pacman.d"
   mirror_r="https://blackarch.org"
 
-  msg "fetching new mirror list..."
-  if ! curl -s "$mirror_r/$MIRROR_F" -o "$mirror_p/$MIRROR_F" ; then
-    err "we couldn't fetch the mirror list from: $mirror_r/$MIRROR_F"
-  fi
+  # msg "fetching new mirror list...: $mirror_r/$MIRROR_F"
+  # if ! curl "$mirror_r/$MIRROR_F" -o "$mirror_p/$MIRROR_F" ; then
+  #   err "we couldn't fetch the mirror list from: $mirror_r/$MIRROR_F"
+  # fi
 
-  msg "you can change the default mirror under $mirror_p/$MIRROR_F"
+  # msg "you can change the default mirror under $mirror_p/$MIRROR_F"
+
+  msg "Setting Blackarch mirror"
+  echo 'Server = https://www.blackarch.org/blackarch/$repo/os/$arch' > $mirror_p/$MIRROR_F
+  cat $mirror_p/$MIRROR_F
 }
 
 # update pacman.conf
 update_pacman_conf()
 {
+  msg "Updating Pacman conf"
   # delete blackarch related entries if existing
   sed -i '/blackarch/{N;d}' /etc/pacman.conf
 
   cat >> "/etc/pacman.conf" << EOF
+
 [blackarch]
 Include = /etc/pacman.d/$MIRROR_F
 EOF
+  cat /etc/pacman.conf
 }
 
 # synchronize and update
 pacman_update()
 {
-  if pacman -Syy; then
+  if pacman -Syyu --noconfirm; then
     return $SUCCESS
   fi
 
@@ -173,7 +182,7 @@ blackarch_setup()
   check_internet
   fetch_keyring
   # verify_keyring
-  # delete_signature
+  delete_signature
   check_pacman_gnupg
   install_keyring
   echo

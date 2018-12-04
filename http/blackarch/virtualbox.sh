@@ -3,7 +3,7 @@
 set -e
 
 DISK='/dev/sda'
-FQDN='blackarch.vm'
+FQDN='blackarch'
 KEYMAP='us'
 LANGUAGE='en_US.UTF-8'
 PASSWORD=$(/usr/bin/openssl passwd -crypt 'vagrant')

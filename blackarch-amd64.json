@@ -3,23 +3,25 @@
     "vm_name": "BlackArch-amd64",
     "disk_size": "20000",
     "memory_size": "2048",
-    "cpus": "1",
-    "iso_checksum": "0755f656917eb201bff8f702f33c2e2fe149d69d",
+    "cpus": "2",
+    "guest_os_type": "Archlinux_64",
+    "iso_checksum": "3ea740fcfeadafcd2e22493ff44bdc32c2e7630e",
     "iso_checksum_type": "sha1",
-    "arch_version": "2018.10.01",
-    "archlinux_arch": "x86_64",
-    "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
-    "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
+    "blackarch_version": "2018.12.01",
+    "blackarch_arch": "x86_64",
+    "vagrantcloud_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
+    "vagrantcloud_username": "{{ env `VAGRANT_CLOUD_USERNAME` }}",
     "vagrantcloud_name": "blackarch",
-    "version": "2018.10.01"
+    "version": "2018.12.01"
   },
   "builders": [
     {
       "type": "virtualbox-iso",
       "boot_command": [
-        "<enter><wait10><wait10>",
-        "/usr/bin/curl -o /tmp/virtualbox.sh http://{{.HTTPIP}}:{{.HTTPPort}}/virtualbox.sh<enter><wait5>",
-        "/usr/bin/bash /tmp/virtualbox.sh<enter>"
+        "<enter><wait10><wait10><wait10>",
+        "root<enter><wait5>blackarch<enter><wait5>",
+        "/usr/bin/curl -o /tmp/blackarch.sh http://{{.HTTPIP}}:{{.HTTPPort}}/blackarch.sh<enter><wait5>",
+        "/usr/bin/bash /tmp/blackarch.sh<enter>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{ user `disk_size` }}",
@@ -27,13 +29,14 @@
       "http_directory": "http/blackarch",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-      "iso_url": "http://mirror.rackspace.com/archlinux/iso/{{ user `arch_version` }}/archlinux-{{ user `arch_version` }}-{{ user `archlinux_arch` }}.iso",
+      "iso_url": "https://www.blackarch.org/blackarch/iso/blackarch-linux-netinst-{{ user `blackarch_version` }}-{{ user `blackarch_arch` }}.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
-      "ssh_wait_timeout": "10000s",
+      "ssh_pty": true,
+      "ssh_wait_timeout": "50m",
       "shutdown_command": "sudo poweroff",
-      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "guest_additions_mode": "disable",
       "virtualbox_version_file": ".vbox_version",
       "vm_name": "{{ user `vm_name` }}",
       "vboxmanage": [
@@ -56,13 +59,16 @@
       "playbook_file": "provision/packer.yml",
       "role_paths": [
         "provision/roles/base",
-        "provision/roles/desktop"
+        "provision/roles/desktop",
+        "provision/roles/virtualbox"
       ]
     },
     {
       "type": "shell",
       "scripts": [
-        "scripts/archlinux/cleanup.sh"
+        "scripts/blackarch/strap.sh",
+        "scripts/blackarch/blackarch.sh",
+        "scripts/common/vagrant.sh"
       ],
       "environment_vars": [
         "VAGRANT_USERNAME={{ user `vagrant_username`}} ",
@@ -70,6 +76,13 @@
       ],
       "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'",
       "only": ["virtualbox-iso"]
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/archlinux/cleanup.sh"
+      ],
+      "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'"
     }
   ],
   "post-processors": [
@@ -77,13 +90,7 @@
       {
         "type": "vagrant",
         "compression_level": 9,
-        "output":"vagrant/blackarch/blackarch-{{ user `arch_version` }}-{{.Provider}}.box"
-      },
-      {
-        "type": "vagrant-cloud",
-        "access_token": "{{user `vagrantcloud_token`}}",
-        "box_tag": "{{ user `vagrantcloud_username` }}/{{ user `vagrantcloud_name` }}",
-        "version": "{{user `version`}}"
+        "output":"vagrant/blackarch/blackarch-{{ user `blackarch_version` }}-{{.Provider}}.box"
       }
     ]
   ]
