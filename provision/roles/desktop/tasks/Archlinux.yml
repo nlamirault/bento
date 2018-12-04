@@ -1,0 +1,70 @@
+# Copyright (C) 2013-2018 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#
+# Desktop settings for Arch
+#
+
+- name: Install X
+  pacman:
+    name: [ "xorg-server", "xorg-xrandr", "xf86-video-amdgpu", "xf86-video-ati",
+      "xf86-video-dummy", "xf86-video-fbdev", "xf86-video-intel", "xf86-video-nouveau",
+      "xf86-video-openchrome", "xf86-video-sisusb", "xf86-video-vesa",
+      "xf86-video-voodoo", "xorg-xinit" ]
+    state: present
+
+- name: Install Login manager
+  pacman:
+    name: [ "lxdm" ]
+    state: present
+
+- name: Service login manager
+  service:
+    name: lxdm
+    enabled: yes
+    state: started
+
+- name: Install web applications
+  pacman:
+    name: [ "chromium"]
+    state: present
+
+- name: Install fonts
+  pacman:
+    name: [ "ttf-liberation", "ttf-dejavu", "ttf-freefont", "xorg-font-utils",
+      "xorg-fonts-alias", "xorg-fonts-misc", "xorg-mkfontscale", "xorg-mkfontdir",
+      "ttf-indic-otf" ]
+    state: present
+
+- name: Install documentation applications
+  pacman:
+    name: [ "evince" ]
+    state: present
+
+# - name: Install fonts
+#   pacman:
+#     name: [ "awesome-terminal-fonts" ] #, "ttf-symbola" ]
+#     state: present
+
+- name: Install i3 window manager and tools
+  pacman:
+    name: [ "i3-wm", "i3lock", "i3status", "dmenu", "rofi", "thunar", "thunar-volman",
+      "thunar-archive-plugin" ]
+    state: present
+
+- name: Install Xfce
+  pacman:
+    name: [ "xfce4", "xfce4-notifyd" ]
+    state: present
+

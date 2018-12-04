@@ -12,12 +12,39 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
----
-- hosts: localhost
-  roles:
-    - base
-    - desktop
-    - virtualbox
-  become: yes
-  vars:
-    system_hostname: bento
+#
+# Desktop settings
+#
+#
+
+- name: Install web applications
+  pkgin:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - firefox
+
+- name: Install multimedia
+  pkgin:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - gimp
+    - inkscape
+    - vlc
+
+- name: Install communications applications
+  pkgin:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - irssi
+    - vinagre
+    - rdesktop
+
+- name: Install documentation applications
+  pkgin:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - evince

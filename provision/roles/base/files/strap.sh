@@ -106,10 +106,10 @@ check_pacman_gnupg()
 # install the keyring
 install_keyring()
 {
-  # if ! pacman --config /dev/null --noconfirm \
-  #   -U blackarch-keyring.pkg.tar.xz ; then
-  #     err 'keyring installation failed'
-  # fi
+  if ! pacman --config /dev/null --noconfirm \
+    -U blackarch-keyring.pkg.tar.xz ; then
+      err 'keyring installation failed'
+  fi
 
   # just in case
   pacman-key --populate archlinux blackarch
@@ -172,8 +172,8 @@ blackarch_setup()
   make_tmp_dir
   check_internet
   fetch_keyring
-  # verify_keyring
-  # delete_signature
+  verify_keyring
+  delete_signature
   check_pacman_gnupg
   install_keyring
   echo

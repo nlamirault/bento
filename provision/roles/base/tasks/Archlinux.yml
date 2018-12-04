@@ -39,27 +39,26 @@
 
 - name: Install terminal emulators
   pacman:
-    name: [ "termite" ]
+    name: [ "xterm", "termite" ]
     state: present
 
 - name: Install defaults packages
   pacman:
-    name: [ "man-db", "wget", "curl", "git", "gnupg", "tig", "unzip"]
+    name: [ "man-db", "wget", "curl", "git", "gnupg", "tig", "unzip", "htop" ]
     state: present
 
 - name: Install networks tools
   pacman:
-    name: [ "dhclient", "openssh", "bind-tools", "mtr", "traceroute", "openbsd-netcat", "ipcalc", "nmap", "ngrep", "nethogs"]
+    name: [
+      "openssh", "dhclient", "openssh", "bind-tools", "dnsutils", "mtr",
+      "traceroute", "openbsd-netcat", "ipcalc", "nmap", "ngrep", "nethogs",
+      "bridge-utils"
+      ]
     state: present
 
 - name: Install modern Unix tools
   pacman:
     name: [ "fzf", "exa", "fd" ]
-    state: present
-
-- name: Install X
-  pacman:
-    name: [ "libglvnd", "xorg-server", "xorg-xinit", "slim", "slim-themes", "archlinux-themes-slim", "sddm", "lightdm" ]
     state: present
 
 - name: Install Python tools
@@ -71,3 +70,9 @@
   pacman:
     name: [ "openvpn", "wireguard-tools" ]
     state: present
+
+- name: Openssh server
+  service:
+    name: sshd
+    enabled: yes
+    state: started

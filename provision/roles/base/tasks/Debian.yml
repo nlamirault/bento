@@ -1,0 +1,65 @@
+# Copyright (C) 2013-2018 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#
+# Base settings for Debian
+#
+#
+
+- name: Update database
+  apt:
+    update_cache: yes
+
+- name: Install shell tools
+  apt:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+   - bash-completion
+   - tree
+   - tmux
+   - ncdu
+
+- name: Install terminal emulators
+  apt:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - termite
+
+- name: Install defaults packages
+  apt:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+#    - man-db
+#    - apt-file
+    - wget
+    - curl
+    - ngrep
+    - bash-completion
+    - git
+    - unzip
+    - logrotate
+    - rsyslog
+
+- name: Install Python tools
+  apt:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - python-pip
+    - pylint
+    - python-pycurl
+

@@ -13,61 +13,19 @@
 # limitations under the License.
 
 ---
-- name: Base for Debian
-  import_tasks: debian_init.yml
-  when: ansible_distribution == 'Debian'
+- name: Include OS-specific tasks
+  block:
+    - include_tasks: "{{ ansible_distribution }}.yml"
+  when: (ansible_distribution == 'Archlinux' or
+         ansible_distribution == 'CentOS' or
+         ansible_distribution == 'Debian' or
+         ansible_distribution == 'Fedora' or
+         ansible_distribution == 'Linux Mint' or
+         ansible_distribution == 'FreeBSD' or
+         ansible_distribution == 'OpenBSD' or
+         ansible_distribution == 'NetBSD')
   become: true
   become_user: root
-
-- name: Base for Archlinux
-  import_tasks: arch_init.yml
-  when: ansible_distribution == 'Archlinux'
-  become: true
-  become_user: root
-
-- name: Base for CentOS
-  include_tasks: centos_init.yml
-  when: ansible_distribution == 'CentOS'
-  become: true
-  become_user: root
-
-- name: Base for Linux Mint
-  import_tasks: mint_init.yml
-  when: ansible_distribution == 'Linux Mint'
-  become: true
-  become_user: root
-
-- name: Base for Fedora
-  import_tasks: fedora_init.yml
-  when: ansible_distribution == 'Fedora'
-  become: true
-  become_user: root
-
-- name: Base for FreeBSD
-  include_tasks: freebsd_init.yml
-  when: ansible_distribution == 'FreeBSD'
-  become: true
-  become_user: root
-
-- name: Base for NetBSD
-  include_tasks: netbsd_init.yml
-  when: ansible_distribution == 'NetBSD'
-  become: true
-  become_user: root
-
-- name: Base for OpenBSD
-  include_tasks: openbsd_init.yml
-  when: ansible_distribution == 'OpenBSD'
-  become: true
-  become_user: root
-
-- name: Base for MacOSX
-  include_tasks: osx_init.yml
-  when: ansible_distribution == 'MacOSX'
-
-- name: Base for Windows
-  include_tasks: win_init.yml
-  when: ansible_distribution == 'Windows'
 
 - name: Base for Unix
   include_tasks: unix.yml
@@ -77,4 +35,5 @@
          ansible_distribution == 'Linux Mint' or
          ansible_distribution == 'Fedora' or
          ansible_distribution == 'FreeBSD' or
-         ansible_distribution == 'NetBSD')
+         ansible_distribution == 'NetBSD' or
+         ansible_distribution == 'OpenBSD')

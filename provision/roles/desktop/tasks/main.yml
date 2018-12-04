@@ -13,52 +13,26 @@
 # limitations under the License.
 
 ---
-- name: Desktop for Debian
-  include_tasks: debian_init.yml
-  when: ansible_distribution == 'Debian'
+- name: Include OS-specific tasks
+  block:
+    - include_tasks: "{{ ansible_distribution }}.yml"
+  when: (ansible_distribution == 'Archlinux' or
+         ansible_distribution == 'CentOS' or
+         ansible_distribution == 'Debian' or
+         ansible_distribution == 'Fedora' or
+         ansible_distribution == 'Linux Mint' or
+         ansible_distribution == 'FreeBSD' or
+         ansible_distribution == 'NetBSD')
   become: true
   become_user: root
 
-- name: Desktop for Arch Linux
-  include_tasks: arch_init.yml
-  when: ansible_distribution == 'Archlinux'
+- name: Include Linux tasks
+  block:
+    - include_tasks: "linux.yml"
+  when: (ansible_distribution == 'Archlinux' or
+         ansible_distribution == 'CentOS' or
+         ansible_distribution == 'Debian' or
+         ansible_distribution == 'Fedora' or
+         ansible_distribution == 'Linux Mint')
   become: true
   become_user: root
-
-- name: Desktop for CentOS
-  include_tasks: centos_init.yml
-  when: ansible_distribution == 'CentOS'
-  become: true
-  become_user: root
-
-- name: Desktop for Linux Mint
-  include_tasks: mint_init.yml
-  when: ansible_distribution == 'Linux Mint'
-  become: true
-  become_user: root
-
-- name: Desktop for Fedora
-  include_tasks: fedora_init.yml
-  when: ansible_distribution == 'Fedora'
-  become: true
-  become_user: root
-
-- name: Desktop for FreeBSD
-  include_tasks: freebsd_init.yml
-  when: ansible_distribution == 'FreeBSD'
-  become: true
-  become_user: root
-
-- name: Desktop for NetBSD
-  include_tasks: netbsd_init.yml
-  when: ansible_distribution == 'NetBSD'
-  become: true
-  become_user: root
-
-- name: X11 for Linux
-  include_tasks: linux.yml
-  when: (ansible_distribution == 'Debian' or
-         ansible_distribution == 'Archlinux')
-  become: true
-  become_user: root
-

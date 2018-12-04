@@ -12,43 +12,41 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#
-# Desktop settings for Arch
-#
-
-- name: Install X
-  pacman:
-    name: [ "xorg-server", "sddm"]
-    state: present
-
-- name: Service sddm
-  service:
-    name: sddm
-    enabled: yes
-    state: started
-
 - name: Install web applications
-  pacman:
-    name: [ "chromium"]
+  yum:
+    name: "{{ item }}"
     state: present
+  with_items:
+    - firefox
+    # - qutebrowser
+
+- name: Install graphics applications
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - gimp
+    - inkscape
+
+- name: Install video applications
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - vlc
+
+- name: Install communications applications
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - irssi
+    - vinagre
+    # - rdesktop
 
 - name: Install documentation applications
-  pacman:
-    name: [ "evince" ]
+  yum:
+    name: "{{ item }}"
     state: present
-
-- name: Install fonts
-  pacman:
-    name: [ "awesome-terminal-fonts" ] #, "ttf-symbola" ]
-    state: present
-
-- name: Install i3 window manager and tools
-  pacman:
-    name: [ "i3-wm", "i3lock", "dmenu", "rofi", "thunar", "thunar-volman", "thunar-archive-plugin" ]
-    state: present
-
-- name: Install Xfce
-  pacman:
-    name: [ "xfce4", "xfce4-notifyd" ]
-    state: present
-
+  with_items:
+    - evince
