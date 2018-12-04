@@ -54,6 +54,7 @@ end
 
 | Name                           | VirtualBox (5.x) | Qemu  |
 | ------------------------------ | -----------------|-------|
+| [2018.12.01][Arch2018.12.01]   | [x]              |       |
 | [2018.10.01][Arch2018.10.01]   | [x]              |       |
 | [2017.07.01][Arch2017.07.01]   | [x]              |       |
 | [2016.07.01][Arch2016.07.01]   | [x]              |       |
@@ -209,6 +210,7 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 [D9.5]: https://app.vagrantup.com/nlamirault/boxes/debian-9/versions/9.5
 
 [Arch]: https://app.vagrantup.com/nlamirault/boxes/archlinux
+[Arch2018.12.01]: https://app.vagrantup.com/nlamirault/boxes/archlinux/versions/2018.12.01
 [Arch2018.10.01]: https://app.vagrantup.com/nlamirault/boxes/archlinux/versions/2018.10.01
 [Arch2017.07.01]: https://app.vagrantup.com/nlamirault/boxes/archlinux/versions/2017.07.01
 [Arch2016.07.01]: https://app.vagrantup.com/nlamirault/boxes/archlinux/versions/2016.07.01
