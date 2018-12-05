@@ -92,7 +92,8 @@
     {
       "type": "shell",
       "scripts": [
-        "scripts/common/vagrant.sh"
+        "scripts/common/vagrant.sh",
+        "scripts/archlinux/cleanup.sh"
       ],
       "environment_vars": [
         "VAGRANT_USERNAME={{ user `vagrant_username`}} ",
@@ -101,13 +102,6 @@
       "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'",
       "only": ["virtualbox-iso"]
     },
-    {
-      "type": "shell",
-      "scripts": [
-        "scripts/archlinux/cleanup.sh"
-      ],
-      "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'"
-    }
   ],
   "post-processors": [
     [
