@@ -17,8 +17,10 @@ Some [Vagrant][] boxes . See [vagrant cloud](https://app.vagrantup.com/nlamiraul
 
 To use libvirt:
 
-  $ vagrant version && vagrant plugin list
-  $ vagrant plugin install vagrant-libvirt
+```shell
+$ vagrant version && vagrant plugin list
+$ vagrant plugin install vagrant-libvirt
+```
 
 For [Archlinux](https://wiki.archlinux.org/index.php/Vagrant#vagrant-libvirt) users.
 
@@ -26,7 +28,9 @@ For [Archlinux](https://wiki.archlinux.org/index.php/Vagrant#vagrant-libvirt) us
 
 Add a box :
 
-    $ vagrant box add nlamirault/<box_name>
+```shell
+$ vagrant box add nlamirault/<box_name>
+```
 
 Using a box in a Vagrantfile:
 
