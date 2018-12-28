@@ -12,7 +12,15 @@ Some [Vagrant][] boxes . See [vagrant cloud](https://app.vagrantup.com/nlamiraul
 * [Packer][]
 * [Vagrant][]
 * [VirtualBox][]
+* [Libvirt][]
+* [Qemu][]
 
+To use libvirt:
+
+  $ vagrant version && vagrant plugin list
+  $ vagrant plugin install vagrant-libvirt
+
+For [Archlinux](https://wiki.archlinux.org/index.php/Vagrant#vagrant-libvirt) users.
 
 ## Usage
 
@@ -25,13 +33,17 @@ Using a box in a Vagrantfile:
 ```ruby
 VAGRANTFILE_API_VERSION = "2"
 
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+Vagrant.configure(2) do |config|
   config.vm.box = "nlamirault/<box_name>"
   config.ssh.forward_agent = true
-  config.vm.provider "virtualbox" do |v|
-    v.memory = 1024
-    v.gui = true
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "2048"
+    vb.gui = true
+    vb.customize ["modifyvm", :id, "--memory", 2048]
+    vb.customize ["modifyvm", :id, "--cpus", "2"]
+    vb.customize ["modifyvm", :id, "--vram", "128"]
   end
+
 end
 ```
 
@@ -196,7 +208,10 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 [Packer]: https://www.packer.io
 [Vagrant]: https://www.vagrantup.com
+
 [VirtualBox]: https://www.virtualbox.org
+[Libvirt]: https://libvirt.org/
+[Qemu]: https://www.qemu.org/
 
 [D8]: https://app.vagrantup.com/nlamirault/boxes/debian-8
 [D8.4]: https://app.vagrantup.com/nlamirault/boxes/debian-8/versions/8.4
