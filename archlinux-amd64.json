@@ -12,8 +12,8 @@
     "iso_checksum_type": "sha1",
     "archlinux_version": "2018.12.01",
     "archlinux_arch": "x86_64",
-    "vagrantcloud_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
-    "vagrantcloud_username": "{{ env `VAGRANT_CLOUD_USERNAME` }}",
+    "vagrantcloud_token": "{{ env `VAGRANTCLOUD_TOKEN` }}",
+    "vagrantcloud_username": "{{ env `VAGRANTCLOUD_USERNAME` }}",
     "vagrantcloud_name": "archlinux",
     "version": "2018.12.01"
   },
@@ -70,7 +70,6 @@
         [ "-smp", "{{ user `cpus` }}" ]
       ]
     }
-
   ],
   "provisioners": [
     {
@@ -101,7 +100,7 @@
       ],
       "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'",
       "only": ["virtualbox-iso"]
-    },
+    }
   ],
   "post-processors": [
     [
