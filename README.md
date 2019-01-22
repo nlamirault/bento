@@ -4,7 +4,7 @@
 
 Some [Vagrant][] boxes . See [vagrant cloud](https://app.vagrantup.com/nlamirault)
 
-* Master : [![Circle CI](https://circleci.com/gh/nlamirault/bento/tree/master.svg?style=svg)](https://circleci.com/gh/nlamirault/bento/tree/master)
+* Master : [![pipeline status](https://gitlab.com/nicolas-lamirault/bento/badges/master/pipeline.svg)](https://gitlab.com/nicolas-lamirault/bento/commits/master)
 
 
 ## Prerequisites
