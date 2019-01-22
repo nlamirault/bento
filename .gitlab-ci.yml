@@ -11,18 +11,55 @@ before_script:
 
 stages:
   - validate
-  - deploy
+  # - deploy
 
-validate:
+os:debian:
   stage: validate
   script:
-    - find . -maxdepth 1 -name '*.json' -print0 | xargs -t0n1 packer validate
+    - packer validate debian-8-amd64.json
+    - packer validate debian-9-amd64.json
 
-build:
-  stage: deploy
-  environment: production
+os:archlinux:
+  stage: validate
   script:
-    - find . -maxdepth 1 -name '*.json' -print0 | xargs -t0n1 packer build
-  when: manual
-  only:
-    - master
+    - packer validate archlinux-amd64.json
+    - packer validate blackarch-amd64.json
+
+os:centos:
+  stage: validate
+  script:
+    - packer validate centos-7-x86_64.json
+
+os:freebsd:
+  stage: validate
+  script:
+    - packer validate freebsd-10.2-amd64.json
+    - packer validate freebsd-10.3-amd64.json
+    - packer validate freebsd-11.0-amd64.json
+    - packer validate freebsd-12.0-amd64.json
+
+os:netbsd:
+  stage: validate
+  script:
+    - packer validate netbsd-7.0-amd64.json
+    - packer validate netbsd-7.1-amd64.json
+
+os:opensd:
+  stage: validate
+  script:
+    - packer validate openbsd-5.9-amd64.json
+    - packer validate openbsd-6.0-amd64.json
+    - packer validate openbsd-6.1-amd64.json
+
+
+
+
+
+# build:
+#   stage: deploy
+#   environment: production
+#   script:
+#     - find . -maxdepth 1 -name '*.json' -print0 | xargs -t0n1 packer build
+#   when: manual
+#   only:
+#     - master
