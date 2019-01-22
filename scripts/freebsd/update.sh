@@ -2,7 +2,7 @@
 
 major_version="`uname -r | awk -F. '{print $1}'`";
 
-if [ "$major_version" -lt 10 ]; then
+if [ "$major_version" -lt 12u ]; then
   # Allow freebsd-update to run fetch without stdin attached to a terminal
   sed 's/\[ ! -t 0 \]/false/' /usr/sbin/freebsd-update >/tmp/freebsd-update;
   chmod +x /tmp/freebsd-update;

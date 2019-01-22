@@ -1,7 +1,7 @@
 #!/bin/sh -eux
 
 # Set the time correctly
-ntpdate -v -b in.pool.ntp.org;
+ntpdate -v -b 1.ro.pool.ntp.org;
 
 # Install sudo, curl and ca_root_nss
 pkg install -y curl;

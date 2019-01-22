@@ -13,8 +13,8 @@
     "iso_checksum_type": "sha512",
     "debian_version": "9.6.0",
     "debian_arch": "amd64",
-    "vagrantcloud_token": "{{env `VAGRANT_CLOUD_TOKEN`}}",
-    "vagrantcloud_username": "{{env `VAGRANT_CLOUD_USERNAME`}}",
+    "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
+    "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
     "vagrantcloud_name": "debian-9",
     "version": "9.6"
   },
@@ -39,7 +39,7 @@
       "http_directory": "http/debian-9-{{ user `debian_arch` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-      "iso_url": "https://cdimage.debian.org/debian-cd/{{ user `debian_version` }}/{{ user `debian_arch` }}/iso-cd/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}-netinst.iso",
+      "iso_url": "https://cdimage.debian.org/cdimage/release/{{ user `debian_version` }}/{{ user `debian_arch` }}/iso-cd/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}-netinst.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -53,6 +53,33 @@
         ["modifyvm", "{{.Name}}", "--memory", "{{ user `memory_size` }}"],
         ["modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"]
       ]
+    },
+    {
+      "type": "qemu",
+      "boot_command": [
+        "<esc><wait>auto priority=critical preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg <wait>",
+        "passwd/root-password={{user `root_password`}} <wait>",
+        "passwd/root-password-again={{user `root_password`}} <wait>",
+        "passwd/user-fullname={{user `vagrant_username`}} <wait>",
+        "passwd/username={{user `vagrant_username`}} <wait>",
+        "passwd/user-password={{user `vagrant_password`}} <wait>",
+        "passwd/user-password-again={{user `vagrant_password`}} <wait>",
+        "keymap=fr <wait>",
+        "tasks=standard,xfce-desktop <wait>",
+        "<enter> <wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{ user `disk_size` }}",
+      "http_directory": "http/debian-9-{{ user `debian_arch` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "iso_url": "http://cdimage.debian.org/cdimage/release/{{ user `debian_version` }}/{{ user `debian_arch` }}/iso-cd/debian-{{ user `debian_version` }}-{{ user `debian_arch` }}-netinst.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "sudo -S /sbin/shutdown -hP now",
+      "vm_name": "{{ user `vm_name` }}"
     }
   ],
   "provisioners": [
@@ -73,8 +100,7 @@
         "VAGRANT_USERNAME={{ user `vagrant_username`}} ",
         "VAGRANT_PASSWORD={{ user `vagrant_password`}} "
       ],
-      "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'",
-      "only": ["virtualbox-iso"]
+      "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'"
     },
     {
       "type": "ansible-local",

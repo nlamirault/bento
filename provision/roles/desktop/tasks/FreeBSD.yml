@@ -24,24 +24,6 @@
   with_items:
     - chromium
 
-- name: Install multimedia
-  pkgng:
-    pkg: "{{ item }}"
-    state: present
-  with_items:
-    - gimp
-    - inkscape
-    - vlc
-
-- name: Install communications applications
-  pkgng:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - irssi
-    - vinagre
-    - rdesktop
-
 - name: Install documentation applications
   pkgng:
     name: "{{ item }}"

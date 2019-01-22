@@ -1,0 +1,127 @@
+{
+  "variables": {
+    "vm_name": "NetBSD-7.1",
+    "disk_size": "20480",
+    "memory_size": "1024",
+    "cpus": "1",
+    "iso_checksum": "4d00951c2e5f51591a3b08a5d572a42e8a4f48b60901e58cfee5f0b7f107f3b923786860acda3caaf30b9ea3a7e39a2b4f3def951c4e30b08fb2232f20d5a0bc",
+    "iso_checksum_type": "sha512",
+    "netbsd_arch": "amd64",
+    "netbsd_version": "7.1",
+    "netbsd_pkg": "7.1",
+    "ssh_username": "root",
+    "ssh_password": "vagrant",
+    "vagrant_username": "vagrant",
+    "vagrant_password": "vagrant",
+    "vagrant_group": "users",
+    "hostname": "bento",
+    "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
+    "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
+    "vagrantcloud_name": "netbsd-7.1",
+    "version": "1"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "1<wait10><wait10><wait5>",
+        "a<enter><wait>",
+        "a<enter><wait>",
+        "a<enter><wait>",
+        "b<enter><wait>",
+        "a<enter><wait>",
+        "a<enter><wait>",
+        "b<enter><wait>",
+        "a<enter><wait>",
+        "b<enter><wait>",
+        "x<enter><wait>",
+        "<enter><wait>",
+        "b<enter><wait>",
+        "<wait10><wait10><wait10><wait10>",
+        "a<enter><wait>",
+        "x<enter><wait>",
+        "d<enter><wait>",
+        "g<enter><wait>",
+        "j<enter><wait>",
+        "k<enter><wait>",
+        "f<enter><wait>",
+        "x<enter><wait>",
+        "x<enter><wait>",
+        "a<enter><wait10><wait10><wait10><wait10><wait10>",
+        "<enter><wait>",
+        "d<enter><wait>",
+        "a<enter><wait>",
+        "{{user `ssh_password`}}<enter><wait>",
+        "{{user `ssh_password`}}<enter><wait>",
+        "{{user `ssh_password`}}<enter><wait>",
+        "g<enter><wait>",
+        "h<enter><wait>",
+        "o<enter><wait>",
+        "{{user `vagrant_username`}}<enter><wait>",
+        "a<enter><wait>",
+        "b<enter><wait>",
+        "{{user `vagrant_password`}}<enter><wait>",
+        "{{user `vagrant_password`}}<enter><wait>",
+        "{{user `vagrant_password`}}<enter><wait>",
+        "x<enter><wait>",
+        "<enter><wait10>",
+        "x<enter><wait>",
+        "dhclient<enter><wait10>",
+        "ftp -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.sh<enter>",
+        "VAGRANT_USER={{ user `vagrant_username` }} ",
+        "VAGRANT_PASSWORD={{ user `vagrant_password` }} ",
+        "VAGRANT_GROUP={{ user `vagrant_group` }} ",
+        "HOSTNAME={{ user `hostname` }} ",
+        "NETBSD_RELEASE={{ user `netbsd_version` }} ",
+        "NETBSD_PKG_INSTALL={{ user `netbsd_pkg` }} ",
+        "HTTPSERVER={{ .HTTPIP }}:{{ .HTTPPort }} HDD=wd0a sh /tmp/install.sh<enter><wait>"
+      ],
+      "boot_wait": "15s",
+      "iso_url": "http://ftp.netbsd.org/pub/NetBSD/NetBSD-{{ user `netbsd_version` }}/iso/NetBSD-{{ user `netbsd_version` }}-{{ user `netbsd_arch` }}.iso",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "guest_os_type": "NetBSD_64",
+      "guest_additions_mode": "disable",
+      "http_directory": "http/netbsd-{{ user `netbsd_version` }}-{{ user `netbsd_arch` }}",
+      "shutdown_command": "echo vagrant | sudo -S /sbin/poweroff",
+      "ssh_username": "{{ user `ssh_username` }}",
+      "ssh_password": "{{ user `ssh_password` }}",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "ssh_private_key_file": "vagrant/keys/vagrant.key",
+      "disk_size": "{{ user `disk_size` }}",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "{{ user `vm_name` }}",
+      "vboxmanage": [
+        ["modifyvm", "{{ .Name }}", "--memory", "{{ user `memory_size` }}"],
+        ["modifyvm", "{{ .Name }}", "--cpus", "{{ user `cpus` }}"]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/netbsd/init.sh",
+        "scripts/netbsd/vagrant.sh",
+        "scripts/netbsd/desktop.sh",
+        "scripts/netbsd/cleanup.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "output": "vagrant/netbsd/NetBSD-{{ .Provider }}-{{ user `version` }}.box"
+      },
+      {
+       "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{ user `vagrantcloud_username` }}/{{ user `vagrantcloud_name` }}",
+        "version": "{{user `version`}}"
+      }
+    ]
+  ]
+}

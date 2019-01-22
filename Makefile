@@ -23,7 +23,7 @@ WARN_COLOR=\033[33;01m
 
 VERSION="0.5.0"
 
-PACKER ?= PACKER_LOG=1 packer
+PACKER ?= packer
 
 all: help
 
@@ -38,7 +38,7 @@ help:
 
 .PHONY: check
 check:
-	@curl "https://atlas.hashicorp.com/ui/tutorial/check?access_token=$(BENTO_ATLAS_TOKEN)"
+	@curl "https://atlas.hashicorp.com/ui/tutorial/check?access_token=$(VAGRANTCLOUD_TOKEN)"
 
 .PHONY: templates
 templates:
@@ -46,15 +46,15 @@ templates:
 
 .PHONY: validate
 validate:
-	@$(PACKER) validate $(template)
+	@$(PACKER) validate -only=virtualbox-iso $(template)
 
 .PHONY: virtualbox
 virtualbox:
-	@$(PACKER) build -only=virtualbox-iso $(template)
+	@PACKER_LOG=1 $(PACKER) build -only=virtualbox-iso $(template)
 
 .PHONY: qemu
 qemu:
-	@$(PACKER) build -only=qemu $(template)
+	@PACKER_LOG=1 $(PACKER) build -only=qemu $(template)
 
 .PHONY: lint
 lint:

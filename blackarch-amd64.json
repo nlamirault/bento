@@ -9,8 +9,8 @@
     "iso_checksum_type": "sha1",
     "blackarch_version": "2018.12.01",
     "blackarch_arch": "x86_64",
-    "vagrantcloud_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
-    "vagrantcloud_username": "{{ env `VAGRANT_CLOUD_USERNAME` }}",
+    "vagrantcloud_token": "{{ env `VAGRANTCLOUD_TOKEN` }}",
+    "vagrantcloud_username": "{{ env `VAGRANTCLOUD_USERNAME` }}",
     "vagrantcloud_name": "blackarch",
     "version": "2018.12.01"
   },
@@ -74,8 +74,7 @@
         "VAGRANT_USERNAME={{ user `vagrant_username`}} ",
         "VAGRANT_PASSWORD={{ user `vagrant_password`}} "
       ],
-      "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'",
-      "only": ["virtualbox-iso"]
+      "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'"
     },
     {
       "type": "shell",

@@ -24,23 +24,23 @@
   with_items:
     - firefox
 
-- name: Install multimedia
-  pkgin:
-    pkg: "{{ item }}"
-    state: present
-  with_items:
-    - gimp
-    - inkscape
-    - vlc
+# - name: Install multimedia
+#   pkgin:
+#     pkg: "{{ item }}"
+#     state: present
+#   with_items:
+#     - gimp
+#     - inkscape
+#     - vlc
 
-- name: Install communications applications
-  pkgin:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - irssi
-    - vinagre
-    - rdesktop
+# - name: Install communications applications
+#   pkgin:
+#     name: "{{ item }}"
+#     state: present
+#   with_items:
+#     - irssi
+#     - vinagre
+#     - rdesktop
 
 - name: Install documentation applications
   pkgin:

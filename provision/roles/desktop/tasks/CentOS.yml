@@ -11,42 +11,33 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+---
+- name: Install Xorg
+  yum:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - xorg-x11-server-Xorg
+      - xorg-x11-xinit-session
+      - xorg-x11-drv-evdev
+      - xorg-x11-drv-intel
+      - xorg-x11-drv-synaptics
+      - xorg-x11-xinit
+      - terminus-fonts
 
 - name: Install web applications
   yum:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - firefox
-    # - qutebrowser
-
-- name: Install graphics applications
-  yum:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - gimp
-    - inkscape
-
-- name: Install video applications
-  yum:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - vlc
-
-- name: Install communications applications
-  yum:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - irssi
-    - vinagre
-    # - rdesktop
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - firefox
 
 - name: Install documentation applications
   yum:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - evince
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - evince

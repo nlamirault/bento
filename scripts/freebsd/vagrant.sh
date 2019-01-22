@@ -8,6 +8,6 @@ chmod -R go-rwx /home/$VAGRANT_USER/.ssh
 echo "UseDNS no" >> /etc/ssh/sshd_config
 echo "AllowUsers $VAGRANT_USER" >> /etc/ssh/sshd_config
 
-pkg install -y rsync-3.1.2_5
+pkg install -y rsync-3.1.3
 
 exit
