@@ -1,0 +1,92 @@
+{
+  "variables": {
+    "box_name": "CentOS-7-amd64",
+    "disk_size": "20000",
+    "memory_size": "1024",
+    "cpus": "1",
+    "iso_checksum": "f2f7367deb90a25822947660c71638333ca0eceeabecc2d631be6cd508c24494",
+    "iso_checksum_type": "sha256",
+    "iso_name": "CentOS-7-x86_64-NetInstall-1611.iso",
+    "centos_version": "7.3.1611",
+    "centos_arch": "x86_64",
+    "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
+    "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
+    "vagrantcloud_name": "centos-7",
+    "version": "centos-7.3"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{ user `disk_size` }}",
+      "guest_os_type": "RedHat_64",
+      "http_directory": "http/centos-7.2-{{ user `centos_arch` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "iso_url": "http://archive.kernel.org/centos-vault/{{ user `centos_version` }}/isos/{{ user `centos_arch` }}/{{ user `iso_name` }}",
+      "ssh_pty": true,
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "sudo -S /sbin/shutdown -hP now",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "{{ user `vm_name` }}",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "{{ user `memory_size` }}"],
+        ["modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo yum -y install epel-release",
+        "sudo yum -y install ansible"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "extra_arguments": ["-v"],
+      "playbook_file": "provision/packer.yml",
+      "role_paths": [
+        "provision/roles/base",
+        "provision/roles/desktop",
+        "provision/roles/virtualbox"
+      ]
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/common/vagrant.sh",
+        "scripts/centos/cleanup.sh"
+      ],
+      "environment_vars": [
+        "VAGRANT_USERNAME={{ user `vagrant_username`}} ",
+        "VAGRANT_PASSWORD={{ user `vagrant_password`}} "
+      ],
+      "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'",
+      "only": ["virtualbox-iso"]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "output":"vagrant/centos-{{ user `centos_version` }}-{{ user `centos_arch` }}/centos-{{ user `centos_version` }}-{{ user `centos_arch` }}-{{.Provider}}.box"
+      },
+      {
+        "type": "vagrant-cloud",
+        "access_token": "{{user `vagrantcloud_token`}}",
+        "box_tag": "{{ user `vagrantcloud_username` }}/{{ user `vagrantcloud_name` }}",
+        "version": "{{user `version`}}"
+      }
+    ]
+  ]
+}
