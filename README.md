@@ -82,6 +82,9 @@ end
 | [2018.12.01][BlackArch2018.12.01]   | [x]              |       |
 | [2018.10.01][BlackArch2018.10.01]   | [x]              |       |
 
+[login](screenshots/blackarch_login.png)
+[i3](screenshots/blackarch_i3.png)
+
 ### Voidlinux
 
 | Name                                | VirtualBox (5.x) | Qemu  |
@@ -109,6 +112,9 @@ end
 | [11.0][FBSD110]       | [x]              |       |
 | [10.3][FBSD103]       | [x]              |       |
 | [10.2][FBSD102]       | [x]              |       |
+
+[login](screenshots/freebsd12_login.png)
+[xfce](screenshots/freebsd12_xfce.png)
 
 ### NetBSD
 
