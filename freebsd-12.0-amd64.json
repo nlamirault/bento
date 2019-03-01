@@ -55,8 +55,10 @@
       "iso_url": "http://ftp4.freebsd.org/pub/FreeBSD/releases/{{ user `freebsd_arch` }}/{{ user `freebsd_arch` }}/ISO-IMAGES/{{ user `freebsd_version` }}/FreeBSD-{{ user `freebsd_version` }}-RELEASE-{{ user `freebsd_arch` }}-disc1.iso",
       "ssh_username": "{{user `ssh_username`}}",
       "ssh_password": "{{user `ssh_password`}}",
-      "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo 'vagrant' | sudo shutdown -p now",
+      "ssh_port": 22,
+      "ssh_pty": true,
+      "ssh_wait_timeout": "30m",
+      "shutdown_command": "echo 'vagrant' | su -m root -c 'shutdown -p now'",
       "guest_additions_mode": "disable",
       "vm_name": "{{user `vm_name`}}",
       "vboxmanage": [
@@ -82,7 +84,9 @@
         "ROOT_PASSWORD={{user `root_password`}}",
         "VAGRANT_USER={{user `vagrant_username`}}",
         "VAGRANT_PASSWORD={{user `vagrant_password`}}",
-        "VAGRANT_GROUP={{user `vagrant_group`}}"
+        "VAGRANT_GROUP={{user `vagrant_group`}}",
+        "SLIM=slim-1.3.6_16",
+        "SLIM_THEMES=slim-themes-1.0.1_1"
       ]
     }
   ],
