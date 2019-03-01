@@ -5,7 +5,7 @@ set -x
 
 rm -f /var/cache/xbps/*.xbps{,.sig}
 
-umount /mnt
+# umount /mnt
 
 # xbps-install -Sv -yr /mnt zerofree
 
