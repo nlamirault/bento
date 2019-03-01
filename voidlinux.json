@@ -11,14 +11,14 @@
     "vagrant_group": "vagrant",
     "vagrant_password": "vagrant",
     "vagrant_hostname": "bento",
-    "iso_checksum": "eae521df432b6b6a89b9dadd1ae781e73174c270f13805837b00d19c8747a043",
+    "iso_checksum": "1a89520309cf49f21573c3f0b99c06a661bdc105c3ad408716170d95b6a21cd2",
     "iso_checksum_type": "sha256",
-    "voidlinux_version": "20170220",
+    "voidlinux_version": "20181111",
     "voidlinux_arch": "x86_64",
     "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
     "vagrantcloud_username": "{{env `VAGRANTCLOUD_USERNAME`}}",
     "vagrantcloud_name": "voidlinux",
-    "version": "20170220"
+    "version": "20181111"
   },
   "builders": [
     {
@@ -29,16 +29,17 @@
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "Linux_64",
+      "guest_additions_mode": "disable",
       "http_directory": "http/voidlinux",
-      "iso_url": "https://repo.voidlinux.eu/live/current/void-live-{{ user `voidlinux_arch` }}-{{ user `voidlinux_version` }}.iso",
+      "iso_url": "http://alpha.de.repo.voidlinux.org/live/current/void-live-{{ user `voidlinux_arch` }}-{{ user `voidlinux_version` }}.iso",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "ssh_username": "{{user `ssh_username`}}",
       "ssh_password": "{{user `ssh_password`}}",
       "ssh_port": 22,
-      "ssh_wait_timeout": "10000s",
+      "ssh_pty": true,
+      "ssh_wait_timeout": "30m",
       "shutdown_command": "sudo poweroff",
-      "guest_additions_mode": "disable",
       "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--memory", "{{ user `memory_size` }}"],
         ["modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"]
@@ -69,26 +70,26 @@
   ],
   "provisioners": [
     {
-      "type": "shell",
-      "scripts": [
-        "scripts/voidlinux/install.sh",
-        "scripts/voidlinux/desktop.sh",
-        "scripts/voidlinux/virtualbox.sh",
-        "scripts/voidlinux/cleanup.sh"
-      ],
-      "environment_vars": [
-        "VAGRANT_USERNAME={{user `vagrant_username`}}",
-        "VAGRANT_PASSWORD={{user `vagrant_password`}}"
-      ],
-      "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'",
-      "only": ["virtualbox-iso"]
+      "type": "file",
+      "source": "scripts/voidlinux/install.sh",
+      "destination": "/root/install.sh"
+    },
+    {
+        "type": "shell",
+        "scripts": [
+          "scripts/voidlinux/bootstrap.sh"
+        ],
+        "environment_vars": [
+          "VAGRANT_USERNAME={{user `vagrant_username`}}",
+          "VAGRANT_PASSWORD={{user `vagrant_password`}}"
+        ],
+        "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S sh '{{.Path}}'",
+        "only": ["virtualbox-iso"]
     },
     {
       "type": "shell",
       "scripts": [
-        "scripts/voidlinux/install.sh",
-        "scripts/voidlinux/qemu.sh",
-        "scripts/voidlinux/desktop.sh",
+        "scripts/common/vagrant.sh",
         "scripts/voidlinux/cleanup.sh"
       ],
       "environment_vars": [
