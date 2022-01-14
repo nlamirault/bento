@@ -1,7 +1,7 @@
 
 
 image:
-  name: hashicorp/packer:1.3.3
+  name: hashicorp/packer:1.7.8
   entrypoint:
     - '/usr/bin/env'
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
